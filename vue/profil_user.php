@@ -65,14 +65,50 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="container">
+                                <div class="columns is-3 is-mobile is-multiline">
+                                    <div class="column">
+                                        <div>
+                                        <div class="hovereffect padding-20-bottom">
+                                                <img src="https://bulma.io/images/placeholders/320x480.png">
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="hovereffect padding-20-bottom">
+                                            <img src="https://bulma.io/images/placeholders/320x480.png">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <div>
+                                        <div class="hovereffect padding-20-bottom">
+                                                <img src="https://bulma.io/images/placeholders/320x480.png">
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="hovereffect padding-20-bottom">
+                                            <img src="https://bulma.io/images/placeholders/320x480.png">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <div>
+                                            <div class="hovereffect padding-20-bottom">
+                                            <img src="https://bulma.io/images/placeholders/320x480.png">
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="hovereffect padding-20-bottom">
+                                            <img src="https://bulma.io/images/placeholders/320x480.png">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </article>
                 </div>
             </div>
-        <!-- fin de card -->
-        <!-- plusieurs onglets -->
-        <!-- mes publications -->
-        <!-- les enrengistrements -->
     </div>
     <footer>
         <?php
