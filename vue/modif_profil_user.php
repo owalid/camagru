@@ -28,9 +28,9 @@
                             </ul>
                         </div>
                        <?php
-                        // require_once('component/modif_profil_user.html');
+                        require_once('component/modif_profil_user.html');
                         // require_once('component/modif_passwd.html');
-                        require_once('component/modif_notif_mail.html');
+                        // require_once('component/modif_notif_mail.html');
                        ?>
                     </div>
             </article>
@@ -43,4 +43,5 @@
 ?>
 </footer>
 </body>
+<script src="../script/burger.js"></script>
 </html>

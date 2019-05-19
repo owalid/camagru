@@ -116,4 +116,5 @@
         ?>
     </footer>
 </body>
+<script src="../script/burger.js"></script>
 </html>
