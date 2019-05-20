@@ -58,11 +58,40 @@
                                 <i class="fas fa-lock"></i>
                             </span>
                         </p>
-                    </div>
+					</div>
+					<video id="video"></video>
+				<canvas id="canvas"></canvas>
+				<canvas id='blank' style='display:none'></canvas>
+					<button id="take_pic" class="button is-primary">Prendre une photo</button>
+					<div class="file has-name is-primary">
+						<label class="file-label ">
+							<input class="file-input" type="file" id="import_file" name="resume">
+							<span class="file-cta">
+							<span class="file-icon">
+								<i class="fas fa-upload"></i>
+							</span>
+							<span class="file-label is-primary">
+								Choisir une image
+							</span>
+							</span>
+							<span class="file-name" id="file_name">
+								Aucune image importée
+							</span>
+						</label>
+					</div>
+					<div class="columns">
+			<div class="column">
+				<p class="has-text-weight-semibold" id="file_name2">Aucune image</p>
+			</div>
+			<div class="column is-10">
+				<i class="fas fa-trash" id="trash"></i>
+			</div>
+		</div>
+		<div class="container" id="filter" style='display:none'></div>
                     <div class="field">
                         <div class="buttons is-centered is-vcentered">
                             <p class="control is-center">
-                                <button class="button is-primary" type="submit">
+                                <button class="button is-primary" id="publi" type="submit">
                                     Créer un compte
                                 </button>
                             </p>
@@ -80,4 +109,5 @@
         </div>
     </article>
 </body>
+<script src="../script/picture.js"></script>
 </html>
