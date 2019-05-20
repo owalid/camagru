@@ -62,23 +62,29 @@
 					<video id="video"></video>
 				<canvas id="canvas"></canvas>
 				<canvas id='blank' style='display:none'></canvas>
-					<button id="take_pic" class="button is-primary">Prendre une photo</button>
-					<div class="file has-name is-primary">
-						<label class="file-label ">
-							<input class="file-input" type="file" id="import_file" name="resume">
-							<span class="file-cta">
-							<span class="file-icon">
-								<i class="fas fa-upload"></i>
-							</span>
-							<span class="file-label is-primary">
-								Choisir une image
-							</span>
-							</span>
-							<span class="file-name" id="file_name">
-								Aucune image importée
-							</span>
-						</label>
+				<div class="columns">
+					<div class="column">
+						<button id="take_pic" class="button is-primary">Prendre une photo</button>
 					</div>
+					<div class="column">
+						<div class="file has-name is-primary">
+							<label class="file-label ">
+								<input class="file-input" type="file" id="import_file" name="resume">
+								<span class="file-cta">
+									<span class="file-icon">
+										<i class="fas fa-upload"></i>
+									</span>
+									<span class="file-label is-primary">
+										Choisir une image
+									</span>
+								</span>
+								<span class="file-name" id="file_name">
+									Aucune image importée
+								</span>
+							</label>
+						</div>
+					</div>
+				</div>
 					<div class="columns">
 			<div class="column">
 				<p class="has-text-weight-semibold" id="file_name2">Aucune image</p>

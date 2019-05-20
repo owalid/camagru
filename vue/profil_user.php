@@ -59,15 +59,57 @@
                                 <div class="column">
                                     <div class="tabs">
                                         <ul>
-                                            <li class="is-active"><a>Photos</a></li>
-                                            <li><a>Enrengistrements</a></li>
+                                            <li class="is-active" id="tab_photos"><a>Photos</a></li>
+                                            <li id="tab_enr"><a>Enrengistrements</a></li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
-                            <div class="container">
+                            <div class="container" id="photos">
                                 <div class="columns is-3 is-mobile is-multiline">
                                     <div class="column">
+                                        <div>
+                                        <div class="hovereffect padding-20-bottom">
+                                                <img src="https://bulma.io/images/placeholders/320x480.png">
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="hovereffect padding-20-bottom">
+                                            <img src="https://bulma.io/images/placeholders/320x480.png">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <div>
+                                        <div class="hovereffect padding-20-bottom">
+                                                <img src="https://bulma.io/images/placeholders/320x480.png">
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="hovereffect padding-20-bottom">
+                                            <img src="https://bulma.io/images/placeholders/320x480.png">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <div>
+                                            <div class="hovereffect padding-20-bottom">
+                                            <img src="https://bulma.io/images/placeholders/320x480.png">
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="hovereffect padding-20-bottom">
+                                            <img src="https://bulma.io/images/placeholders/320x480.png">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+							</div>
+							<!-- Enrengistrement -->
+                            <div class="container" id="enr" style="display:none">
+                                <div class="columns is-3 is-mobile is-multiline">
+                                    <div class="column">
+										<p>coucouc</p>
                                         <div>
                                         <div class="hovereffect padding-20-bottom">
                                                 <img src="https://bulma.io/images/placeholders/320x480.png">
@@ -117,4 +159,5 @@
     </footer>
 </body>
 <script src="../script/burger.js"></script>
+<script src="../script/tab_profil.js"></script>
 </html>

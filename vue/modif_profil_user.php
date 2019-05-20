@@ -27,11 +27,11 @@
                                 <li><a>Notifications E-mail</a></li>
                             </ul>
                         </div>
-                       <?php
+						<?php
                         require_once('component/modif_profil_user.html');
                         // require_once('component/modif_passwd.html');
                         // require_once('component/modif_notif_mail.html');
-                       ?>
+						?>
                     </div>
             </article>
         </div>
