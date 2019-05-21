@@ -1,7 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+<link rel="stylesheet" href="../style/style.css?ts=<?=time()?>">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+<body>
+
 <header>
 <?php
-    require_once('vue/component/navbar_top.html');
-?>
+    require_once('views/component/navbar_top.html');
+    ?>
 </header>
         <section class="columns padding-100-top">
             <div class="column"></div>
@@ -20,7 +33,6 @@
                                         <div class="column is-11 is-vcentered">
                                             <p>Lorem</p>
                                         </div>
-                                        <!-- <div class="level-right"> -->
                                             </div>
                                         </div>
                                     </div>
@@ -41,7 +53,6 @@
                                         </div>
                                     </div>
                                     <div class="hero-foot">
-                                        <!-- partie commentaire -->
                                         <div class="columns is-gapless">
                                         <div class="column is-vcentered">
                                             <figure class="image is-32x32">
@@ -73,6 +84,8 @@
                 </section>
 <footer>
     <?php
-    require_once('vue/component/navbar_bottom.html');
+    require_once('views/component/navbar_bottom.html');
     ?>
 </footer>
+</body>
+</html>
