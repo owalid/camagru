@@ -9,7 +9,6 @@ window.onload = () => {
 	var trash = document.getElementById('trash');
 	input_file.addEventListener('change', handleFiles);
 	trash.addEventListener('click', delete_files);
-	formRegister.addEventListener('submit', prepareImg);
 
 function handleFiles(e) {
 	file = e.target.files[0];

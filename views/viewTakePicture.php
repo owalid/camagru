@@ -1,5 +1,6 @@
 
     <section class="container padding-100-top">
+	<form method="post" id="formRegister" action="<?=URL?>?url=takePicture&submit=OK" onSubmit="prepareImg();">
         <div class="columns">
             <div class="column">
 				<video id="video"></video>
@@ -65,6 +66,7 @@
 			</div>
             </div>
 		</div>
+		<input id="inp_img" name="image" type="hidden" value="">
 		<div class="columns">
 			<div class="column">
 				<p class="has-text-weight-semibold" id="file_name2">Aucune image</p>
@@ -73,9 +75,19 @@
 				<i class="fas fa-trash" id="trash"></i>
 			</div>
 		</div>
-        <form action="">
-            <input class="input" type="text-area" placeholder="Description" value="">
+            <input class="input" type="text-area" placeholder="Description" name="descri" value="">
 			<button class="button is-primary" id="publi" disabled>Publier</button>
         </form>
 	</section>
-	<script src="../script/picture.js"></script>
+	<script>
+
+function prepareImg() {
+	var canvas = document.getElementById('canvas');
+	var blank = document.getElementById('blank');
+
+	if (canvas.toDataURL() != blank.toDataURL())
+		{
+		document.getElementById('inp_img').value = canvas.toDataURL();
+		}
+	}
+</script>

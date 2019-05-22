@@ -23,7 +23,15 @@
 </footer>
 </body>
 <script src="./script/burger.js"></script>
-<!-- <script src="./script/picture.js"></script> -->
+<?php
+$url = end(explode('/', $_SERVER[REQUEST_URI]));
+if ($url == '?url=takePicture' || $url == 'takePicture' || $url == '?url=register' || $url == 'register')
+{
+    ?>
+<script src="./script/picture.js"></script>
+<?php
+}
+?>
 <!-- <script src="./script/tab_modif.js"></script>
 <script src="./script/tab_profil.js"></script> -->
 </html>

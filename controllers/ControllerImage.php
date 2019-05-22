@@ -20,7 +20,6 @@ Class ControllerImage
     
     private function image()
     {
-        $this->_userManager = new UserManager();
         $this->_view = new View('Image');
         $this->_view->generate(array('image' => NULL));
     }

@@ -124,7 +124,6 @@
             </div>
         </div>
 	</article>
-	<script src="../script/picture.js"></script>
 	<script>
 
 function prepareImg() {

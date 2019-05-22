@@ -138,4 +138,17 @@ abstract class Model
         return $var;
         $req->closeCursor();
     }
+
+    public function sendPicture()
+    {
+        $img = $_POST['image'];
+        session_start();
+        $usr = intval($_SESSION['user']['idUsr']);
+        $req = self::$_bdd->prepare("INSERT INTO image (img, nbLike, idUsr)
+        VALUES ('$img', '0', '$usr')");
+        // var_dump(self::$_bdd->errorInfo());
+        // die();
+        $req->execute();
+        $req->closeCursor();
+    }
 }
