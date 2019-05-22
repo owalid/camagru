@@ -36,7 +36,7 @@
     if ($_SESSION['user'])
     {
         ?>
-                    <a class="button is-primary">
+                    <a class="button is-primary" href="<?=URL?>?url=logout">
                         <strong>Log out</strong>
                     </a>
                    <?php

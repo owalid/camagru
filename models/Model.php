@@ -6,7 +6,7 @@ abstract class Model
 
     private static function setBdd()
     {
-        self::$_bdd = new PDO('mysql:host=localhost;dbname=camagru', 'root', '123456');
+        self::$_bdd = new PDO('mysql:host=localhost;dbname=camagru', 'root', 'root');
     }
 
     protected function getBdd()

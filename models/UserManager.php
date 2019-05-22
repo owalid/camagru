@@ -5,9 +5,6 @@ class UserManager extends Model
     public function register()
     {
 		$this->getBdd();
-		// var_dump("coucou");
-		// die();
-		// $user = new User($_POST);
 		return $this->registerUser($_POST);
     }
 
@@ -15,5 +12,15 @@ class UserManager extends Model
     {
 		$this->getBdd();
         return $this->logUser($_POST['login'], $_POST['passwd']);
+    }
+
+    public function logout()
+    {
+        session_start();
+
+        if (isset($_SESSION['user']))
+        {
+            $_SESSION['user'] = NULL;
+        }
     }
 }
