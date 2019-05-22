@@ -33,14 +33,18 @@ abstract class Model
     {
         $passwd = hash("SHA512", $argv['passwd']);
 		$login =  $argv['login'];
-		if ($this->loginIsExist($login) == TRUE)
-			return ("LOGIN");
-		if ($this->emailIsExist($login) == TRUE)
-			return ("EMAIL");
 		$email = $argv['email'];
-        $pp = $argv['pp'];
-		if ($pp == NULL)
-			$pp = "default";
+		if ($this->loginIsExist($login) == TRUE)
+		{
+			return ("LOGIN");
+		}
+		if ($this->emailIsExist($email) == TRUE)
+			return ("EMAIL");
+		$pp = $argv['pp'];
+		var_dump($pp);
+		die();
+		// if ($pp == NULL)
+			// $pp = NULL;
         $bio = $argv['bio'];
         $req = self::$_bdd->prepare("INSERT INTO user (login, passwd, email, pp, bio)
         VALUES ('$login', '$passwd', '$email', '$pp', '$bio')");
@@ -52,7 +56,8 @@ abstract class Model
     {
         // if (loginIsExist($login) == TRUE)
 		//     return (FALSE);
-		$user = [];
+		// $user = [];
+		// $var = [];
         $passwd = hash("SHA512", $passwd);
         $req = self::$_bdd->prepare("SELECT *
             FROM user 
@@ -60,10 +65,18 @@ abstract class Model
             AND passwd = '$passwd'");
         $req->execute();
 		$data = $req->fetch(PDO::FETCH_ASSOC);
-        if ($data == NULL)
-			return FALSE;
-		$user = new User($data);
-        return $user;
+        // {
+        //     $var[] = new User($data);
+        // }
+        // if ($var == NULL)
+		// return FALSE;
+		// var_dump($var);
+		// die();
+        return $data;
+		// var_dump($data);
+		// die();
+		// $user[] = new User($data);
+        // return $user;
         $req->closeCursor();
     }
 
@@ -73,21 +86,23 @@ abstract class Model
         FROM user 
         WHERE login = '$login'");
         $req->execute();
-        $data = $req->fetch(PDO::FETCH_ASSOC);
-        if ($data !== NULL)
+		$data = $req->fetch(PDO::FETCH_ASSOC);
+		// var_dump($data);
+		// die();
+        if ($data == NULL)
             return FALSE;
         return TRUE;
         $req->closeCursor();
 	}
-	
-    protected function EmailIsExist($login)
+
+    protected function EmailIsExist($email)
     {
         $req = self::$_bdd->prepare("SELECT email
         FROM user 
-        WHERE login = '$login'");
+        WHERE email = '$email'");
         $req->execute();
         $data = $req->fetch(PDO::FETCH_ASSOC);
-        if ($data !== NULL)
+        if ($data == NULL)
             return FALSE;
         return TRUE;
         $req->closeCursor();

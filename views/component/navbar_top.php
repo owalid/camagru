@@ -15,10 +15,18 @@
             style="flex-grow: 1; justify-content: center;">
             <a class="navbar-item" href="<?=URL?>">
                 Home
-            </a>
+			</a>
+			<?php
+			session_start();
+			if ($_SESSION['user'])
+			{?>
+
             <a class="navbar-item">
-                Name
+                <?=$_SESSION['user']['login']?>
             </a>
+			<?php
+			}
+			?>
         </div>
         <div class="navbar-end">
             <div class="navbar-item">

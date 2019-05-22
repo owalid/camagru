@@ -1,5 +1,16 @@
 <?php
 ?>
+	<?php
+		if ($err)
+		{?>
+		<article class="message is-danger text-center">
+		<div class="message-body">
+			<?= $err ?>
+		</div>
+		</article>
+		<?php
+		}
+		?>
 <article class="card is-rounded">
         <div class="card-content">
             <div class="field text-center">
@@ -16,7 +27,7 @@
                 </div>
             </div>
                 <hr />
-                <form method="post" action="<?=URL?>?url=register&submit=OK">
+                <form method="post" action="<?=URL?>?url=register&submit=OK" onSubmit="prepareImg();">
                     <div class="field">
                         <p class="control has-icons-left has-icons-right">
                             <input class="input" type="email" placeholder="Email" name="email" required>
@@ -67,7 +78,7 @@
 					<div class="column is-10">
 						<div class="file has-name is-primary">
 							<label class="file-label ">
-								<input class="file-input" type="file" id="import_file" name="resume">
+								<input class="file-input" type="file" id="import_file" name="pp">
 								<span class="file-cta">
 									<span class="file-icon">
 										<i class="fas fa-upload"></i>
@@ -91,6 +102,7 @@
 				<i class="fas fa-trash" id="trash"></i>
 			</div>
 		</div>
+		<input id="inp_img" name="pp" type="hidden" value="">
 		<div class="container" id="filter" style='display:none'></div>
                     <div class="field">
                         <div class="buttons is-centered is-vcentered">

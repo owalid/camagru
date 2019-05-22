@@ -24,4 +24,6 @@
 </body>
 <script src="./script/burger.js"></script>
 <script src="./script/picture.js"></script>
+<script src="./script/tab_modif.js"></script>
+<script src="./script/tab_profil.js"></script>
 </html>

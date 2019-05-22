@@ -1,4 +1,7 @@
-    <div class="container">
+<?php
+session_start();
+?>
+<div class="container">
         <!-- card User -->
         <div class="hero is-medium is-bold">
             <div class="hero-body">
@@ -7,19 +10,16 @@
                             <div class="columns is-centered">
                                 <div class="column">
                                     <figure class="image is-128x128">
-                                        <img class="is-rounded" src="https://bulma.io/images/placeholders/128x128.png">
+                                        <img class="is-rounded" src="img/<?=$_SESSION['pp']?>">
                                     </figure>
                                     <p> Nb publications: 50</p>
                                 </div>
                                 <div class="column">
                                     <p class="subtitle">
-                                        name
+									<?= $_SESSION['user']['login'] ?>
                                     </p>
                                     <p class="subtitle">
-                                        Bio: Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure 
-                                        harum corrupti ratione animi enim eius, saepe quia tenetur nisi 
-                                        sequi consequuntur porro aperiam nesciunt similique, earum ab 
-                                        suscipit blanditiis at.
+                                        <?= $_SESSION['user']['bio'] ?>
                                     </p>
                                 </div>
                                 <div class="column">

@@ -1,4 +1,15 @@
 <section>
+<?php
+		if ($msg)
+		{?>
+		<article class="message is-success text-center">
+		<div class="message-body">
+			<?= $msg ?>
+		</div>
+		</article>
+		<?php
+		}
+		?>
 		<div class="container is-vcentered is-centered">
 			<div class="columns is-centered">
 			<article class="card is-rounded">

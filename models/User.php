@@ -4,7 +4,7 @@ class User
     /**
      * idUsr
      *
-     * @var int
+     * @var string
      */
 	private $_idUsr;
 	
@@ -30,144 +30,124 @@ class User
 	private $_passwd;
 	
     /**
-     * imgProfil
+     * pp
      *
      * @var string
      */
-    private $_imgProfil;
+    private $_pp;
+    /**
+     * bio
+     *
+     * @var string
+     */
+    private $_bio;
 
 	public function __construct(array $data)
 	{
 		$this->hydrate($data);
+		var_dump($this->getBio());
+		die();
 	}
 
 	public function hydrate(array $data)
 	{
+		// var_dump($data);
+		// die();
 		foreach ($data as $key => $value)
         {
+			// var_dump($key);
             $method = 'set'.ucfirst($key);
+			// var_dump($method);
             if (method_exists($this, $method))
                 $this->$method($value);
-        }
+		}
+		// die();
 	}
 // GETTER AND SETTER
-	/**
-	 * Get idUsr
-	 *
-	 * @return  int
-	 */ 
-	public function get_idUsr()
+	public function getIdUsr()
 	{
 		return $this->_idUsr;
 	}
 
-	/**
-	 * Set idUsr
-	 *
-	 * @param  int  $_idUsr  idUsr
-	 *
-	 * @return  self
-	 */ 
-	public function set_idUsr(int $_idUsr)
+
+	public function setIdUsr(string $_idUsr)
 	{
 		$this->_idUsr = $_idUsr;
 
-		return $this;
+		// return $this;
 	}
 
-	/**
-	 * Get login
-	 *
-	 * @return  string
-	 */ 
-	public function get_login()
+
+ 	public function getLogin()
 	{
 		return $this->_login;
 	}
 
-	/**
-	 * Set login
-	 *
-	 * @param  string  $_login  login
-	 *
-	 * @return  self
-	 */ 
-	public function set_login(string $_login)
+
+	public function setLogin(string $_login)
 	{
 		$this->_login = $_login;
 
-		return $this;
+		// return $this;
 	}
 
-	/**
-	 * Get email
-	 *
-	 * @return  string
-	 */ 
-	public function get_email()
+	
+	public function getEmail()
 	{
 		return $this->_email;
 	}
 
-	/**
-	 * Set email
-	 *
-	 * @param  string  $_email  email
-	 *
-	 * @return  self
-	 */ 
-	public function set_email(string $_email)
+	
+	public function setEmail(string $_email)
 	{
 		$this->_email = $_email;
 
-		return $this;
+		// return $this;
 	}
 
-	/**
-	 * Get passwd
-	 *
-	 * @return  string
-	 */ 
-	public function get_passwd()
+	
+	public function getPasswd()
 	{
 		return $this->_passwd;
 	}
 
-	/**
-	 * Set passwd
-	 *
-	 * @param  string  $_passwd  passwd
-	 *
-	 * @return  self
-	 */ 
-	public function set_passwd(string $_passwd)
+
+	public function setPasswd(string $_passwd)
 	{
 		$this->_passwd = $_passwd;
 
-		return $this;
+		// return $this;
 	}
 
     /**
-     * Get imgProfil
+     * Get pp
      *
      * @return  string
      */ 
-    public function get_imgProfil()
+    public function getPp()
     {
-        return $this->_imgProfil;
+        return $this->_pp;
     }
 
-    /**
-     * Set imgProfil
-     *
-     * @param  string  $_imgProfil  imgProfil
-     *
-     * @return  self
-     */ 
-    public function set_imgProfil(string $_imgProfil)
+   
+    public function setPp(string $_pp)
     {
-        $this->_imgProfil = $_imgProfil;
+        $this->_pp = $_pp;
 
-        return $this;
+        // return $this;
+    }
+
+   
+    public function getBio()
+    {
+        return $this->_bio;
+    }
+
+   
+    public function setBio(string $_bio)
+    {
+        $this->_bio = $_bio;
+
+        // return $this;
     }
 }

@@ -14,7 +14,6 @@ Class ControllerRegister
             $this->userReqRegister();
         else
             $this->userRegister();
-
     }
     
     private function userRegister()

@@ -1,3 +1,6 @@
+// var location = document.URL.split('/');
+if (location[3] == 'user' || location[3] == '?url=user')
+{
 var tab_photos = document.getElementById('tab_photos');
 var tab_enr = document.getElementById('tab_enr');
 var tab_enr_content = document.getElementById('enr');
@@ -18,4 +21,5 @@ function enr_to_photo(e) {
 	tab_photos.classList.remove('is-active');
 	tab_enr_content.style.display = '';
 	tab_photos_content.style.display = 'none';
+}
 }

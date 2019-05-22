@@ -1,6 +1,7 @@
 // import file
 window.onload = () => {
 
+	var formRegister = document.getElementById('formRegister');
 	var input_file = document.querySelector('#import_file');
 	var	publish = document.getElementById('publi');
 	var name = document.querySelector('#file_name');
@@ -8,6 +9,8 @@ window.onload = () => {
 	var trash = document.getElementById('trash');
 	input_file.addEventListener('change', handleFiles);
 	trash.addEventListener('click', delete_files);
+	formRegister.addEventListener('submit', prepareImg);
+
 function handleFiles(e) {
 	file = e.target.files[0];
 	var canvas = document.getElementById('canvas');
@@ -23,8 +26,17 @@ function handleFiles(e) {
 		name2.innerText = file.name;
 		publish.disabled = false;
 		ctx.drawImage(img, 0, 0, img.width, img.height);
-    }
+	}
 }
+function prepareImg() {
+	var canvas = document.getElementById('canvas');
+	var blank = document.getElementById('blank');
+
+	if (canvas.toDataURL() !== blank.toDataURL())
+		{
+		document.getElementById('inp_img').value = canvas.toDataURL();
+		}
+	}
 function delete_files(e)
 {
 	var filter = document.getElementById('filter');
@@ -101,3 +113,4 @@ function delete_files(e)
 	}, false);
 
 })();
+

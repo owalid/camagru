@@ -12,7 +12,7 @@ Class ControllerLogin
 		// die();
         if (isset($url) && count($url) > 1)
             throw new Exception("Page introuvable", 1);
-        else if ($_GET['submit'] === 'OK')
+        else if ($_GET['submit'] == 'OK')
             $this->userReqLogin();
         else
             $this->userLogin();
@@ -31,9 +31,12 @@ Class ControllerLogin
     {
 		// var_dump($var);
 		// die();
+		$user = [];
 		$this->_userManager = new UserManager();
 		$user = $this->_userManager->log();
-		if ($user == TRUE)
+		// var_dump($user);
+		// die();
+		if ($user != NULL)
 		{
 			$this->_view = new View('Accueil');
 			$this->_view->generate(array('user' => $user));
