@@ -13,7 +13,7 @@ CREATE TABLE User(
         email      Varchar (90) NOT NULL ,
         passwd     Varchar (516) NOT NULL ,
         bio		   Varchar (516) NOT NULL ,
-        pp		   Varchar (516) NOT NULL
+        pp		   Varchar (65535) NOT NULL
 	,CONSTRAINT User_PK PRIMARY KEY (idUsr)
 )ENGINE=InnoDB;
 
@@ -24,7 +24,7 @@ CREATE TABLE User(
 
 CREATE TABLE Image(
         idImg  Int  Auto_increment  NOT NULL ,
-        img     Varchar (516) NOT NULL ,
+        img     Varchar (65535) NOT NULL ,
         nbLike Int NOT NULL ,
         idUsr  Int NOT NULL
 	,CONSTRAINT Image_PK PRIMARY KEY (idImg)

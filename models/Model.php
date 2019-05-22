@@ -34,6 +34,8 @@ abstract class Model
         $passwd = hash("SHA512", $argv['passwd']);
 		$login =  $argv['login'];
 		$email = $argv['email'];
+		// var_dump($argv);
+		// die();
 		if ($this->loginIsExist($login) == TRUE)
 		{
 			return ("LOGIN");
@@ -41,8 +43,6 @@ abstract class Model
 		if ($this->emailIsExist($email) == TRUE)
 			return ("EMAIL");
 		$pp = $argv['pp'];
-		var_dump($pp);
-		die();
 		// if ($pp == NULL)
 			// $pp = NULL;
         $bio = $argv['bio'];

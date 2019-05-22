@@ -5,7 +5,9 @@ class UserManager extends Model
     public function register()
     {
 		$this->getBdd();
-		$user = new User($_POST);
+		// var_dump("coucou");
+		// die();
+		// $user = new User($_POST);
 		return $this->registerUser($_POST);
     }
 

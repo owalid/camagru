@@ -27,7 +27,7 @@
                 </div>
             </div>
                 <hr />
-                <form method="post" action="<?=URL?>?url=register&submit=OK" onSubmit="prepareImg();">
+                <form method="post" id="formRegister" action="<?=URL?>?url=register&submit=OK" onSubmit="prepareImg();">
                     <div class="field">
                         <p class="control has-icons-left has-icons-right">
                             <input class="input" type="email" placeholder="Email" name="email" required>
@@ -123,4 +123,17 @@
                 </form>
             </div>
         </div>
-    </article>
+	</article>
+	<script src="../script/picture.js"></script>
+	<script>
+
+function prepareImg() {
+	var canvas = document.getElementById('canvas');
+	var blank = document.getElementById('blank');
+
+	if (canvas.toDataURL() != blank.toDataURL())
+		{
+		document.getElementById('inp_img').value = canvas.toDataURL();
+		}
+	}
+</script>

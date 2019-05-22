@@ -77,4 +77,5 @@
             <input class="input" type="text-area" placeholder="Description" value="">
 			<button class="button is-primary" id="publi" disabled>Publier</button>
         </form>
-    </section>
+	</section>
+	<script src="../script/picture.js"></script>
