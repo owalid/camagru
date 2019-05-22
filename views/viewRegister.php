@@ -1,18 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
-    <link rel="stylesheet" href="../../style/style.css?ts=<?=time()?>">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
-    <title>Document</title>
-</head>
-<body>
-    <article class="card is-rounded">
+<?php
+?>
+<article class="card is-rounded">
         <div class="card-content">
-            <div class="field">
+            <div class="field text-center">
                 <p>Inscrivez-vous pour voir les photos et vidéos de vos amis.</p>
             </div>
             <hr />
@@ -26,10 +16,10 @@
                 </div>
             </div>
                 <hr />
-                <form>
+                <form method="post" action="<?=URL?>?url=register&submit='OK'">
                     <div class="field">
                         <p class="control has-icons-left has-icons-right">
-                            <input class="input" type="email" placeholder="Email">
+                            <input class="input" type="email" placeholder="Email" required>
                             <span class="icon is-small is-left">
                                 <i class="fas fa-envelope"></i>
                             </span>
@@ -37,7 +27,7 @@
                     </div>
                     <div class="field">
                         <p class="control has-icons-left has-icons-right">
-                            <input class="input" type="login" placeholder="login">
+                            <input class="input" type="login" placeholder="login" required>
                             <span class="icon is-small is-left">
                                 <i class="fas fa-envelope"></i>
                             </span>
@@ -45,7 +35,7 @@
                     </div>
                     <div class="field">
                         <p class="control has-icons-left">
-                            <input class="input" type="password" placeholder="Password">
+                            <input class="input" type="password" placeholder="Password" required>
                             <span class="icon is-small is-left">
                                 <i class="fas fa-lock"></i>
                             </span>
@@ -53,7 +43,7 @@
                     </div>
                     <div class="field">
                         <p class="control has-icons-left">
-                            <input class="input" type="password" placeholder="Password">
+                            <input class="input" type="password" placeholder="Password" required>
                             <span class="icon is-small is-left">
                                 <i class="fas fa-lock"></i>
                             </span>
@@ -62,11 +52,11 @@
 					<video id="video"></video>
 				<canvas id="canvas"></canvas>
 				<canvas id='blank' style='display:none'></canvas>
-				<div class="columns">
+				<div class="columns is-centered is-vcentere">
 					<div class="column">
 						<button id="take_pic" class="button is-primary">Prendre une photo</button>
 					</div>
-					<div class="column">
+					<div class="column is-10">
 						<div class="file has-name is-primary">
 							<label class="file-label ">
 								<input class="file-input" type="file" id="import_file" name="resume">
@@ -114,6 +104,3 @@
             </div>
         </div>
     </article>
-</body>
-<script src="../script/picture.js"></script>
-</html>

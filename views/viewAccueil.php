@@ -10,13 +10,11 @@
     <title>Document</title>
 </head>
 <body>
-
-<header>
-<?php
-    require_once('views/component/navbar_top.html');
+    <?php
+        if ($images)
+        {
     ?>
-</header>
-        <section class="columns padding-100-top">
+        <section class="columns">
             <div class="column"></div>
             <div class="column">
                 <article class="card is-rounded">
@@ -82,10 +80,14 @@
                     </div>
                     <div class="column"></div>
                 </section>
-<footer>
-    <?php
-    require_once('views/component/navbar_bottom.html');
+    <?php    
+    }
+    else
+    {
     ?>
-</footer>
+    <p class="text-center">Il n'y as pas encore de photos publie la premiere photo 😎</p>
+    <?php
+    }
+    ?>
 </body>
 </html>

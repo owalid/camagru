@@ -1,4 +1,6 @@
 <?php
+require('views/View.php');
+
 Class ControllerAccueil 
 {
     private $_imageManager;
@@ -17,6 +19,7 @@ Class ControllerAccueil
     {
         $this->_imageManager = new ImageManager();
         $images = $this->_imageManager->getImages();
-        require_once('views/viewAccueil.php');
+        $this->_view = new View('Accueil');
+        $this->_view->generate(array('images' => $images));
     }
 }
