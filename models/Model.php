@@ -87,4 +87,19 @@ abstract class Model
         $req->execute();
         $req->closeCursor();
     }
+
+    public function getAllCommentaire($id_img)
+    {
+        $var = [];
+        $req = "SELECT *
+                FROM commentaire
+                WHERE id_img = $id_img";
+                $req->execute();
+        while ($data = $req->fetch(PDO::FETCH_ASSOC))
+        {
+            $var[] = new $obj($data);
+        }
+        return $var;
+        $req->closeCursor();
+    }
 }

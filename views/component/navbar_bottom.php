@@ -1,7 +1,7 @@
 <?php
-    session_start();
-    if ($_SESSION['user'])
-    {
+    // session_start();
+    // if ($_SESSION['user'])
+    // {
         ?>
 <nav class="navbar is-primary is-fixed-bottom" role="navigation">
     <div class="navbar-brand"
@@ -25,5 +25,5 @@
                 </div>
             </nav>
 <?php
-    }
+    // }
 ?>

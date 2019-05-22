@@ -1,7 +1,7 @@
 <?php
 require('views/View.php');
 
-Class ControllerRegister 
+Class ControllerLogin
 {
     private $_userManager;
     private $_view;
@@ -19,7 +19,7 @@ Class ControllerRegister
     
     private function userLogin()
     {
-        $this->_userManager = new UserManager();
+        // $this->_userManager = new UserManager();
         // $images = $this->_user->getImages();
         $this->_view = new View('Login');
         $this->_view->generate(array('login' => NULL));

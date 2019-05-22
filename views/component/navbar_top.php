@@ -13,7 +13,7 @@
         <div id="navbarBasicExample" class="navbar-menu">
             <div class="navbar-start"
             style="flex-grow: 1; justify-content: center;">
-            <a class="navbar-item">
+            <a class="navbar-item" href="<?=URL?>">
                 Home
             </a>
             <a class="navbar-item">

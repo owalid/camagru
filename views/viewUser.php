@@ -24,9 +24,9 @@
                                 </div>
                                 <div class="column">
                                     <div class="buttons is-centered">                            
-                                        <button class="button is-primary">
+                                        <a class="button is-primary" href="<?=URL?>?url=modifUser">
                                             Modifier le profil
-                                        </button>
+                                        </a>
                                     </div>
                                 </div>
                             </div>

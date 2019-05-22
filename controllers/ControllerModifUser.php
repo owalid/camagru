@@ -8,8 +8,6 @@ Class ControllerModifUser
 
     public function __construct($url)
     {
-        var_dump($url);
-        die();
         if (isset($url) && count($url) > 1)
         throw new Exception("Page introuvable", 1);
         else

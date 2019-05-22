@@ -10,6 +10,10 @@ Class ControllerImage
     {
         if (isset($url) && count($url) > 1)
         throw new Exception("Page introuvable", 1);
+        else if ($_GET['like'] != NULL)
+            $this->like();
+        else if ($_GET['comment'] != NULL)
+            $this->comment();
         else
             $this->image();
     }
