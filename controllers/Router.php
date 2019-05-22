@@ -33,7 +33,6 @@ class Router
             {
                 require_once('controllers/ControllerAccueil.php');
                 $this->_controller = new ControllerAccueil($url);
-              
             }
         }
         catch (Exception $e)

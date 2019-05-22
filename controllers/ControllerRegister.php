@@ -10,7 +10,7 @@ Class ControllerRegister
     {
         if (isset($url) && count($url) > 1)
             throw new Exception("Page introuvable", 1);
-        else if ($_GET['submit'] === 'ok')
+        else if ($_GET['submit'] === 'OK')
             $this->userReqRegister();
         else
             $this->userRegister();
@@ -23,12 +23,26 @@ Class ControllerRegister
         // $images = $this->_user->getImages();
         $this->_view = new View('Register');
         $this->_view->generate(array('register' => NULL));
-    }
+	}
 
     public function userReqRegister()
     {
         $this->_userManager = new UserManager();
-        $this->_userManager->register($_POST);
-        $this->_view = new View('Accueil');
+		$result = $this->_userManager->register();
+		if ($result == "LOGIN")
+		{
+			$this->_view = new View('Register');
+			$this->_view->generate(array('err' => "Ce login existe deja"));
+		}
+		else if ($result == "EMAIL")
+		{
+			$this->_view = new View('Register');
+			$this->_view->generate(array('err' => "Cette adresse mail à existe dejà"));
+		}
+		else
+		{
+			$this->_view = new View('Login');
+			$this->_view->generate(array('msg' => "Votre compte à bien été crée veuillez maintenant vous connectez"));
+		}
     }
 }

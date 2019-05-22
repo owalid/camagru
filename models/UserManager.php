@@ -2,16 +2,22 @@
 
 class UserManager extends Model
 {
-    public function register(array $argv)
+    public function register()
     {
-        $this->getBdd();
-        return $this->registerUser($argv);
+		$this->getBdd();
+		$user = new User($_POST);
+		if ($this->registerUser($_POST))
+			return $user;
+		return FALSE;
     }
 
-    public function log($login, $passwd)
+    public function log()
     {
-        $this->getBdd();
-        return $this->logUser($login, $passwd);
+		// var_dump("ici\n");
+		// var_dump($_POST);
+		// die();
+		$this->getBdd();
+        return $this->logUser($_POST['login'], $_POST['passwd']);
     }
     
     // public function register(array $argv)

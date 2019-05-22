@@ -8,12 +8,13 @@
 #------------------------------------------------------------
 
 CREATE TABLE User(
-        id_usr     Int  Auto_increment  NOT NULL ,
+        idUsr      Int  Auto_increment  NOT NULL ,
         login      Varchar (90) NOT NULL ,
         email      Varchar (90) NOT NULL ,
         passwd     Varchar (516) NOT NULL ,
-        img_profil Varchar (516) NOT NULL
-	,CONSTRAINT User_PK PRIMARY KEY (id_usr)
+        bio		   Varchar (516) NOT NULL ,
+        pp		   Varchar (516) NOT NULL
+	,CONSTRAINT User_PK PRIMARY KEY (idUsr)
 )ENGINE=InnoDB;
 
 
@@ -22,13 +23,13 @@ CREATE TABLE User(
 #------------------------------------------------------------
 
 CREATE TABLE Image(
-        id_img  Int  Auto_increment  NOT NULL ,
+        idImg  Int  Auto_increment  NOT NULL ,
         img     Varchar (516) NOT NULL ,
-        nb_like Int NOT NULL ,
-        id_usr  Int NOT NULL
-	,CONSTRAINT Image_PK PRIMARY KEY (id_img)
+        nbLike Int NOT NULL ,
+        idUsr  Int NOT NULL
+	,CONSTRAINT Image_PK PRIMARY KEY (idImg)
 
-	,CONSTRAINT Image_User_FK FOREIGN KEY (id_usr) REFERENCES User(id_usr)
+	,CONSTRAINT Image_User_FK FOREIGN KEY (idUsr) REFERENCES User(idUsr)
 )ENGINE=InnoDB;
 
 
@@ -37,13 +38,13 @@ CREATE TABLE Image(
 #------------------------------------------------------------
 
 CREATE TABLE ImgSaver(
-        id_save Int  Auto_increment  NOT NULL ,
-        id_usr  Int NOT NULL ,
-        id_img  Int NOT NULL
-	,CONSTRAINT ImgSaver_PK PRIMARY KEY (id_save)
+        idSave Int  Auto_increment  NOT NULL ,
+        idUsr  Int NOT NULL ,
+        idImg  Int NOT NULL
+	,CONSTRAINT ImgSaver_PK PRIMARY KEY (idSave)
 
-	,CONSTRAINT ImgSaver_User_FK FOREIGN KEY (id_usr) REFERENCES User(id_usr)
-	,CONSTRAINT ImgSaver_Image0_FK FOREIGN KEY (id_img) REFERENCES Image(id_img)
+	,CONSTRAINT ImgSaver_User_FK FOREIGN KEY (idUsr) REFERENCES User(idUsr)
+	,CONSTRAINT ImgSaver_Image0_FK FOREIGN KEY (idImg) REFERENCES Image(idImg)
 )ENGINE=InnoDB;
 
 
@@ -52,13 +53,13 @@ CREATE TABLE ImgSaver(
 #------------------------------------------------------------
 
 CREATE TABLE Commentaire(
-        id_commentaire Int  Auto_increment  NOT NULL ,
+        idCommentaire Int  Auto_increment  NOT NULL ,
         commenatire    Varchar (516) NOT NULL ,
-        id_img         Int NOT NULL ,
-        id_usr         Int NOT NULL
-	,CONSTRAINT Commentaire_PK PRIMARY KEY (id_commentaire)
+        idImg         Int NOT NULL ,
+        idUsr         Int NOT NULL
+	,CONSTRAINT Commentaire_PK PRIMARY KEY (idCommentaire)
 
-	,CONSTRAINT Commentaire_Image_FK FOREIGN KEY (id_img) REFERENCES Image(id_img)
-	,CONSTRAINT Commentaire_User0_FK FOREIGN KEY (id_usr) REFERENCES User(id_usr)
+	,CONSTRAINT Commentaire_Image_FK FOREIGN KEY (idImg) REFERENCES Image(idImg)
+	,CONSTRAINT Commentaire_User0_FK FOREIGN KEY (idUsr) REFERENCES User(idUsr)
 )ENGINE=InnoDB;
 

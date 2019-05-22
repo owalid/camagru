@@ -16,10 +16,10 @@
                 </div>
             </div>
                 <hr />
-                <form method="post" action="<?=URL?>?url=register&submit='OK'">
+                <form method="post" action="<?=URL?>?url=register&submit=OK">
                     <div class="field">
                         <p class="control has-icons-left has-icons-right">
-                            <input class="input" type="email" placeholder="Email" required>
+                            <input class="input" type="email" placeholder="Email" name="email" required>
                             <span class="icon is-small is-left">
                                 <i class="fas fa-envelope"></i>
                             </span>
@@ -27,7 +27,7 @@
                     </div>
                     <div class="field">
                         <p class="control has-icons-left has-icons-right">
-                            <input class="input" type="login" placeholder="login" required>
+                            <input class="input" type="login" placeholder="login" name="login" required>
                             <span class="icon is-small is-left">
                                 <i class="fas fa-envelope"></i>
                             </span>
@@ -35,7 +35,7 @@
                     </div>
                     <div class="field">
                         <p class="control has-icons-left">
-                            <input class="input" type="password" placeholder="Password" required>
+                            <input class="input" type="password" placeholder="Password" name="passwd" required>
                             <span class="icon is-small is-left">
                                 <i class="fas fa-lock"></i>
                             </span>
@@ -43,7 +43,15 @@
                     </div>
                     <div class="field">
                         <p class="control has-icons-left">
-                            <input class="input" type="password" placeholder="Password" required>
+                            <input class="input" type="password" placeholder="Password" name="passwd" required>
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-lock"></i>
+                            </span>
+                        </p>
+					</div>
+                    <div class="field">
+                        <p class="control has-icons-left">
+                            <input class="input" type="text" placeholder="Bio" name="bio">
                             <span class="icon is-small is-left">
                                 <i class="fas fa-lock"></i>
                             </span>
