@@ -31,9 +31,9 @@ Class ControllerLogin
     {
 		// var_dump($var);
 		// die();
-		$user = [];
+		// $user = [];
 		$this->_userManager = new UserManager();
-		$user = $this->_userManager->log();
+        $user = $this->_userManager->log();
 		// var_dump($user);
 		// die();
 		if ($user != NULL)

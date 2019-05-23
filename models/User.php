@@ -45,24 +45,24 @@ class User
 	public function __construct(array $data)
 	{
 		$this->hydrate($data);
-		var_dump($this->getBio());
-		die();
 	}
 
 	public function hydrate(array $data)
 	{
-		// var_dump($data);
-		// die();
 		foreach ($data as $key => $value)
         {
-			// var_dump($key);
             $method = 'set'.ucfirst($key);
-			// var_dump($method);
             if (method_exists($this, $method))
                 $this->$method($value);
 		}
-		// die();
-	}
+    }
+    
+    public function getUserImages()
+    {
+        $user_manager = new UserManager;
+        return $user_manager->getUsrImages($this->getIdUsr());
+    }
+
 // GETTER AND SETTER
 	public function getIdUsr()
 	{
@@ -74,7 +74,7 @@ class User
 	{
 		$this->_idUsr = $_idUsr;
 
-		// return $this;
+		return $this;
 	}
 
 
@@ -88,7 +88,7 @@ class User
 	{
 		$this->_login = $_login;
 
-		// return $this;
+		return $this;
 	}
 
 	
@@ -102,7 +102,7 @@ class User
 	{
 		$this->_email = $_email;
 
-		// return $this;
+		return $this;
 	}
 
 	
@@ -116,7 +116,7 @@ class User
 	{
 		$this->_passwd = $_passwd;
 
-		// return $this;
+		return $this;
 	}
 
     /**
@@ -134,7 +134,7 @@ class User
     {
         $this->_pp = $_pp;
 
-        // return $this;
+        return $this;
     }
 
    
@@ -148,6 +148,6 @@ class User
     {
         $this->_bio = $_bio;
 
-        // return $this;
+        return $this;
     }
 }

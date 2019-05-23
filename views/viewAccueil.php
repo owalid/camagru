@@ -2,7 +2,7 @@
 	if ($user)
 	{
 		session_start();
-		$_SESSION['user'] = $user;
+        $_SESSION['user'] = $user;
 		// var_dump($user);
 		// die();
 		// session_start();
@@ -11,10 +11,10 @@
 	}
 	if ($images)
 	{
-     foreach($images as $img)
-    {
-        //  TODO GETUSRPOSTER
-        $usr = $img->getUsrPosted($img->getIdUsr());
+        foreach($images as $img)
+        {
+            //  TODO GETUSRPOSTER
+            $usr = $img->getUsrPosted($img->getIdUsr());
         // $usr = $img->getUsrPosted();
         // TODO GETCOMMENT
         $comment = $img->getAllComment($img->getIdImg());
@@ -35,12 +35,12 @@
                                 <div class="hovereffect padding-20-bottom">
                                     <div class="columns is-gapless">
                                         <div class="column is-vcentered">
-                                            <figure class="image is-32x32">
-                                                <img class="is-rounded" src="<?= $usr['pp']  ?>">
+                                            <figure class="image is-64x64">
+                                                <img class="is-rounded" src="<?= $usr->getPp()  ?>">
                                             </figure>
                                         </div>
-                                        <div class="column is-11 is-vcentered">
-                                            <p><?= $usr['login'] ?></p>
+                                        <div class="column is-7 is-vcentered">
+                                            <p><?= $usr->getLogin() ?></p>
                                         </div>
                                             </div>
                                         </div>
@@ -70,7 +70,7 @@
                                                     <p class="has-text-weight-semibold">Aimé par <?=$img->getNbLike()?> personnes</p>
                                                 <!-- </div> -->
                                             <!-- </div> -->
-                                            <p><span class="has-text-weight-semibold"><?= $usr['login'] ?></span>: <?= $img->getDescription()?></p>
+                                            <p><span class="has-text-weight-semibold"><?= $usr->getLogin() ?></span>: <?= $img->getDescription()?></p>
                                             </div>
                                         </div>
                                     </div>
@@ -85,7 +85,7 @@
                                                 ?>
                                                 <div class="columns is-gapless">
                                                 <div class="column is-vcentered">
-                                            <figure class="image is-32x32">
+                                            <figure class="image is-64x64">
                                                 <img class="is-rounded" src="<?= $com['pp']?>">
                                             </figure>
                                         </div>

@@ -22,7 +22,8 @@
 			{?>
 
             <a class="navbar-item">
-                <?=$_SESSION['user']['login']?>
+
+                <?=$_SESSION['user']->getLogin()?>
             </a>
 			<?php
 			}

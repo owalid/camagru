@@ -64,8 +64,12 @@ abstract class Model
             FROM user 
             WHERE login = '$login'
             AND passwd = '$passwd'");
+ 
         $req->execute();
-		$data = $req->fetch(PDO::FETCH_ASSOC);
+        $data = $req->fetch(PDO::FETCH_ASSOC);
+        // return ($data);
+        $res = new User($data);
+
         // {
         //     $var[] = new User($data);
         // }
@@ -73,7 +77,7 @@ abstract class Model
 		// return FALSE;
 		// var_dump($var);
 		// die();
-        return $data;
+        return $res;
 		// var_dump($data);
 		// die();
 		// $user[] = new User($data);
@@ -163,7 +167,8 @@ abstract class Model
                     WHERE idUsr = $idUsr");
         $req->execute();
         $res = $req->fetch(PDO::FETCH_ASSOC);
-        return ($res);
+        $user = new User($res);
+        return ($user);
         $req->closeCursor();
     }
 
@@ -197,5 +202,10 @@ abstract class Model
                         ':idImg' => $idImg,
                         ':idUsr' => $usr]);
         $req->closeCursor();
+    }
+
+    public function getUsrImages()
+    {
+        //todo
     }
 }

@@ -12,16 +12,16 @@ session_start();
                             <div class="columns is-centered">
                                 <div class="column">
                                     <figure class="image is-128x128">
-                                        <img class="is-rounded" src="<?=$_SESSION['user']['pp']?>">
+                                        <img class="is-rounded" src="<?=$_SESSION['user']->getPp()?>">
                                     </figure>
                                     <p> Nb publications: 50</p>
                                 </div>
                                 <div class="column">
                                     <p class="subtitle">
-									<?= $_SESSION['user']['login'] ?>
+									<?= $_SESSION['user']->getLogin()?>
                                     </p>
                                     <p class="subtitle">
-                                        <?= $_SESSION['user']['bio'] ?>
+                                        <?= $_SESSION['user']->getBio()?>
                                     </p>
                                 </div>
                                 <div class="column">
@@ -52,43 +52,36 @@ session_start();
                             </div>
                             <div class="container" id="photos">
                                 <div class="columns is-3 is-mobile is-multiline">
+                                <?php
+                                    session_start();
+                                    $imgUsr = $_SESSION['user']->getUserImages();
+                                    if ($imgUsr)
+                                    {
+
+                                        foreach($imgUsr as $img)
+                                        {
+                                            ?>
                                     <div class="column">
-                                        <div>
                                         <div class="hovereffect padding-20-bottom">
-                                                <img src="https://bulma.io/images/placeholders/320x480.png">
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div class="hovereffect padding-20-bottom">
-                                            <img src="https://bulma.io/images/placeholders/320x480.png">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="column">
-                                        <div>
-                                        <div class="hovereffect padding-20-bottom">
-                                                <img src="https://bulma.io/images/placeholders/320x480.png">
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div class="hovereffect padding-20-bottom">
-                                            <img src="https://bulma.io/images/placeholders/320x480.png">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="column">
-                                        <div>
-                                            <div class="hovereffect padding-20-bottom">
-                                            <img src="https://bulma.io/images/placeholders/320x480.png">
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div class="hovereffect padding-20-bottom">
-                                            <img src="https://bulma.io/images/placeholders/320x480.png">
-                                            </div>
+                                            <img src="<?= $imgUsr['img'] ?>" href="<?= $imgUsr['idImg']?>">
                                         </div>
                                     </div>
                                 </div>
+                                <?php
+                                    }
+                                }
+                                else
+                                {
+
+                                    ?>
+                                       <div class="column">
+                                        <div class="hovereffect padding-20-bottom">
+                                            <p>Pas encore de photos🤷‍♂️</p>
+                                        </div>
+                                    </div>
+                                <?php
+                                }
+                                ?>
 							</div>
 							<!-- Enrengistrement -->
                             <div class="container" id="enr" style="display:none">
@@ -141,7 +134,7 @@ session_start();
 
 
 
-	var tab_photos = document.getElementById('tab_photos');
+var tab_photos = document.getElementById('tab_photos');
 var tab_enr = document.getElementById('tab_enr');
 var tab_enr_content = document.getElementById('enr');
 var tab_photos_content = document.getElementById('photos');
