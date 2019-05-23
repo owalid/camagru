@@ -6,7 +6,8 @@ abstract class Model
 
     private static function setBdd()
     {
-        self::$_bdd = new PDO('mysql:host=localhost;dbname=camagru', 'root', 'root');
+        self::$_bdd = new PDO('mysql:host=localhost;dbname=camagru;charset:utf8mb4_unicode_ci', 'root', 'root');
+        self::$_bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
     protected function getBdd()
@@ -127,9 +128,9 @@ abstract class Model
     public function getAllCommentaire($id_img)
     {
         $var = [];
-        $req = "SELECT *
+        $req = self::$_bdd->prepare("SELECT *
                 FROM commentaire
-                WHERE id_img = $id_img";
+                WHERE id_img = $id_img");
                 $req->execute();
         while ($data = $req->fetch(PDO::FETCH_ASSOC))
         {
@@ -146,11 +147,55 @@ abstract class Model
         // die();
         session_start();
         $usr = intval($_SESSION['user']['idUsr']);
-        $req = self::$_bdd->prepare("INSERT INTO image (img, nbLike, idUsr)
-        VALUES ('$img', '0', '$usr')");
+        $description = $_POST['description'];
+        $req = self::$_bdd->prepare("INSERT INTO image (img, nbLike, idUsr, description)
+        VALUES ('$img', '0', '$usr', '$description')");
         // var_dump(self::$_bdd->errorInfo());
         // die();
         $req->execute();
+        $req->closeCursor();
+    }
+
+    public function getUsr($idUsr)
+    {
+        $req = self::$_bdd->prepare("SELECT *
+                    FROM user
+                    WHERE idUsr = $idUsr");
+        $req->execute();
+        $res = $req->fetch(PDO::FETCH_ASSOC);
+        return ($res);
+        $req->closeCursor();
+    }
+
+    public function getComments($idImg)
+    {
+       
+        $var = [];
+        $req = self::$_bdd->prepare("SELECT user.pp, user.login, commentaire.commentaire
+        FROM commentaire, user
+        WHERE idImg = $idImg
+        AND user.idUsr = commentaire.idUsr");
+        $req->execute();
+        while ($data = $req->fetch(PDO::FETCH_ASSOC))
+        {
+            $var[] = $data;
+        }
+        return ($var);
+        $req->closeCursor();
+    }
+
+    public function postCommentaire($idImg)
+    {
+        $commentaire = htmlentities($_POST['commentaire']);
+        session_start();
+        $usr = intval($_SESSION['user']['idUsr']);
+        // var_dump($usr)
+        $req = self::$_bdd->prepare("INSERT INTO commentaire (commentaire, idImg, idUsr) VALUES (:commentaire, :idImg, :idUsr)");
+        // $req = self::$_bdd->prepare("INSERT INTO commentaire (commentaire, idImg, idUsr)
+        // VALUES ('$commentaire', '$idImg', '$usr')");
+        $req->execute([':commentaire' => $commentaire,
+                        ':idImg' => $idImg,
+                        ':idUsr' => $usr]);
         $req->closeCursor();
     }
 }

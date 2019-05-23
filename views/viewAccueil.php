@@ -14,9 +14,11 @@
      foreach($images as $img)
     {
         //  TODO GETUSRPOSTER
+        $usr = $img->getUsrPosted($img->getIdUsr());
         // $usr = $img->getUsrPosted();
         // TODO GETCOMMENT
-        // $comment = $img->getComment();
+        $comment = $img->getAllComment($img->getIdImg());
+        // var_dump($comment);
         // var_dump();
         // die();
 
@@ -34,11 +36,11 @@
                                     <div class="columns is-gapless">
                                         <div class="column is-vcentered">
                                             <figure class="image is-32x32">
-                                                <img class="is-rounded" src="https://bulma.io/images/placeholders/128x128.png">
+                                                <img class="is-rounded" src="<?= $usr['pp']  ?>">
                                             </figure>
                                         </div>
                                         <div class="column is-11 is-vcentered">
-                                            <p>Lorem</p>
+                                            <p><?= $usr['login'] ?></p>
                                         </div>
                                             </div>
                                         </div>
@@ -49,32 +51,66 @@
                                         <div class="column">
                                             <figure class="image">
                                                 <img src="<?=$img->getImg()?>">
-                                                <p class="has-text-weight-semibold">Aimé par <?=$img->getNbLike()?> personnes</p>
                                             </figure>
-                                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing 
-                                                elit. Rem ut nihil ipsa quidem. Vitae ratione, 
-                                                voluptates sequi architecto odio aliquam alias 
-                                                itaque? Culpa, nesciunt sequi? Sunt architecto 
-                                                praesentium deserunt dolor?</p>
+                                            <!-- <div class="columns padding-10">
+                                                <div class="column is-7"> -->
+                                                <div class="buttons is-centered is-vcentered padding-10-top">
+                                                    <a class="button is-rounded">
+                                                    <span class="icon has-text-danger is-small">
+                                                        <i class="fas fa-heart"></i>
+                                                    </span>
+                                                </a>
+                                                    <a class="button is-rounded">
+                                                    <span class="icon is-small">
+                                                        <i class="fas fa-comment-alt"></i>
+                                                    </span>
+                                                </a>
+                                               </div>
+                                                <!-- <div class="column"> --> 
+                                                    <p class="has-text-weight-semibold">Aimé par <?=$img->getNbLike()?> personnes</p>
+                                                <!-- </div> -->
+                                            <!-- </div> -->
+                                            <p><span class="has-text-weight-semibold"><?= $usr['login'] ?></span>: <?= $img->getDescription()?></p>
                                             </div>
                                         </div>
                                     </div>
+                                    <hr />
                                     <div class="hero-foot">
-                                        <div class="columns is-gapless">
-                                        <div class="column is-vcentered">
+                                       
+                                        <?php
+                                        if ($comment)
+                                        {
+                                            foreach($comment as $com)
+                                            {
+                                                ?>
+                                                <div class="columns is-gapless">
+                                                <div class="column is-vcentered">
                                             <figure class="image is-32x32">
-                                                <img class="is-rounded" src="https://bulma.io/images/placeholders/128x128.png">
+                                                <img class="is-rounded" src="<?= $com['pp']?>">
                                             </figure>
                                         </div>
                                         <div class="column is-11 is-vcentered">
-                                            <span class="has-text-weight-semibold">lorem</span> lorem lorem lorem lorem lorem</p>
+                                            <span class="has-text-weight-semibold"><?= $com['user']?></span><?=  $com['commentaire'] ?></p>
                                         </div>
+                                        <br />
                                         </div>
+                                        <?php 
+                                         }
+                                        }
+                                        else
+                                        {
+                                            ?>
+                                        <div class="column is-11 is-vcentered">
+                                            <span class="has-text-weight-semibold">Pas de commentaire 🤷‍♂️</p>
+                                        </div>
+                                        <?php
+                                        }
+                                            ?>
                                         <hr />
-                                        <form action="">
+                                        <form method="post" action="<?=URL?>?url=image&comment=yes&idImg=<?=$img->getIdImg()?>">
                                             <div class="field has-addons">
                                                 <div class="control is-expanded">
-                                                    <input class="input is-rounded is-fullwidth" type="text" name="" id="" placeholder="Ajouter  un commentaire....">
+                                                    <input class="input is-rounded is-fullwidth" type="text" name="commentaire" id="" placeholder="Ajouter un commentaire...." required>
                                                 </div>
                                                 <div class="control">
                                                     <button class="button is-rounded is-primary" type="submit">Publier</button>

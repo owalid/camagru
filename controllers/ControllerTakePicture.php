@@ -26,7 +26,7 @@ Class ControllerTakePicture
     {
         $this->_pictureManager = new ImageManager();
         $this->_pictureManager->sendImage();
-        $this->_view = new View('TakePicture');
+        $this->_view = new View('Accueil');
         $this->_view->generate(array('TakePicture' => NULL));
         // var_dump("ici");
         // die();

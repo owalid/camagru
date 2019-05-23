@@ -16,7 +16,7 @@
 ?>
 </header>
 <?= $content ?>
-<footer>
+<footer class="padding-100-top">
 <?php
     require_once('component/navbar_bottom.php');
 ?>

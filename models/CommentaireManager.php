@@ -7,4 +7,11 @@ Class CommentaireManager extends Model
         $this->getBdd();
         return $this->getAllCommentaire($id_img);
     }
+
+    public function sendCommentaire($idImg)
+    {
+       
+        $this->getBdd();
+        return $this->postCommentaire($idImg);
+    }
 }

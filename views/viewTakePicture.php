@@ -75,7 +75,7 @@
 				<i class="fas fa-trash" id="trash"></i>
 			</div>
 		</div>
-            <input class="input" type="text-area" placeholder="Description" name="descri" value="">
+            <input class="input" type="text-area" placeholder="Description" name="description" value="">
 			<button class="button is-primary" id="publi" disabled>Publier</button>
         </form>
 	</section>

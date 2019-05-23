@@ -31,11 +31,11 @@ class Image
     private $_img;
 
     /**
-     *  desc
+     *  description
      *
      * @var string
      */
-    private $_desc;
+    private $_description;
 
 
     public function __construct(array $data)
@@ -55,6 +55,18 @@ class Image
 
 // GETTER AND SETTER
 
+
+    public function getUsrPosted($idUsr)
+    {
+        $image_manager = new ImageManager;
+        return $image_manager->getUsrPostedImg($idUsr);
+    }
+
+    public function getAllComment($idImg)
+    {
+        $image_manager = new ImageManager;
+        return $image_manager->getImgComment($idImg);
+    }
 
     /**
      * Get idUsr
@@ -153,25 +165,25 @@ class Image
     }
 
     /**
-     * Get desc
+     * Get description
      *
      * @return  string
      */ 
-    public function getDesc()
+    public function getDescription()
     {
-        return $this->_desc;
+        return $this->_description;
     }
 
     /**
-     * Set desc
+     * Set description
      *
-     * @param  string  $_desc  desc
+     * @param  string  $_description  description
      *
      * @return  self
      */ 
-    public function setDesc(string $_desc)
+    public function setDescription(string $_description)
     {
-        $this->_desc = $_desc;
+        $this->_description = $_description;
 
         return $this;
     }

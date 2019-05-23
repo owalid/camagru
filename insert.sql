@@ -55,7 +55,7 @@ CREATE TABLE ImgSaver(
 
 CREATE TABLE Commentaire(
         idCommentaire Int  Auto_increment  NOT NULL ,
-        commenatire    Varchar (516) NOT NULL ,
+        commentaire   MEDIUMTEXT NOT NULL ,
         idImg         Int NOT NULL ,
         idUsr         Int NOT NULL
 	,CONSTRAINT Commentaire_PK PRIMARY KEY (idCommentaire)
