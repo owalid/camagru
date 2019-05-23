@@ -3,46 +3,40 @@
 class Image 
 {
     /**
-     * id_image
+     * idUsr
      *
      * @var int
      */
     private $_idUsr;
 
     /**
-     * img
+     * idImg
      *
-     * @var string
+     * @var int
      */
-    private $_login;
+    private $_idImg;
 
     /**
-     * img
+     * nbLike
      *
-     * @var string
+     * @var int
      */
-    private $_email;
+    private $_nbLike;
 
     /**
-     *  id_usr
+     *  img
      *
      * @var string
      */
-    private $_passwd;
+    private $_img;
 
     /**
-     *  id_usr
+     *  desc
      *
      * @var string
      */
-    private $_imgProfil;
-    
-    /**
-     *  id_usr
-     *
-     * @var string
-     */
-    private $_bio;
+    private $_desc;
+
 
     public function __construct(array $data)
     {
@@ -61,24 +55,25 @@ class Image
 
 // GETTER AND SETTER
 
+
     /**
-     * Get id_image
+     * Get idUsr
      *
      * @return  int
      */ 
-    public function get_idUsr()
+    public function getIdUsr()
     {
         return $this->_idUsr;
     }
 
     /**
-     * Set id_image
+     * Set idUsr
      *
-     * @param  int  $_idUsr  id_image
+     * @param  int  $_idUsr  idUsr
      *
      * @return  self
      */ 
-    public function set_idUsr(int $_idUsr)
+    public function setIdUsr(int $_idUsr)
     {
         $this->_idUsr = $_idUsr;
 
@@ -86,25 +81,49 @@ class Image
     }
 
     /**
-     * Get img
+     * Get idImg
      *
-     * @return  string
+     * @return  int
      */ 
-    public function get_login()
+    public function getIdImg()
     {
-        return $this->_login;
+        return $this->_idImg;
     }
 
     /**
-     * Set img
+     * Set idImg
      *
-     * @param  string  $_login  img
+     * @param  int  $_idImg  idImg
      *
      * @return  self
      */ 
-    public function set_login(string $_login)
+    public function setIdImg(int $_idImg)
     {
-        $this->_login = $_login;
+        $this->_idImg = $_idImg;
+
+        return $this;
+    }
+
+    /**
+     * Get nbLike
+     *
+     * @return  int
+     */ 
+    public function getNbLike()
+    {
+        return $this->_nbLike;
+    }
+
+    /**
+     * Set nbLike
+     *
+     * @param  int  $_nbLike  nbLike
+     *
+     * @return  self
+     */ 
+    public function setNbLike(int $_nbLike)
+    {
+        $this->_nbLike = $_nbLike;
 
         return $this;
     }
@@ -114,93 +133,45 @@ class Image
      *
      * @return  string
      */ 
-    public function get_email()
+    public function getImg()
     {
-        return $this->_email;
+        return $this->_img;
     }
 
     /**
      * Set img
      *
-     * @param  string  $_email  img
+     * @param  string  $_img  img
      *
      * @return  self
      */ 
-    public function set_email(string $_email)
+    public function setImg(string $_img)
     {
-        $this->_email = $_email;
+        $this->_img = $_img;
 
         return $this;
     }
 
     /**
-     * Get id_usr
+     * Get desc
      *
      * @return  string
      */ 
-    public function get_passwd()
+    public function getDesc()
     {
-        return $this->_passwd;
+        return $this->_desc;
     }
 
     /**
-     * Set id_usr
+     * Set desc
      *
-     * @param  string  $_passwd  id_usr
+     * @param  string  $_desc  desc
      *
      * @return  self
      */ 
-    public function set_passwd(string $_passwd)
+    public function setDesc(string $_desc)
     {
-        $this->_passwd = $_passwd;
-
-        return $this;
-    }
-
-    /**
-     * Get id_usr
-     *
-     * @return  string
-     */ 
-    public function get_imgProfil()
-    {
-        return $this->_imgProfil;
-    }
-
-    /**
-     * Set id_usr
-     *
-     * @param  string  $_imgProfil  id_usr
-     *
-     * @return  self
-     */ 
-    public function set_imgProfil(string $_imgProfil)
-    {
-        $this->_imgProfil = $_imgProfil;
-
-        return $this;
-    }
-
-    /**
-     * Get id_usr
-     *
-     * @return  string
-     */ 
-    public function get_bio()
-    {
-        return $this->_bio;
-    }
-
-    /**
-     * Set id_usr
-     *
-     * @param  string  $_bio  id_usr
-     *
-     * @return  self
-     */ 
-    public function set_bio(string $_bio)
-    {
-        $this->_bio = $_bio;
+        $this->_desc = $_desc;
 
         return $this;
     }

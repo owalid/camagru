@@ -11,7 +11,18 @@
 	}
 	if ($images)
 	{
-    ?>
+     foreach($images as $img)
+    {
+        //  TODO GETUSRPOSTER
+        // $usr = $img->getUsrPosted();
+        // TODO GETCOMMENT
+        // $comment = $img->getComment();
+        // var_dump();
+        // die();
+
+        // var_dump($images->get_);
+        // die();
+        ?>
         <section class="columns">
             <div class="column"></div>
             <div class="column">
@@ -37,8 +48,8 @@
                                     <div class="columns">
                                         <div class="column">
                                             <figure class="image">
-                                                <img src="https://bulma.io/images/placeholders/128x128.png">
-                                                <p class="has-text-weight-semibold">Aimé par 100 personnes</p>
+                                                <img src="<?=$img->getImg()?>">
+                                                <p class="has-text-weight-semibold">Aimé par <?=$img->getNbLike()?> personnes</p>
                                             </figure>
                                             <p>Lorem ipsum dolor sit, amet consectetur adipisicing 
                                                 elit. Rem ut nihil ipsa quidem. Vitae ratione, 
@@ -77,11 +88,14 @@
                     </div>
                     <div class="column"></div>
                 </section>
+                <?php 
+            } 
+            ?>
     <?php    
     }
     else
     {
-    ?>
+        ?>
     <p class="text-center">Il n'y as pas encore de photos publie la premiere photo 😎</p>
     <?php
     }

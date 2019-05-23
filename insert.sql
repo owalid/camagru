@@ -13,7 +13,7 @@ CREATE TABLE User(
         email      Varchar (90) NOT NULL ,
         passwd     Varchar (516) NOT NULL ,
         bio		   Varchar (516) NOT NULL ,
-        pp		   TEXT NOT NULL
+        pp		   MEDIUMTEXT NOT NULL
 	,CONSTRAINT User_PK PRIMARY KEY (idUsr)
 )ENGINE=InnoDB;
 
@@ -23,10 +23,11 @@ CREATE TABLE User(
 #------------------------------------------------------------
 
 CREATE TABLE Image(
-        idImg  Int  Auto_increment  NOT NULL ,
-        img     TEXT NOT NULL ,
-        nbLike Int NOT NULL ,
-        idUsr  Int NOT NULL
+        idImg           Int  Auto_increment  NOT NULL ,
+        img             MEDIUMTEXT NOT NULL ,
+        nbLike          Int NOT NULL  ,
+        idUsr           Int NOT NULL  ,
+        description     VARCHAR(516)
 	,CONSTRAINT Image_PK PRIMARY KEY (idImg)
 
 	,CONSTRAINT Image_User_FK FOREIGN KEY (idUsr) REFERENCES User(idUsr)

@@ -142,6 +142,8 @@ abstract class Model
     public function sendPicture()
     {
         $img = $_POST['image'];
+        // var_dump($img);
+        // die();
         session_start();
         $usr = intval($_SESSION['user']['idUsr']);
         $req = self::$_bdd->prepare("INSERT INTO image (img, nbLike, idUsr)

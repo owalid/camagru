@@ -18,6 +18,7 @@ Class ControllerAccueil
     private function images()
     {
         $this->_imageManager = new ImageManager();
+       
         $images = $this->_imageManager->getImages();
         $this->_view = new View('Accueil');
         $this->_view->generate(array('images' => $images));
