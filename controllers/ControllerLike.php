@@ -17,10 +17,19 @@ Class ControllerLike
     
     private function like()
     {
-        $this->_userManager = new UserManager();
-        $likes = $this->_userManager->getLikeUser();
-        $commentaires = $this->_userManager->getComs();
-        $this->_view = new View('Like');
-        $this->_view->generate(array('likes' => $likes, 'commentaires' => $commentaires));
+        session_start();
+        if ($_SESSION['user'] == NULL)
+        {
+            $this->_view = new View('Login');
+            $this->_view->generate(array('err' => "Vous devez vous connecté"));
+        }
+        else
+        {
+            $this->_userManager = new UserManager();
+            $likes = $this->_userManager->getLikeUser();
+            $commentaires = $this->_userManager->getComs();
+            $this->_view = new View('Like');
+            $this->_view->generate(array('likes' => $likes, 'commentaires' => $commentaires));
+        }
     }
 }

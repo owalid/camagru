@@ -75,7 +75,7 @@
                                                         <i class="fas fa-heart"></i>
                                                     </span>
                                                 </a>
-                                                    <a class="button is-rounded">
+                                                    <a class="button is-rounded" href="#comment<?=$img->getIdImg()?>">
                                                     <span class="icon is-small">
                                                         <i class="fas fa-comment-alt"></i>
                                                     </span>
@@ -122,7 +122,7 @@
                                         <form method="post" action="<?=URL?>?url=image&comment=yes&idImg=<?=$img->getIdImg()?>">
                                             <div class="field has-addons">
                                                 <div class="control is-expanded">
-                                                    <input class="input is-rounded is-fullwidth" type="text" name="commentaire" id="" placeholder="Ajouter un commentaire...." required>
+                                                    <input class="input is-rounded is-fullwidth" type="text" name="commentaire" id="comment<?=$img->getIdImg()?>" placeholder="Ajouter un commentaire...." required>
                                                 </div>
                                                 <div class="control">
                                                     <button class="button is-rounded is-primary" type="submit">Publier</button>

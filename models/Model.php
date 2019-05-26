@@ -35,13 +35,11 @@ abstract class Model
     {
         $passwd = hash("SHA512", $argv['passwd']);
 		$login =  $argv['login'];
-		$email = $argv['email'];
+        $email = $argv['email'];
 		if ($this->loginIsExist($login) == TRUE)
-		{
-			return ("LOGIN");
-		}
-		if ($this-eemailIsExist($email) == TRUE)
-            return ("EMAIL");
+        return ("LOGIN");
+		if ($this->emailIsExist($email) == TRUE)
+        return ("EMAIL");
         $hash = md5(rand(0,10000));
 		$pp = $argv['pp'];
         $bio = $argv['bio'];
@@ -80,7 +78,7 @@ abstract class Model
         '; // Our message above including the link
                             
         $headers = 'From:noreply@camagru.com' . "\r\n"; // Set from headers
-        mail($to, $subject, $message, $headers); // Send our email
+        mail($to, $subject, $message, $headers);
     }
 
     protected function logUser($login, $passwd)
@@ -92,11 +90,11 @@ abstract class Model
             AND passwd = '$passwd'");
         $req->execute();
         $data = $req->fetch(PDO::FETCH_ASSOC);
-        if ($data['verif'] == false)
+        if ($data['isVerif'] == "0" && isset($data['login']))
             return "VERIF";
-        $res = new User($data);
-        if ($res == NULL)
+        if (empty($data['login']))
             return "LOG";
+        $res = new User($data);
         return $res;
         $req->closeCursor();
     }
@@ -203,13 +201,18 @@ abstract class Model
     {
         $commentaire = htmlentities($_POST['commentaire']);
         session_start();
-        $usr = intval($_SESSION['user']->getIdUsr());
-        $req = self::$_bdd->prepare("INSERT INTO commentaire (commentaire, idImg, idUsr)
+        if ($_SESSION['user'] == NULL)
+        return ("LOGIN");
+        else
+        {
+            $usr = intval($_SESSION['user']->getIdUsr());
+            $req = self::$_bdd->prepare("INSERT INTO commentaire (commentaire, idImg, idUsr)
                                         VALUES (:commentaire, :idImg, :idUsr)");
-        $req->execute([':commentaire' => $commentaire,
-                        ':idImg' => $idImg,
-                        ':idUsr' => $usr]);
-        $req->closeCursor();
+            $req->execute([':commentaire' => $commentaire,
+            ':idImg' => $idImg,
+            ':idUsr' => $usr]);
+            $req->closeCursor();
+        }
     }
 
     public function getUsrImages($idUsr)
@@ -235,7 +238,6 @@ abstract class Model
                                     WHERE idImg = '$idImg'");
         $req->execute();
         $var = $req->fetch(PDO::FETCH_ASSOC);
-      
         return $var["nbLike"];
         $req->closeCursor();
     }
@@ -244,22 +246,27 @@ abstract class Model
     {
         
         session_start();
-        $idUsr = $_SESSION['user']->getIdUsr();
-        $verif = self::$_bdd->prepare("SELECT *
+        if ($_SESSION['user'] == NULL)
+            return ("LOGIN");
+        else
+        {
+            $idUsr = $_SESSION['user']->getIdUsr();
+            $verif = self::$_bdd->prepare("SELECT *
                                     FROM `like`
                                     WHERE idUsr = '$idUsr'
                                     AND idImg = '$idImg'");
-        $verif->execute();
-        $ret = $verif->fetch(PDO::FETCH_ASSOC);
-        if ($ret == FALSE)
-        {
-            $req = self::$_bdd->prepare("INSERT INTO `Like` (idUsr, idImg, isLiked)
-                                    VALUES ('$idUsr', '$idImg', true)");
-            $req->execute();
-            $req->closeCursor();
+            $verif->execute();
+            $ret = $verif->fetch(PDO::FETCH_ASSOC);
+            if ($ret == FALSE)
+            {
+                $req = self::$_bdd->prepare("INSERT INTO `Like` (idUsr, idImg, isLiked)
+                                        VALUES ('$idUsr', '$idImg', true)");
+                $req->execute();
+                $req->closeCursor();
+            }
+            else
+                return ("vous avez déjà aimé cette photo");
         }
-        else
-            return ("vous avez déjà aimé cette photo");
     }
 
     public function getLike()

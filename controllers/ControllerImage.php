@@ -32,20 +32,37 @@ Class ControllerImage
     private function comment()
     {
         $this->_commentaire = new CommentaireManager();
-        $this->_commentaire->sendCommentaire($_GET['idImg']);
-        $this->_image = new ImageManager();
-        $images = $this->_image->getImages();
-        $this->_view = new View('Accueil');
-        $this->_view->generate(array('images' => $images));
+        $err = $this->_commentaire->sendCommentaire($_GET['idImg']);
+        if ($err == "LOGIN")
+        {
+            $this->_view = new View('Login');
+            $this->_view->generate(array('err' => "Vous devez vous connecté pour pouvoir commentez"));
+        }
+        else
+        {
+            $this->_image = new ImageManager();
+            $images = $this->_image->getImages();
+            $this->_view = new View('Accueil');
+            $this->_view->generate(array('images' => $images));
+        }
     }
 
     private function sendLike()
     {
         $this->_like = new ImageManager();
-        $msg = $this->_like->like($_GET['idImg']);
-        $this->_image = new ImageManager();
-        $images = $this->_image->getImages();
-        $this->_view = new View('Accueil');
-        $this->_view->generate(array('images' => $images, 'err' => $err));
+        $err = $this->_like->like($_GET['idImg']);
+       
+        if ($err == "LOGIN")
+        {
+            $this->_view = new View('Login');
+            $this->_view->generate(array('err' => "Vous devez vous connecté pour pouvoir commentez"));
+        }
+        else 
+        {
+            $this->_image = new ImageManager();
+            $images = $this->_image->getImages();
+            $this->_view = new View('Accueil');
+            $this->_view->generate(array('images' => $images, 'err' => $err));
+        }
     }
 }

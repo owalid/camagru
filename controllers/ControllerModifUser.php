@@ -16,9 +16,18 @@ Class ControllerModifUser
     
     private function modifUser()
     {
-        $this->_userManager = new UserManager();
-        // $images = $this->_user->getImages();
-        $this->_view = new View('ModifUser');
-        $this->_view->generate(array('ModifUser' => NULL));
+        session_start();
+        if ($_SESSION['user'] == NULL)
+        {
+            $this->_view = new View('Login');
+            $this->_view->generate(array('err' => "Vous devez vous connecté"));
+        }
+        else
+        {
+            $this->_userManager = new UserManager();
+            // $images = $this->_user->getImages();
+            $this->_view = new View('ModifUser');
+            $this->_view->generate(array('ModifUser' => NULL));
+        }
     }
 }

@@ -19,7 +19,6 @@ Class ControllerLogout
         session_start();
         $this->_userManager = new UserManager();
 		$this->_userManager->logout();
-
         $this->_view = new View('Login');
         $this->_view->generate(array('msg' => "à bientôt 👋"));
     }

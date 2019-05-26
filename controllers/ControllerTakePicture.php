@@ -18,16 +18,34 @@ Class ControllerTakePicture
     
     private function takePicture()
     {
-        $this->_view = new View('TakePicture');
-        $this->_view->generate(array('TakePicture' => NULL));
+        session_start();
+        if ($_SESSION['user'] == NULL)
+        {
+            $this->_view = new View('Login');
+            $this->_view->generate(array('err' => "Vous devez vous connecté"));
+        }
+        else
+        {
+            $this->_view = new View('TakePicture');
+            $this->_view->generate(array('TakePicture' => NULL));
+        }
     }
 
     private function sendPicture()
     {
-        $this->_imageManager = new ImageManager();
-        $this->_imageManager->sendImage();
-        $images = $this->_imageManager->getImages();
-        $this->_view = new View('Accueil');
-        $this->_view->generate(array('images' => $images, 'msg' => 'Votre publication à bien été postée'));
+        session_start();
+        if ($_SESSION['user'] == NULL)
+        {
+            $this->_view = new View('Login');
+            $this->_view->generate(array('err' => "Vous devez vous connecté"));
+        }
+        else
+        {
+            $this->_imageManager = new ImageManager();
+            $this->_imageManager->sendImage();
+            $images = $this->_imageManager->getImages();
+            $this->_view = new View('Accueil');
+            $this->_view->generate(array('images' => $images, 'msg' => 'Votre publication à bien été postée'));
+        }
     }
 }

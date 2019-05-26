@@ -16,7 +16,16 @@ Class ControllerUser
     
     private function userProfil()
     {
-        $this->_view = new View('User');
-        $this->_view->generate(array('User' => NULL));
+        session_start();
+        if ($_SESSION['user'] == NULL)
+        {
+            $this->_view = new View('Login');
+            $this->_view->generate(array('err' => "Vous devez vous connecté"));
+        }
+        else
+        {
+            $this->_view = new View('User');
+            $this->_view->generate(array('User' => NULL));
+        }
     }
 }
