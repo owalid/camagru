@@ -4,6 +4,7 @@ require('views/View.php');
 Class ControllerLike
 {
     private $_likeManager;
+    private $_userManager;
     private $_view;
 
     public function __construct($url)
@@ -16,9 +17,10 @@ Class ControllerLike
     
     private function like()
     {
-        // $this->_userManager = new UserManager();
-        // $images = $this->_user->getImages();
+        $this->_userManager = new UserManager();
+        $likes = $this->_userManager->getLikeUser();
+        $commentaires = $this->_userManager->getComs();
         $this->_view = new View('Like');
-        $this->_view->generate(array('like' => NULL));
+        $this->_view->generate(array('likes' => $likes, 'commentaires' => $commentaires));
     }
 }

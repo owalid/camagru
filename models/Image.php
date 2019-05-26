@@ -38,12 +38,12 @@ class Image
     private $_description;
 
 
-    public function __construct(array $data)
+    public function __construct(array $data, $nbLike)
     {
-        $this->hydrate($data);
+        $this->hydrate($data, $nbLike);
     }
 
-    public function hydrate(array $data)
+    public function hydrate(array $data, $nbLike)
     {
         foreach ($data as $key => $value)
         {
@@ -51,6 +51,8 @@ class Image
             if (method_exists($this, $method))
                 $this->$method($value);
         }
+        // var_dump($nbLike);
+        $this->setNbLike($nbLike);
     }
 
 // GETTER AND SETTER

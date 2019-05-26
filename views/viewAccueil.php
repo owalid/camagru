@@ -11,6 +11,24 @@
 	}
 	if ($images)
 	{
+    if ($msg)
+    {?>
+    <article class="message is-success text-center">
+    <div class="message-body">
+        <?= $msg ?>
+    </div>
+    </article>
+    <?php
+    }
+    if ($err)
+    {?>
+    <article class="message is-danger text-center">
+    <div class="message-body">
+        <?= $err ?>
+    </div>
+    </article>
+    <?php
+    }
         foreach($images as $img)
         {
             //  TODO GETUSRPOSTER
@@ -18,8 +36,7 @@
         // $usr = $img->getUsrPosted();
         // TODO GETCOMMENT
         $comment = $img->getAllComment($img->getIdImg());
-        // var_dump($comment);
-        // var_dump();
+        // // var_dump();
         // die();
 
         // var_dump($images->get_);
@@ -36,7 +53,7 @@
                                     <div class="columns is-gapless">
                                         <div class="column is-vcentered">
                                             <figure class="image is-64x64">
-                                                <img class="is-rounded" src="<?= $usr->getPp()  ?>">
+                                                <img class="is-rounded" src="<?=$usr->getPp()?>">
                                             </figure>
                                         </div>
                                         <div class="column is-7 is-vcentered">
@@ -52,10 +69,8 @@
                                             <figure class="image">
                                                 <img src="<?=$img->getImg()?>">
                                             </figure>
-                                            <!-- <div class="columns padding-10">
-                                                <div class="column is-7"> -->
                                                 <div class="buttons is-centered is-vcentered padding-10-top">
-                                                    <a class="button is-rounded">
+                                                    <a class="button is-rounded" href="<?=URL?>?url=image&like=yes&idImg=<?=$img->getIdimg()?>">
                                                     <span class="icon has-text-danger is-small">
                                                         <i class="fas fa-heart"></i>
                                                     </span>
@@ -66,10 +81,7 @@
                                                     </span>
                                                 </a>
                                                </div>
-                                                <!-- <div class="column"> --> 
                                                     <p class="has-text-weight-semibold">Aimé par <?=$img->getNbLike()?> personnes</p>
-                                                <!-- </div> -->
-                                            <!-- </div> -->
                                             <p><span class="has-text-weight-semibold"><?= $usr->getLogin() ?></span>: <?= $img->getDescription()?></p>
                                             </div>
                                         </div>

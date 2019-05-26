@@ -3,7 +3,7 @@ require('views/View.php');
 
 Class ControllerTakePicture 
 {
-    private $_pictureManager;
+    private $_imageManager;
     private $_view;
 
     public function __construct($url)
@@ -24,11 +24,10 @@ Class ControllerTakePicture
 
     private function sendPicture()
     {
-        $this->_pictureManager = new ImageManager();
-        $this->_pictureManager->sendImage();
+        $this->_imageManager = new ImageManager();
+        $this->_imageManager->sendImage();
+        $images = $this->_imageManager->getImages();
         $this->_view = new View('Accueil');
-        $this->_view->generate(array('TakePicture' => NULL));
-        // var_dump("ici");
-        // die();
+        $this->_view->generate(array('images' => $images, 'msg' => 'Votre publication à bien été postée'));
     }
 }

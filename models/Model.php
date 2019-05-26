@@ -24,7 +24,8 @@ abstract class Model
         $req->execute();
         while ($data = $req->fetch(PDO::FETCH_ASSOC))
         {
-            $var[] = new $obj($data);
+            $nbLike = $this->getNbLike($data['idImg']);
+            $var[] = new $obj($data, $nbLike);
         }
         return $var;
         $req->closeCursor();
@@ -35,53 +36,68 @@ abstract class Model
         $passwd = hash("SHA512", $argv['passwd']);
 		$login =  $argv['login'];
 		$email = $argv['email'];
-		// var_dump($argv);
-		// die();
 		if ($this->loginIsExist($login) == TRUE)
 		{
 			return ("LOGIN");
 		}
-		if ($this->emailIsExist($email) == TRUE)
-			return ("EMAIL");
+		if ($this-eemailIsExist($email) == TRUE)
+            return ("EMAIL");
+        $hash = md5(rand(0,10000));
 		$pp = $argv['pp'];
-		// if ($pp == NULL)
-			// $pp = NULL;
         $bio = $argv['bio'];
-        $req = self::$_bdd->prepare("INSERT INTO user (login, passwd, email, pp, bio)
-        VALUES ('$login', '$passwd', '$email', '$pp', '$bio')");
+        $req = self::$_bdd->prepare("INSERT INTO user (login, passwd, email, pp, bio, hash)
+        VALUES ('$login', '$passwd', '$email', '$pp', '$bio', '$hash')");
+        $this->sendMail($email, $login, $hash);
         $req->execute();
         $req->closeCursor();
     }
     
+    protected function sendMail($email, $login, $hash)
+    {
+        $to      = $email; // Send email to our user
+        $subject = 'Signup | Verification'; // Give the email a subject 
+        $message = '
+        
+         _____                                              
+        /  __ \                                             
+        | /  \/  __ _  _ __ ___    __ _   __ _  _ __  _   _ 
+        | |     / _  ||  _   _ \  / _  | / _  | __ | | | |
+        | \__/\| (_| || | | | | || (_| || (_| || |   | |_| |
+         \____/ \__,_||_| |_| |_| \__,_| \__, ||_|    \__,_|
+                                          __/ |             
+                                         |___/              
+        
+        
+        ------------------------
+
+        Thanks you ' . $login . ' for signing up!
+        
+        ------------------------
+        
+        Please click this link to activate your account:
+        '. URL .'?url=verifemail&email='. $email . '&hash=' . $hash . '
+        
+        '; // Our message above including the link
+                            
+        $headers = 'From:noreply@camagru.com' . "\r\n"; // Set from headers
+        mail($to, $subject, $message, $headers); // Send our email
+    }
+
     protected function logUser($login, $passwd)
     {
-        // if (loginIsExist($login) == TRUE)
-		//     return (FALSE);
-		// $user = [];
-		// $var = [];
         $passwd = hash("SHA512", $passwd);
         $req = self::$_bdd->prepare("SELECT *
             FROM user 
             WHERE login = '$login'
             AND passwd = '$passwd'");
- 
         $req->execute();
         $data = $req->fetch(PDO::FETCH_ASSOC);
-        // return ($data);
+        if ($data['verif'] == false)
+            return "VERIF";
         $res = new User($data);
-
-        // {
-        //     $var[] = new User($data);
-        // }
-        // if ($var == NULL)
-		// return FALSE;
-		// var_dump($var);
-		// die();
+        if ($res == NULL)
+            return "LOG";
         return $res;
-		// var_dump($data);
-		// die();
-		// $user[] = new User($data);
-        // return $user;
         $req->closeCursor();
     }
 
@@ -92,15 +108,13 @@ abstract class Model
         WHERE login = '$login'");
         $req->execute();
 		$data = $req->fetch(PDO::FETCH_ASSOC);
-		// var_dump($data);
-		// die();
         if ($data == NULL)
             return FALSE;
         return TRUE;
         $req->closeCursor();
 	}
 
-    protected function EmailIsExist($email)
+    protected function emailIsExist($email)
     {
         $req = self::$_bdd->prepare("SELECT email
         FROM user 
@@ -147,15 +161,11 @@ abstract class Model
     public function sendPicture()
     {
         $img = $_POST['image'];
-        // var_dump($img);
-        // die();
         session_start();
-        $usr = intval($_SESSION['user']['idUsr']);
+        $usr = intval($_SESSION['user']->getIdUsr());
         $description = $_POST['description'];
         $req = self::$_bdd->prepare("INSERT INTO image (img, nbLike, idUsr, description)
         VALUES ('$img', '0', '$usr', '$description')");
-        // var_dump(self::$_bdd->errorInfo());
-        // die();
         $req->execute();
         $req->closeCursor();
     }
@@ -193,19 +203,127 @@ abstract class Model
     {
         $commentaire = htmlentities($_POST['commentaire']);
         session_start();
-        $usr = intval($_SESSION['user']['idUsr']);
-        // var_dump($usr)
-        $req = self::$_bdd->prepare("INSERT INTO commentaire (commentaire, idImg, idUsr) VALUES (:commentaire, :idImg, :idUsr)");
-        // $req = self::$_bdd->prepare("INSERT INTO commentaire (commentaire, idImg, idUsr)
-        // VALUES ('$commentaire', '$idImg', '$usr')");
+        $usr = intval($_SESSION['user']->getIdUsr());
+        $req = self::$_bdd->prepare("INSERT INTO commentaire (commentaire, idImg, idUsr)
+                                        VALUES (:commentaire, :idImg, :idUsr)");
         $req->execute([':commentaire' => $commentaire,
                         ':idImg' => $idImg,
                         ':idUsr' => $usr]);
         $req->closeCursor();
     }
 
-    public function getUsrImages()
+    public function getUsrImages($idUsr)
     {
-        //todo
+        $res = [];
+        $req = self::$_bdd->prepare("SELECT *
+                                    FROM image
+                                    WHERE idUsr = '$idUsr'");
+        $req->execute();
+        while ($data = $req->fetch(PDO::FETCH_ASSOC))
+        {
+            $nbLike = $this->getNbLike($data['idImg']);
+            $res[] = new Image($data, $nbLike);
+        }
+        return $res;
+        $req->closeCursor();
+    }
+
+    public function getNbLike($idImg)
+    {
+        $req = self::$_bdd->prepare("SELECT count(`like`.idLike) as nbLike
+                                    FROM `like`
+                                    WHERE idImg = '$idImg'");
+        $req->execute();
+        $var = $req->fetch(PDO::FETCH_ASSOC);
+      
+        return $var["nbLike"];
+        $req->closeCursor();
+    }
+
+    public function sendLike($idImg)
+    {
+        
+        session_start();
+        $idUsr = $_SESSION['user']->getIdUsr();
+        $verif = self::$_bdd->prepare("SELECT *
+                                    FROM `like`
+                                    WHERE idUsr = '$idUsr'
+                                    AND idImg = '$idImg'");
+        $verif->execute();
+        $ret = $verif->fetch(PDO::FETCH_ASSOC);
+        if ($ret == FALSE)
+        {
+            $req = self::$_bdd->prepare("INSERT INTO `Like` (idUsr, idImg, isLiked)
+                                    VALUES ('$idUsr', '$idImg', true)");
+            $req->execute();
+            $req->closeCursor();
+        }
+        else
+            return ("vous avez déjà aimé cette photo");
+    }
+
+    public function getLike()
+    {
+        session_start();
+        $res = [];
+        $idUsr = $_SESSION['user']->getIdUsr();
+        $req = self::$_bdd->prepare("SELECT  image.img, user.login, user.pp
+                                     FROM `like` as l, image, user
+                                     WHERE l.idImg = image.idImg
+                                     AND image.idUsr = '$idUsr'
+                                     AND l.idUsr = User.idUsr");
+        $req->execute();
+        while ($data = $req->fetch(PDO::FETCH_ASSOC))
+        {
+            $res[] = $data;
+        }
+        return ($res);
+        $req->closeCursor();
+    }
+
+    public function getCommentairesUsr()
+    {
+     
+        session_start();
+        $res = [];
+        $idUsr = $_SESSION['user']->getIdUsr();
+        $req = self::$_bdd->prepare("SELECT image.img, user.login, user.pp, commentaire.commentaire
+                                     FROM commentaire, image, user
+                                     WHERE commentaire.idImg = image.idImg
+                                     AND image.idUsr = '$idUsr'
+                                     AND commentaire.idUsr = User.idUsr");
+
+        $req->execute();
+        while ($data = $req->fetch(PDO::FETCH_ASSOC))
+        {
+            $res[] = $data;
+        }
+        return ($res);
+        $req->closeCursor();
+    }
+
+    public function verifMail()
+    {
+        $email = $_GET['email'];
+        $hash = $_GET['hash'];
+        $req = self::$_bdd->prepare("SELECT *
+        FROM user 
+        WHERE email = '$email'
+        AND hash = '$hash'
+        ");
+        $req->execute();
+        $data = $req->fetch(PDO::FETCH_ASSOC);
+        if ($data == NULL)
+            return "ERR";
+        else if ($data['isVerif'] == false)
+        {
+            $req = self::$_bdd->prepare("UPDATE user
+            SET isVerif = true
+            WHERE email = '$email'");
+            $req->execute();
+            return "OK";
+        }
+        else if ($data['isVerif'] == true)
+            return "VERIFIED";
     }
 }

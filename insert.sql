@@ -9,11 +9,13 @@
 
 CREATE TABLE User(
         idUsr      Int  Auto_increment  NOT NULL ,
-        login      Varchar (90) NOT NULL ,
-        email      Varchar (90) NOT NULL ,
+        login      Varchar (90) NOT NULL UNIQUE,
+        email      Varchar (90) NOT NULL UNIQUE,
         passwd     Varchar (516) NOT NULL ,
-        bio		   Varchar (516) NOT NULL ,
-        pp		   MEDIUMTEXT NOT NULL
+        hash       Varchar (516) NOT NULL ,
+        isLiked    Bool NOT NULL DEFAULT false ,
+        bio        Varchar (516) NOT NULL ,
+        pp         MEDIUMTEXT NOT NULL
 	,CONSTRAINT User_PK PRIMARY KEY (idUsr)
 )ENGINE=InnoDB;
 
@@ -64,3 +66,17 @@ CREATE TABLE Commentaire(
 	,CONSTRAINT Commentaire_User0_FK FOREIGN KEY (idUsr) REFERENCES User(idUsr)
 )ENGINE=InnoDB;
 
+#------------------------------------------------------------
+# Table: `Like`
+#------------------------------------------------------------
+
+CREATE TABLE `Like`(
+        idLike  Int  Auto_increment  NOT NULL ,
+        isLiked Bool NOT NULL ,
+        idUsr  Int ,
+        idImg  Int
+	,CONSTRAINT Like_PK PRIMARY KEY (idLike)
+
+	,CONSTRAINT Like_User_FK FOREIGN KEY (idUsr) REFERENCES User(idUsr)
+	,CONSTRAINT Like_Image0_FK FOREIGN KEY (idImg) REFERENCES Image(idImg)
+)ENGINE=InnoDB;

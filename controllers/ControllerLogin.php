@@ -4,12 +4,11 @@ require('views/View.php');
 Class ControllerLogin
 {
     private $_userManager;
+    private $_imageManager;
     private $_view;
 
     public function __construct($url)
     {
-		// var_dump($_POST);
-		// die();
         if (isset($url) && count($url) > 1)
             throw new Exception("Page introuvable", 1);
         else if ($_GET['submit'] == 'OK')
@@ -21,30 +20,31 @@ Class ControllerLogin
     
     private function userLogin()
     {
-        // $this->_userManager = new UserManager();
-        // $images = $this->_user->getImages();
         $this->_view = new View('Login');
         $this->_view->generate(array('login' => NULL));
     }
 
     public function userReqLogin()
     {
-		// var_dump($var);
-		// die();
-		// $user = [];
 		$this->_userManager = new UserManager();
         $user = $this->_userManager->log();
-		// var_dump($user);
-		// die();
-		if ($user != NULL)
-		{
-			$this->_view = new View('Accueil');
-			$this->_view->generate(array('user' => $user));
-		}
+        
+        if ($user == "VERIF")
+        {
+            $this->_view = new View('Login');
+            $this->_view->generate(array('err' => 'Vous n\'avez pas verifié votre adresse mail.'));
+        }
+        else if ($user == "LOG")
+        {
+            $this->_view = new View('Login');
+            $this->_view->generate(array('err' => 'Votre mot de passe ou votre login est incorrect.'));
+        }
 		else
 		{
-			$this->_view = new View('Login');
-			$this->_view->generate(array('err' => 'Votre mot de passe ou votre login est incorrect.'));
+            $this->_imageManager = new ImageManager();
+            $images = $this->_imageManager->getImages();
+			$this->_view = new View('Accueil');
+			$this->_view->generate(array('user' => $user, 'images' => $images, 'msg' => "Bon retour parmis nous " . $user->getLogin()));
 		}
     }
 }

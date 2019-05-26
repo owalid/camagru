@@ -23,4 +23,28 @@ class UserManager extends Model
             $_SESSION['user'] = NULL;
         }
     }
+
+    public function getLikeUser()
+    {
+        $this->getBdd();
+        return ($this->getLike());
+    }
+
+    public function getComs()
+    {
+        $this->getBdd();
+        return ($this->getCommentairesUsr());
+    }
+
+    public function getPicUsr($idUsr)
+    {
+        $this->getBdd();
+        return ($this->getUsrImages($idUsr));
+    }
+
+    public function verifUsr()
+    {
+        $this->getBdd();
+        return ($this->verifMail());
+    }
 }

@@ -18,15 +18,6 @@ class ImageManager extends Model
     public function getUsrPostedImg($idUsr)
     {
         $this->getBdd();
-        // $req = self::$_bdd->prepare("SELECT *
-        // FROM user
-        // WHERE idUsr = $idUsr");
-        // var_dump("ici");
-        // die();
-        // $req->execute();
-        // $res = $req->fetch(PDO::FETCH_ASSOC);
-        // return ($res);
-        // $req->closeCursor();
         return ($this->getUsr($idUsr));
     }
 
@@ -35,5 +26,11 @@ class ImageManager extends Model
         $this->getBdd();
 
         return ($this->getComments($idImg));
+    }
+
+    public function like($idImg)
+    {
+        $this->getBdd();
+        return ($this->sendLike($idImg));
     }
 }

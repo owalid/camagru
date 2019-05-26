@@ -41,7 +41,7 @@ Class ControllerRegister
 		else
 		{
 			$this->_view = new View('Login');
-			$this->_view->generate(array('msg' => "Votre compte à bien été crée veuillez maintenant vous connectez"));
+			$this->_view->generate(array('msg' => "Derniere etape avant de vous connecté, veuillez maintenant verifié votre adresse mail"));
 		}
     }
 }

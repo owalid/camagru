@@ -60,7 +60,7 @@ class User
     public function getUserImages()
     {
         $user_manager = new UserManager;
-        return $user_manager->getUsrImages($this->getIdUsr());
+        return $user_manager->getPicUsr($this->getIdUsr());
     }
 
 // GETTER AND SETTER
