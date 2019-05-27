@@ -250,6 +250,7 @@ abstract class Model
             ':idImg' => $idImg,
             ':idUsr' => $usr]);
             $userLiked = $this->getUsrPhoto($idImg);
+            //todo verif if notif acitvate
             $this->sendMailLikeCom($userLiked['email'], $userLiked['login'],
                                         $_SESSION['user']->getLogin(), "commenté");
             $req->closeCursor();
@@ -304,6 +305,7 @@ abstract class Model
                                         VALUES ('$idUsr', '$idImg', true)");
                 $req->execute();
                 $userLiked = $this->getUsrPhoto($idImg);
+                //todo verif if notif acitvate
                 $this->sendMailLikeCom($userLiked['email'], $userLiked['login'], $_SESSION['user']->getLogin(), "liké");
                 $req->closeCursor();
             }
