@@ -132,8 +132,10 @@ class User
    
     public function setPp(string $_pp)
     {
-        $this->_pp = $_pp;
-
+        if (empty($_pp))
+            $this->_pp = URL . "/img/default";
+        else
+            $this->_pp = $_pp;
         return $this;
     }
 

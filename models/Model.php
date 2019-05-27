@@ -387,8 +387,9 @@ abstract class Model
         else
         {
             $req = self::$_bdd->prepare("UPDATE user
-                                    SET passwd = $new
+                                    SET passwd = '$new'
                                     WHERE idUsr = '$idUsr'");
+            $req->execute();
         }
         $req->closeCursor();
     }
