@@ -36,10 +36,10 @@ abstract class Model
         $passwd = hash("SHA512", $argv['passwd']);
 		$login =  $argv['login'];
         $email = $argv['email'];
-		if ($this->loginIsExist($login) == TRUE)
-        return ("LOGIN");
-		if ($this->emailIsExist($email) == TRUE)
-        return ("EMAIL");
+		if ($this->loginIsExist($login) != NULL)
+            return ("LOGIN");
+		if ($this->emailIsExist($email) != NULL)
+            return ("EMAIL");
         $hash = md5(rand(0,10000));
 		$pp = $argv['pp'];
         $bio = $argv['bio'];
@@ -101,11 +101,12 @@ abstract class Model
 
     protected function loginIsExist($login)
     {
-        $req = self::$_bdd->prepare("SELECT login
+        $req = self::$_bdd->prepare("SELECT *
         FROM user 
         WHERE login = '$login'");
         $req->execute();
-		$data = $req->fetch(PDO::FETCH_ASSOC);
+        $data = $req->fetch(PDO::FETCH_ASSOC);
+        return ($data);
         if ($data == NULL)
             return FALSE;
         return TRUE;
@@ -114,14 +115,12 @@ abstract class Model
 
     protected function emailIsExist($email)
     {
-        $req = self::$_bdd->prepare("SELECT email
+        $req = self::$_bdd->prepare("SELECT *
         FROM user 
         WHERE email = '$email'");
         $req->execute();
         $data = $req->fetch(PDO::FETCH_ASSOC);
-        if ($data == NULL)
-            return FALSE;
-        return TRUE;
+        return ($data);
         $req->closeCursor();
     }
 
@@ -332,5 +331,65 @@ abstract class Model
         }
         else if ($data['isVerif'] == true)
             return "VERIFIED";
+    }
+
+    public function modifUsr()
+    {
+        session_start();
+        $idUsr = $_SESSION['user']->getIdUsr();
+        $login = $_POST['login'];
+        $email = $_POST['email'];
+        $bio = $_POST['bio'];
+        $verifEmail = $this->emailIsExist($email);
+        $verifLogin = $this->loginIsExist($login);
+        if ($verifLogin['idUsr'] != $idUsr && $verifLogin != NULL)
+            return ("LOGIN");
+        if ($verifEmail['idUsr'] != $idUsr && $verifEmail != NULL)
+            return ("EMAIL");
+        $newEmail = ($verifEmail['email'] != $_SESSION['user']->getEmail()
+                                || $verifEmail['isVerif'] == 0) ? 0 : 1;
+        $hash = ($verifEmail['email'] != $_SESSION['user']->getEmail()) ? md5(rand(0,10000)) : $verifEmail['hash'];
+        $req = self::$_bdd->prepare("UPDATE user
+                                    SET     login = :login,
+                                            email = :email,
+                                            bio = :bio,
+                                            isVerif = :isVerif,
+                                            hash = :hash
+                                    WHERE   idUsr = :idUsr");
+        $req->execute([':login' => $login, ':email' => $email,
+                        ':bio' => $bio, ':idUsr' => $idUsr,
+                        ':isVerif' => $newEmail, ':hash' => $hash]);
+        $user = $this->getUsr($idUsr);
+        $_SESSION['user'] = $user;
+        if ($newEmail == 0 && $hash != $verifEmail['hash'])
+        {
+            $this->sendMail($user->getEmail(), $user->getLogin(), $hash);
+            return ("NEW");
+        }
+        return NULL;
+        $req->closeCursor();
+    }
+
+    public function modifpasswd()
+    {
+        session_start();
+        $old = hash("SHA512", $_POST['old']);
+        $new = hash("SHA512",$_POST['new']);
+        $idUsr = $_SESSION['user']->getIdUsr();
+        $req = self::$_bdd->prepare("SELECT *
+                                    FROM user
+                                    WHERE passwd = '$old'
+                                    AND idUsr = '$idUsr'");
+        $req->execute();
+        $data = $req->fetch(PDO::FETCH_ASSOC);
+        if (empty($data))
+            return ("ERR");
+        else
+        {
+            $req = self::$_bdd->prepare("UPDATE user
+                                    SET passwd = $new
+                                    WHERE idUsr = '$idUsr'");
+        }
+        $req->closeCursor();
     }
 }

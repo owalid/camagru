@@ -20,12 +20,24 @@ Class ControllerLogin
     
     private function userLogin()
     {
-        $this->_view = new View('Login');
-        $this->_view->generate(array('login' => NULL));
+        session_start();
+        if ($_SESSION)
+        {
+            $this->_imageManager = new ImageManager();
+            $images = $this->_imageManager->getImages();
+            $this->_view = new View('Accueil');
+            $this->_view->generate(array('images' => $images));
+        }
+        else
+        {
+            $this->_view = new View('Login');
+            $this->_view->generate(array('login' => NULL));
+        }
     }
 
     public function userReqLogin()
     {
+      
 		$this->_userManager = new UserManager();
         $user = $this->_userManager->log();
         

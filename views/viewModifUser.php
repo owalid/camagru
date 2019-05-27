@@ -1,3 +1,24 @@
+<?php
+		if ($msg)
+		{?>
+		<article class="message is-success text-center">
+		<div class="message-body">
+			<?= $msg ?>
+		</div>
+		</article>
+		<?php
+		}
+		if ($err)
+		{
+			?>
+			<article class="message is-danger text-center">
+		<div class="message-body">
+			<?= $err ?>
+		</div>
+		</article>
+		<?php
+		}
+		?>
 <div class="container">
     <div class="hero is-medium is-bold">
         <div class="hero-body">
@@ -13,70 +34,74 @@
 						session_start();
 						?>
 						<div id="modif">
-							<div class="field">
-								<label class="label">Login</label>
-								<div class="control">
-									<input class="input" type="text" placeholder="Text input" value=<?= $_SESSION['user']['login']?>>
-								</div>
-							</div>
-							<div class="field">
-								<label class="label">Email</label>
-								<div class="control has-icons-left has-icons-right">
-									<input class="input" type="email" placeholder="Email input" value="<?= $_SESSION['user']['email']?>">
-									<span class="icon is-small is-left">
-										<i class="fas fa-envelope"></i>
-									</span>
-								</div>
-							</div>
-							<div class="field">
-								<label class="label">Bio</label>
-								<div class="control">
-									<textarea class="textarea" placeholder="Textarea"><?= $_SESSION['user']['bio']?></textarea>
-								</div>
-							</div>
-							<div class="field is-grouped">
-								<div class="control">
-									<button class="button is-primary">Submit</button>
-								</div>
-							</div>
+							<form action="<?=URL?>?url=modifUser&modif=yes" method="post">
+									<div class="field">
+										<label class="label">Login</label>
+										<div class="control">
+											<input class="input" type="text" name="login" placeholder="Text input" value=<?= $_SESSION['user']->getLogin()?>>
+										</div>
+									</div>
+									<div class="field">
+										<label class="label">Email</label>
+										<div class="control has-icons-left has-icons-right">
+											<input class="input" type="email" name="email" placeholder="Email input" value="<?= $_SESSION['user']->getEmail()?>">
+											<span class="icon is-small is-left">
+												<i class="fas fa-envelope"></i>
+											</span>
+										</div>
+									</div>
+									<div class="field">
+										<label class="label">Bio</label>
+										<div class="control">
+											<textarea class="textarea" name="bio" placeholder="Textarea"><?= $_SESSION['user']->getBio()?></textarea>
+										</div>
+									</div>
+									<div class="field is-grouped">
+										<div class="control">
+											<button class="button is-primary" type="submit">Modif</button>
+										</div>
+									</div>
+								</form>
 					</div>
 					<div id="passwd" style="display:none;">
-						<div class="field">
-							<p class="control has-icons-left">
-								<input class="input" type="password" placeholder="Old password">
-								<span class="icon is-small is-left">
-									<i class="fas fa-lock"></i>
-								</span>
-							</p>
-						</div>
-						<div class="field">
-							<p class="control has-icons-left">
-								<input class="input" type="password" placeholder="New Password">
-								<span class="icon is-small is-left">
-									<i class="fas fa-lock"></i>
-								</span>
-							</p>
-						</div>
-						<div class="field">
-							<p class="control has-icons-left">
-								<input class="input" type="password" placeholder="New Password">
-								<span class="icon is-small is-left">
-									<i class="fas fa-lock"></i>
-								</span>
-							</p>
-						</div>
-						<div class="field is-grouped">
-							<div class="control">
-								<button class="button is-primary">Submit</button>
+						<form action="<?=URL?>?url=ModifUser&passwd=yes" method="post">
+								<div class="field">
+									<p class="control has-icons-left">
+										<input class="input" type="password" name="old" placeholder="Old password">
+										<span class="icon is-small is-left">
+											<i class="fas fa-lock"></i>
+										</span>
+									</p>
+								</div>
+								<div class="field">
+									<p class="control has-icons-left">
+										<input class="input" type="password" name="new" placeholder="New Password">
+										<span class="icon is-small is-left">
+											<i class="fas fa-lock"></i>
+										</span>
+									</p>
+								</div>
+								<div class="field">
+									<p class="control has-icons-left">
+										<input class="input" type="password" placeholder="New Password">
+										<span class="icon is-small is-left">
+											<i class="fas fa-lock"></i>
+										</span>
+									</p>
+								</div>
+								<div class="field is-grouped">
+									<div class="control">
+										<button class="button is-primary" type="submit">Modifier</button>
+									</div>
+								</div>
+							</form>
 							</div>
 						</div>
-					</div>
-                    </div>
-            </article>
-        </div>
-    </div>
-</div>
-<script>
+					</article>
+				</div>
+			</div>
+		</div>
+		<script>
 var tab_photos = document.getElementById('tab_modif');
 	var tab_enr = document.getElementById('tab_passwd');
 	var tab_enr_content = document.getElementById('passwd');

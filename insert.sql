@@ -13,7 +13,7 @@ CREATE TABLE User(
         email      Varchar (90) NOT NULL UNIQUE,
         passwd     Varchar (516) NOT NULL ,
         hash       Varchar (516) NOT NULL ,
-        isLiked    Bool NOT NULL DEFAULT false ,
+        isVerif    Bool NOT NULL DEFAULT false ,
         bio        Varchar (516) NOT NULL ,
         pp         MEDIUMTEXT NOT NULL
 	,CONSTRAINT User_PK PRIMARY KEY (idUsr)

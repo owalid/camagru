@@ -1,7 +1,14 @@
 <?php
 session_start();
-// var_dump($_SESSION['user']->getPp();
-// die();
+if ($msg)
+{?>
+<article class="message is-success text-center">
+<div class="message-body">
+    <?= $msg ?>
+</div>
+</article>
+<?php
+}
 ?>
 <div class="container">
         <!-- card User -->

@@ -47,4 +47,17 @@ class UserManager extends Model
         $this->getBdd();
         return ($this->verifMail());
     }
+
+    public function modifUserInfo()
+    {
+
+        $this->getBdd();
+        return ($this->modifUsr());
+    }
+    
+    public function modifUserPasswd()
+    {
+        $this->getBdd();
+        return ($this->modifpasswd());
+    }
 }
