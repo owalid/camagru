@@ -17,6 +17,18 @@ abstract class Model
         return self::$_bdd;
     }
 
+    protected function getUsrPhoto($idImg)
+    {
+        $req = self::$_bdd->prepare("SELECT user.email, user.login
+                                    FROM user, image
+                                    WHERE user.idUsr = image.idUsr
+                                    AND image.idImg = '$idImg'");
+        $req->execute();
+        $data = $req->fetch(PDO::FETCH_ASSOC);
+        return ($data);
+        $req->closeCursor();
+    }
+
     protected function getAllPicture($table, $obj)
     {
         $var = [];
@@ -45,12 +57,12 @@ abstract class Model
         $bio = $argv['bio'];
         $req = self::$_bdd->prepare("INSERT INTO user (login, passwd, email, pp, bio, hash)
         VALUES ('$login', '$passwd', '$email', '$pp', '$bio', '$hash')");
-        $this->sendMail($email, $login, $hash);
+        $this->sendMailVerif($email, $login, $hash);
         $req->execute();
         $req->closeCursor();
     }
     
-    protected function sendMail($email, $login, $hash)
+    protected function sendMailVerif($email, $login, $hash)
     {
         $to      = $email; // Send email to our user
         $subject = 'Signup | Verification'; // Give the email a subject 
@@ -78,6 +90,33 @@ abstract class Model
         '; // Our message above including the link
                             
         $headers = 'From:noreply@camagru.com' . "\r\n"; // Set from headers
+        mail($to, $subject, $message, $headers);
+    }
+
+    protected function sendMailLikeCom($email, $loginUsrLiked, $loginUsrLike, $likeCom)
+    {
+        $to      = $email; // Send email to our user
+        $subject = 'Signup | Verification'; // Give the email a subject 
+        $message = '
+        
+         _____                                              
+        /  __ \                                             
+        | /  \/  __ _  _ __ ___    __ _   __ _  _ __  _   _ 
+        | |     / _  ||  _   _ \  / _  | / _  | __ | | | |
+        | \__/\| (_| || | | | | || (_| || (_| || |   | |_| |
+         \____/ \__,_||_| |_| |_| \__,_| \__, ||_|    \__,_|
+                                          __/ |             
+                                         |___/              
+        
+        
+        ------------------------
+
+        Coucou ' . $loginUsrLiked .
+        
+        $loginUsrLike . ' à ' . $likeCom . ' votre photo
+        ------------------------';
+                            
+        $headers = 'From:noreply@camagru.com' . "\r\n";
         mail($to, $subject, $message, $headers);
     }
 
@@ -210,6 +249,9 @@ abstract class Model
             $req->execute([':commentaire' => $commentaire,
             ':idImg' => $idImg,
             ':idUsr' => $usr]);
+            $userLiked = $this->getUsrPhoto($idImg);
+            $this->sendMailLikeCom($userLiked['email'], $userLiked['login'],
+                                        $_SESSION['user']->getLogin(), "commenté");
             $req->closeCursor();
         }
     }
@@ -261,6 +303,8 @@ abstract class Model
                 $req = self::$_bdd->prepare("INSERT INTO `Like` (idUsr, idImg, isLiked)
                                         VALUES ('$idUsr', '$idImg', true)");
                 $req->execute();
+                $userLiked = $this->getUsrPhoto($idImg);
+                $this->sendMailLikeCom($userLiked['email'], $userLiked['login'], $_SESSION['user']->getLogin(), "liké");
                 $req->closeCursor();
             }
             else
@@ -363,7 +407,7 @@ abstract class Model
         $_SESSION['user'] = $user;
         if ($newEmail == 0 && $hash != $verifEmail['hash'])
         {
-            $this->sendMail($user->getEmail(), $user->getLogin(), $hash);
+            $this->sendMailVerif($user->getEmail(), $user->getLogin(), $hash);
             return ("NEW");
         }
         return NULL;
