@@ -445,10 +445,22 @@ abstract class Model
         session_start();
         $idUsr = $_SESSION['user']->getIdUsr();
         $idImg = $_GET['idImg'];
-        $req = self::$_bdd->prepare("INSERT INTO ImgSaver (idUsr, idImg)
+        $verif = self::$_bdd->prepare("SELECT *
+                                    FROM ImgSaver as s
+                                    WHERE s.idUsr = '$idUsr'
+                                    AND s.idImg = '$idImg'");
+        $verif->execute();
+        $ret = $verif->fetch(PDO::FETCH_ASSOC);
+        if (empty($ret))
+        {
+            $req = self::$_bdd->prepare("INSERT INTO ImgSaver (idUsr, idImg)
                                     VALUES (:idUsr, :idImg)");
-        $req->execute([':idUsr' => $idUsr, ':idImg' => $idImg]);
-        $req->closeCursor();
+            $req->execute([':idUsr' => $idUsr, ':idImg' => $idImg]);
+            $req->closeCursor();
+        }
+        else
+            return ("ERR");
+        $verif->closeCursor();
     }
 
     public function getImgSave()

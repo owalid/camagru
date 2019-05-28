@@ -37,6 +37,6 @@ class ImageManager extends Model
     public function saveImg()
     {
         $this->getBdd();
-        $this->saveImage();
+        return ($this->saveImage());
     }
 }

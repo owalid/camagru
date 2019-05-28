@@ -53,10 +53,14 @@ Class ControllerImage
     private function save()
     {
         $this->_image = new ImageManager();
-        $this->_image->saveImg();
+        $res = $this->_image->saveImg();
         $images = $this->_image->getImages();
         $this->_view = new View('Accueil');
-        $this->_view->generate(array('images' => $images));
+        if ($res == "ERR")
+        $this->_view->generate(array('images' => $images, 'err' => "Photo deja dans vos enrengistrement"));
+        else
+        $this->_view->generate(array('images' => $images, 'msg' => "Photo ajouté a vos enrengistrement avec succées"));
+
     }
 
     private function sendLike()

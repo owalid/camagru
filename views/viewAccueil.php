@@ -3,11 +3,6 @@
 	{
 		session_start();
         $_SESSION['user'] = $user;
-		// var_dump($user);
-		// die();
-		// session_start();
-		// var_dump($_SESSION['user']);
-		// die();
 	}
 	if ($images)
 	{
