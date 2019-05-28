@@ -439,4 +439,35 @@ abstract class Model
         }
         $req->closeCursor();
     }
+
+    public function saveImage()
+    {
+        session_start();
+        $idUsr = $_SESSION['user']->getIdUsr();
+        $idImg = $_GET['idImg'];
+        $req = self::$_bdd->prepare("INSERT INTO ImgSaver (idUsr, idImg)
+                                    VALUES (:idUsr, :idImg)");
+        $req->execute([':idUsr' => $idUsr, ':idImg' => $idImg]);
+        $req->closeCursor();
+    }
+
+    public function getImgSave()
+    {
+        $res = [];
+        session_start();
+        $idUsr = $_SESSION['user']->getIdUsr();
+
+        $req = self::$_bdd->prepare("SELECT *
+                                    FROM ImgSaver as s, Image
+                                    WHERE s.idUsr = '$idUsr'
+                                    AND s.idImg = Image.idImg");
+        $req->execute();
+        while ($data = $req->fetch(PDO::FETCH_ASSOC))
+        {
+            $nbLike = $this->getNbLike($data['idImg']);
+            $res[] = new Image($data, $nbLike);
+        }
+        return $res;
+        $req->closeCursor();
+    }
 }

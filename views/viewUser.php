@@ -64,15 +64,24 @@ if ($msg)
                                     $imgUsr = $_SESSION['user']->getUserImages();
                                     if ($imgUsr)
                                     {
+                                        $i = 0;
                                         foreach($imgUsr as $img)
                                         {
-                                            ?>
-                                    <div class="column is-5">
+                                            if ($i % 3 == 0)
+                                            {
+                                                ?>
+                                            </div>
+                                            <div class="columns is-centered">
+                                        <?php
+                                            }
+                                            ?> 
+                                    <div class="column is-3">
                                         <div class="padding-20-bottom">
                                             <img class="image" src="<?= $img->getImg()?>">
                                         </div>
                                     </div>
                                     <?php
+                                    $i++;
                                     }
                                 }
                                 else
@@ -89,46 +98,44 @@ if ($msg)
                                 }
                                 ?>
 							</div>
-							<!-- Enrengistrement -->
+								<!-- Enrengistrement -->
                             <div class="container" id="enr" style="display:none">
-                                <div class="columns is-3 is-mobile is-multiline">
-                                    <div class="column">
-										<p>coucouc</p>
-                                        <div>
-                                        <div class="hovereffect padding-20-bottom">
-                                                <img src="https://bulma.io/images/placeholders/320x480.png">
+                            <div class="columns is-centered">
+                                    <?php
+                                     $imgSaveUsr = $_SESSION['user']->getUserSaveImages();
+                                    if ($imgSaveUsr)
+                                    {
+                                        $i = 0;
+                                        foreach($imgSaveUsr as $save)
+                                        {
+                                            if ($i % 3 == 0)
+                                            {
+                                                ?>
+                                            </div>
+                                            <div class="columns is-centered">
+                                                <?php
+                                            }?> 
+                                        <div class="column is-3">
+                                            <div class="padding-20-bottom">
+                                                <img class="image" src="<?= $save->getImg()?>">
                                             </div>
                                         </div>
-                                        <div>
+                                        <?php
+                                        $i++;
+                                        }
+                                    }
+                                    else
+                                    {   
+                                        ?>
+                                        </div>
+                                        <div class="column">
                                             <div class="hovereffect padding-20-bottom">
-                                            <img src="https://bulma.io/images/placeholders/320x480.png">
+                                                <p>Pas encore de photos🤷‍♂️</p>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="column">
-                                        <div>
-                                        <div class="hovereffect padding-20-bottom">
-                                                <img src="https://bulma.io/images/placeholders/320x480.png">
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div class="hovereffect padding-20-bottom">
-                                            <img src="https://bulma.io/images/placeholders/320x480.png">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="column">
-                                        <div>
-                                            <div class="hovereffect padding-20-bottom">
-                                            <img src="https://bulma.io/images/placeholders/320x480.png">
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div class="hovereffect padding-20-bottom">
-                                            <img src="https://bulma.io/images/placeholders/320x480.png">
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <?php
+                                    }
+                                    ?>
                                 </div>
                             </div>
                         </div>

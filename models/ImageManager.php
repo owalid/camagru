@@ -33,4 +33,10 @@ class ImageManager extends Model
         $this->getBdd();
         return ($this->sendLike($idImg));
     }
+
+    public function saveImg()
+    {
+        $this->getBdd();
+        $this->saveImage();
+    }
 }

@@ -63,6 +63,13 @@ class User
         return $user_manager->getPicUsr($this->getIdUsr());
     }
 
+    public function getUserSaveImages()
+    {
+        $user_manager = new UserManager;
+        return $user_manager->getSave();
+
+    }
+
 // GETTER AND SETTER
 	public function getIdUsr()
 	{

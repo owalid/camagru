@@ -6,6 +6,7 @@ Class ControllerImage
     private $_image;
     private $_commentaire;
     private $_like;
+    private $_save;
     private $_view;
 
     public function __construct($url)
@@ -18,6 +19,8 @@ Class ControllerImage
         }
         else if ($_GET['comment'] == 'yes')
             $this->comment();
+        else if ($_GET['save'] == 'yes')
+            $this->save();
         else
             $this->image();
     }
@@ -45,6 +48,15 @@ Class ControllerImage
             $this->_view = new View('Accueil');
             $this->_view->generate(array('images' => $images));
         }
+    }
+
+    private function save()
+    {
+        $this->_image = new ImageManager();
+        $this->_image->saveImg();
+        $images = $this->_image->getImages();
+        $this->_view = new View('Accueil');
+        $this->_view->generate(array('images' => $images));
     }
 
     private function sendLike()

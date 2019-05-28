@@ -74,12 +74,17 @@
                                                     <span class="icon has-text-danger is-small">
                                                         <i class="fas fa-heart"></i>
                                                     </span>
-                                                </a>
+                                                    </a>
                                                     <a class="button is-rounded" href="#comment<?=$img->getIdImg()?>">
                                                     <span class="icon is-small">
                                                         <i class="fas fa-comment-alt"></i>
                                                     </span>
-                                                </a>
+                                                    </a>
+                                                    <a class="button is-rounded" href="<?=URL?>?url=image&save=yes&idImg=<?=$img->getIdimg()?>">
+                                                    <span class="icon is-small">
+                                                        <i class="fas fa-bookmark"></i>
+                                                    </span>
+                                                    </a>
                                                </div>
                                                     <p class="has-text-weight-semibold">Aimé par <?=$img->getNbLike()?> personnes</p>
                                             <p><span class="has-text-weight-semibold"><?= $usr->getLogin() ?></span>: <?= $img->getDescription()?></p>

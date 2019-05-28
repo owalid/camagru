@@ -42,6 +42,13 @@ class UserManager extends Model
         return ($this->getUsrImages($idUsr));
     }
 
+    public function getSave()
+    {
+        $this->getBdd();
+ 
+        return ($this->getImgSave());
+    }
+
     public function verifUsr()
     {
         $this->getBdd();

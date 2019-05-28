@@ -1,30 +1,34 @@
 
     <section class="container padding-100-top">
 	<form method="post" id="formRegister" action="<?=URL?>?url=takePicture&submit=OK" onSubmit="prepareImg();">
-        <div class="columns">
-            <div class="column">
-				<video id="video"></video>
-				<canvas id="canvas"></canvas>
-				<canvas id='blank' style='display:none'></canvas>
-					<button id="take_pic" class="button is-primary">Prendre une photo</button>
-					<div class="file has-name is-primary">
-						<label class="file-label ">
-							<input class="file-input" type="file" id="import_file" name="resume">
-							<span class="file-cta">
+           
+				<div class="columns is-centered is-vcentered">
+					<div class="column is-6">
+						<video id="video"></video>
+					</div>
+					<div class="column">
+						<canvas id="canvas"></canvas>
+						<canvas id='blank' style='display:none'></canvas>
+					</div>
+				</div>
+				<button id="take_pic" class="button is-primary">Prendre une photo</button>
+				<div class="file has-name is-primary">
+					<label class="file-label ">
+						<input class="file-input" type="file" id="import_file" name="resume">
+						<span class="file-cta">
 							<span class="file-icon">
 								<i class="fas fa-upload"></i>
 							</span>
 							<span class="file-label is-primary">
 								Choisir une image
 							</span>
-							</span>
-							<span class="file-name" id="file_name">
-								Aucune image importée
-							</span>
-						</label>
-                    </div>
-                </div>
-            </div>
+						</span>
+						<span class="file-name" id="file_name">
+							Aucune image importée
+						</span>
+					</label>
+				</div>
+		<div class="columns">
             <div class="column">
 			<div class="container" id="filter" style='display:none'>
 				<div class="columns is-3 is-mobile is-multiline">

@@ -67,11 +67,19 @@
                                 <i class="fas fa-lock"></i>
                             </span>
                         </p>
-					</div>
-					<video id="video"></video>
-				<canvas id="canvas"></canvas>
-				<canvas id='blank' style='display:none'></canvas>
-				<div class="columns is-centered is-vcentere">
+                    </div>
+                    <div class="field">
+                        <div class="columns is-centered is-vcentered">
+                            <div class="column is-6">
+                                <video id="video"></video>
+                            </div>
+                            <div class="column">
+                                <canvas id="canvas"></canvas>
+                                <canvas id='blank' style='display:none'></canvas>
+                            </div>
+                        </div>
+                    </div>
+				<div class="columns is-centered is-vcentered">
 					<div class="column">
 						<button id="take_pic" class="button is-primary">Prendre une photo</button>
 					</div>
