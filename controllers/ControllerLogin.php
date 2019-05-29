@@ -21,7 +21,7 @@ Class ControllerLogin
     private function userLogin()
     {
         session_start();
-        if ($_SESSION)
+        if ($_SESSION['user'])
         {
             $this->_imageManager = new ImageManager();
             $images = $this->_imageManager->getImages();

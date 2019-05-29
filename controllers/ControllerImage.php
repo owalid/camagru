@@ -39,7 +39,7 @@ Class ControllerImage
         if ($err == "LOGIN")
         {
             $this->_view = new View('Login');
-            $this->_view->generate(array('err' => "Vous devez vous connecté pour pouvoir commentez"));
+            $this->_view->generate(array('err' => "Vous devez vous connecté pour pouvoir commenté une photo"));
         }
         else
         {
@@ -52,15 +52,23 @@ Class ControllerImage
 
     private function save()
     {
-        $this->_image = new ImageManager();
-        $res = $this->_image->saveImg();
-        $images = $this->_image->getImages();
-        $this->_view = new View('Accueil');
-        if ($res == "ERR")
-        $this->_view->generate(array('images' => $images, 'err' => "Photo deja dans vos enrengistrement"));
+        session_start();
+        if ($_SESSION['user'] == NULL)
+        {
+            $this->_view = new View('Login');
+            $this->_view->generate(array('err' => "Vous devez vous connecté pour pouvoir enrengistré une photo"));
+        }
         else
-        $this->_view->generate(array('images' => $images, 'msg' => "Photo ajouté a vos enrengistrement avec succées"));
-
+        {   
+            $this->_image = new ImageManager();
+            $images = $this->_image->getImages();
+            $res = $this->_image->saveImg();
+            $this->_view = new View('Accueil');
+            if ($res == "ERR")
+               $this->_view->generate(array('images' => $images, 'err' => "Photo deja dans vos enrengistrement"));
+            else
+                $this->_view->generate(array('images' => $images, 'msg' => "Photo ajouté a vos enrengistrement avec succées"));
+        }   
     }
 
     private function sendLike()
@@ -71,7 +79,7 @@ Class ControllerImage
         if ($err == "LOGIN")
         {
             $this->_view = new View('Login');
-            $this->_view->generate(array('err' => "Vous devez vous connecté pour pouvoir commentez"));
+            $this->_view->generate(array('err' => "Vous devez vous connecté pour pouvoir liké"));
         }
         else 
         {

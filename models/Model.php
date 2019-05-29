@@ -8,6 +8,7 @@ abstract class Model
     {
         self::$_bdd = new PDO('mysql:host=localhost;dbname=camagru;charset:utf8mb4_unicode_ci', 'root', 'root');
         self::$_bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        self::$_bdd->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
     }
 
     protected function getBdd()
@@ -92,6 +93,36 @@ abstract class Model
         '; // Our message above including the link
                             
         $headers = 'From:noreply@camagru.com' . "\r\n"; // Set from headers
+        mail($to, $subject, $message, $headers);
+    }
+
+    protected function sendMailReset($email, $hash)
+    {
+        $to      = $email; // Send email to our user
+        $subject = 'Reset | Passwd'; // Give the email a subject 
+        $message = '
+        
+         _____                                              
+        /  __ \                                             
+        | /  \/  __ _  _ __ ___    __ _   __ _  _ __  _   _ 
+        | |     / _  ||  _   _ \  / _  | / _  | __ | | | |
+        | \__/\| (_| || | | | | || (_| || (_| || |   | |_| |
+         \____/ \__,_||_| |_| |_| \__,_| \__, ||_|    \__,_|
+                                          __/ |             
+                                         |___/              
+        
+        
+        ------------------------
+
+        Please click this link to reset your password:
+        '. URL .'?url=forgotPasswdForm&email='. $email . '&hash=' . $hash . '
+        
+        ------------------------
+        
+        
+        '; 
+                            
+        $headers = 'From:noreply@camagru.com' . "\r\n";
         mail($to, $subject, $message, $headers);
     }
 
@@ -504,5 +535,56 @@ abstract class Model
        
         return $res;
         $req->closeCursor();
+    }
+
+    public function sendMailResetPasswd()
+    {
+        // $res = [];
+        $email = $_POST['email'];
+        $hash = md5(rand(0,10000));
+        $req = self::$_bdd->prepare("SELECT *
+        FROM user 
+        WHERE email = '$email'");
+        $req->execute();
+        $data = $req->fetch(PDO::FETCH_ASSOC);
+        if ($data == NULL)
+            return "MAIL";
+        else if ($data['isVerif'] == '0')
+            return "VERIF";
+        else
+        {
+            $req = self::$_bdd->prepare("UPDATE user 
+                                        set hash = :hash
+                                        WHERE email = :email");
+            $req->execute([':hash' => $hash, ':email' => $email]);
+           $this->sendMailReset($email, $hash);
+        }
+    }
+
+    public function resetPasswd()
+    {
+        $passwd1 =  hash("SHA512", $_POST['passwd1']);
+        $passwd2 =  hash("SHA512", $_POST['passwd2']);
+        if ($passwd1 != $passwd2)
+            return "Les mots de passes de correspondent pas";
+        $email = $_POST['email'];
+        $hash = $_POST['hash'];
+        $req = self::$_bdd->prepare("SELECT *
+        FROM user 
+        WHERE email = '$email'
+        AND hash = '$hash'");
+        $req->execute();
+        $data = $req->fetch(PDO::FETCH_ASSOC);
+        if ($data == NULL)
+            return "ERR";
+        else
+        {
+            $req = self::$_bdd->prepare("UPDATE user
+            SET passwd = :passwd,
+                hash = ''
+            WHERE email = :email");
+            $req->execute([':passwd' => $passwd1, ':email' => $email]);
+            return "OK";
+        }
     }
 }
