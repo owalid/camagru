@@ -62,7 +62,7 @@
                                     <div class="columns">
                                         <div class="column">
                                             <figure class="image">
-                                                <img src="<?=$img->getImg()?>">
+                                                <img ondblclick="like(<?= $img->getIdImg()?>)" src="<?=$img->getImg()?>">
                                             </figure>
                                                 <div class="buttons is-centered is-vcentered padding-10-top">
                                                     <a class="button is-rounded" href="<?=URL?>?url=image&like=yes&idImg=<?=$img->getIdimg()?>">
@@ -75,7 +75,7 @@
                                                         <i class="fas fa-comment-alt"></i>
                                                     </span>
                                                     </a>
-                                                    <a class="button is-rounded" href="<?=URL?>?url=image&save=yes&idImg=<?=$img->getIdimg()?>">
+                                                    <a class="button is-rounded" href="<?=URL?>?url=image&save=yes&idImg=<?=$img->getIdImg()?>">
                                                     <span class="icon is-small">
                                                         <i class="fas fa-bookmark"></i>
                                                     </span>
@@ -148,3 +148,10 @@
     <?php
     }
     ?>
+
+<script>
+    function like(idImg)
+    {
+        window.location.href = "<?=URL?>?url=image&like=yes&idImg=" + idImg;
+    }
+</script>

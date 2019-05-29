@@ -83,6 +83,10 @@ if ($msg)
                                     <?php
                                     $i++;
                                     }
+                                    if ($i % 3 != 0)
+                                    ?>
+                                    </div>
+                                    <?php
                                 }
                                 else
                                 {
@@ -123,11 +127,14 @@ if ($msg)
                                         <?php
                                         $i++;
                                         }
+                                        if ($i % 3 != 0)
+                                        ?>
+                                        </div>
+                                        <?php
                                     }
                                     else
                                     {   
                                         ?>
-                                        </div>
                                         <div class="column">
                                             <div class="hovereffect padding-20-bottom">
                                                 <p>Pas encore de photos🤷‍♂️</p>

@@ -148,14 +148,16 @@ class User
      */ 
     public function getPp()
     {
+        if (empty($this->_pp))
+            return IMG . "default.png";
         return $this->_pp;
     }
 
    
     public function setPp(string $_pp)
     {
-        if (empty($_pp))
-            $this->_pp = URL . "/img/default";
+        if (empty($this->_pp))
+            $this->_pp = IMG . "default.png";
         else
             $this->_pp = $_pp;
         return $this;

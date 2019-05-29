@@ -6,7 +6,7 @@ class ImageManager extends Model
     {
 
         $this->getBdd();
-        return $this->getAllPicture('Image', 'Image');
+        return $this->getAllPicture();
     }
 
     public function sendImage()

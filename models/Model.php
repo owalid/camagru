@@ -29,15 +29,17 @@ abstract class Model
         $req->closeCursor();
     }
 
-    protected function getAllPicture($table, $obj)
+    protected function getAllPicture()
     {
         $var = [];
-        $req = self::$_bdd->prepare('SELECT * FROM ' . $table);
+        $req = self::$_bdd->prepare('SELECT * 
+                                    FROM Image
+                                    ORDER BY idImg DESC');
         $req->execute();
         while ($data = $req->fetch(PDO::FETCH_ASSOC))
         {
             $nbLike = $this->getNbLike($data['idImg']);
-            $var[] = new $obj($data, $nbLike);
+            $var[] = new Image($data, $nbLike);
         }
         return $var;
         $req->closeCursor();
@@ -499,6 +501,7 @@ abstract class Model
             $nbLike = $this->getNbLike($data['idImg']);
             $res[] = new Image($data, $nbLike);
         }
+       
         return $res;
         $req->closeCursor();
     }
