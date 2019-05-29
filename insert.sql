@@ -14,6 +14,8 @@ CREATE TABLE User(
         passwd     Varchar (516) NOT NULL ,
         hash       Varchar (516) NOT NULL ,
         isVerif    Bool NOT NULL DEFAULT false ,
+        notifCom   Bool NOT NULL DEFAULT true ,
+        notifLike  Bool NOT NULL DEFAULT true ,
         bio        Varchar (516) NOT NULL ,
         pp         MEDIUMTEXT NOT NULL
 	,CONSTRAINT User_PK PRIMARY KEY (idUsr)

@@ -35,6 +35,21 @@ class User
      * @var string
      */
     private $_pp;
+
+    /**
+     * notifCom
+     *
+     * @var string
+     */
+    private $_notifCom;
+
+    /**
+     * notifLike
+     *
+     * @var string
+     */
+    private $_notifLike;
+
     /**
      * bio
      *
@@ -156,6 +171,54 @@ class User
     public function setBio(string $_bio)
     {
         $this->_bio = $_bio;
+
+        return $this;
+    }
+
+    /**
+     * Get notifCom
+     *
+     * @return  string
+     */ 
+    public function getNotifCom()
+    {
+        return $this->_notifCom;
+    }
+
+    /**
+     * Set notifCom
+     *
+     * @param  string  $_notifCom  notifCom
+     *
+     * @return  self
+     */ 
+    public function setNotifCom(string $_notifCom)
+    {
+        $this->_notifCom = $_notifCom;
+
+        return $this;
+    }
+
+    /**
+     * Get notifLike
+     *
+     * @return  string
+     */ 
+    public function getNotifLike()
+    {
+        return $this->_notifLike;
+    }
+
+    /**
+     * Set notifLike
+     *
+     * @param  string  $_notifLike  notifLike
+     *
+     * @return  self
+     */ 
+    public function setNotifLike(string $_notifLike)
+    {
+        $this->_notifLike = $_notifLike;
 
         return $this;
     }

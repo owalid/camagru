@@ -67,4 +67,10 @@ class UserManager extends Model
         $this->getBdd();
         return ($this->modifpasswd());
     }
+
+    public function modifUserNotif()
+    {
+        $this->getBdd();
+        return ($this->modifNotif());
+    }
 }

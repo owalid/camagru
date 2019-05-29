@@ -11,11 +11,11 @@ Class ControllerModifUser
         if (isset($url) && count($url) > 1)
         throw new Exception("Page introuvable", 1);
         else if($_GET['modif'] == "yes")
-        {
             $this->modifInfoUser();
-        }
         else if ($_GET['passwd'] == "yes")
             $this->modifPasswd();
+        else if ($_GET['notif'] == "yes")
+            $this->modifNotif();
         else
             $this->modifUser();
     }
@@ -77,5 +77,13 @@ Class ControllerModifUser
             $this->_view = new View('User');
             $this->_view->generate(array('User' => NULL));
         }
+    }
+
+    private function modifNotif()
+    {
+        $this->_userManager = new UserManager();
+        $res = $this->_userManager->modifUserNotif();
+        $this->_view = new View('User');
+        $this->_view->generate(array('User' => NULL));
     }
 }

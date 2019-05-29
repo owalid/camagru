@@ -27,7 +27,8 @@
                         <div class="tabs">
                             <ul>
                                 <li class="is-active" id="tab_modif"><a>Modifier le profil</a></li>
-                                <li id="tab_passwd"><a>Changer de mot de passe</a></li>
+								<li id="tab_passwd"><a>Changer de mot de passe</a></li>
+								<li id="tab_notif"><a>Notif</a></li>
                             </ul>
 						</div>
 						<?php
@@ -64,6 +65,7 @@
 								</form>
 					</div>
 					<div id="passwd" style="display:none;">
+
 						<form action="<?=URL?>?url=ModifUser&passwd=yes" method="post">
 								<div class="field">
 									<p class="control has-icons-left">
@@ -96,31 +98,80 @@
 								</div>
 							</form>
 							</div>
+						<div id="notif" style="display:none">
+							<form action="<?=URL?>?url=ModifUser&notif=yes" method="post">
+									<div class="field">
+										<label class="checkbox">
+											Notification commentaire:
+											<input id="inputCom" class="checkbox" type="checkbox" name="com" value="<?=(bool)$_SESSION['user']->getNotifLike()?>">
+										</label>
+									</div>
+									<div class="field">
+											<label class="checkbox">
+												Notification like:
+												<input id="inputLike" class="checkbox" type="checkbox" name="like" value="<?=(bool)$_SESSION['user']->getNotifLike()?>">
+											</label>
+										</p>
+									</div>
+									<div class="field is-grouped">
+										<div class="control">
+											<button class="button is-primary" type="submit">Modif</button>
+										</div>
+									</div>
+							</form>
+						</div>
 						</div>
 					</article>
 				</div>
 			</div>
 		</div>
-		<script>
-var tab_photos = document.getElementById('tab_modif');
-	var tab_enr = document.getElementById('tab_passwd');
-	var tab_enr_content = document.getElementById('passwd');
-	var tab_photos_content = document.getElementById('modif');
+<script>
+	//							MODIF
+	var tab_modif = document.getElementById('tab_modif');
+	var tab_modif_content = document.getElementById('modif');
+	//							PASSWD
+	var tab_passwd = document.getElementById('tab_passwd');
+	var tab_passwd_content = document.getElementById('passwd');
+	//							NOTIF
+	var tab_notif = document.getElementById('tab_notif');
+	var tab_notif_content = document.getElementById('notif');
 	
-	tab_photos.addEventListener('click', photo_to_enr);
-	tab_enr.addEventListener('click', enr_to_photo);
+	tab_modif.addEventListener('click', modif);
+	tab_passwd.addEventListener('click', passwd);
+	tab_notif.addEventListener('click', notif);
 	
-	function photo_to_enr(e) {
-		tab_photos.classList.add('is-active');
-		tab_enr.classList.remove('is-active');
-		tab_enr_content.style.display = 'none';
-		tab_photos_content.style.display = '';
+	function modif(e) {
+		tab_modif.classList.add('is-active');
+		tab_passwd.classList.remove('is-active');
+		tab_notif.classList.remove('is-active');
+		tab_passwd_content.style.display = 'none';
+		tab_notif_content.style.display = 'none';
+		tab_modif_content.style.display = '';
 	}
 	
-	function enr_to_photo(e) {
-		tab_enr.classList.add('is-active');
-		tab_photos.classList.remove('is-active');
-		tab_enr_content.style.display = '';
-		tab_photos_content.style.display = 'none';
+	function passwd(e) {
+		tab_passwd.classList.add('is-active');
+		tab_modif.classList.remove('is-active');
+		tab_notif.classList.remove('is-active');
+		tab_passwd_content.style.display = '';
+		tab_modif_content.style.display = 'none';
+		tab_notif_content.style.display = 'none';
 	}
+
+	function notif(e) {
+		var inputCom = document.getElementById('inputCom');
+		var inputLike = document.getElementById('inputLike');
+		if (inputCom.value == true)
+			inputCom.checked = true;
+		if (inputLike.value == true)
+			inputLike.checked = true;
+		tab_notif.classList.add('is-active');
+		tab_passwd.classList.remove('is-active');
+		tab_modif.classList.remove('is-active');
+		tab_notif_content.style.display = '';
+		tab_modif_content.style.display = 'none';
+		tab_passwd_content.style.display = 'none';
+	}
+
+
 </script>

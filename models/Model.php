@@ -19,7 +19,7 @@ abstract class Model
 
     protected function getUsrPhoto($idImg)
     {
-        $req = self::$_bdd->prepare("SELECT user.email, user.login
+        $req = self::$_bdd->prepare("SELECT user.email, user.login, user.notifCom, user.notifLike
                                     FROM user, image
                                     WHERE user.idUsr = image.idUsr
                                     AND image.idImg = '$idImg'");
@@ -111,7 +111,7 @@ abstract class Model
         
         ------------------------
 
-        Coucou ' . $loginUsrLiked .
+        Coucou ' . $loginUsrLiked . "\n" .
         
         $loginUsrLike . ' à ' . $likeCom . ' votre photo
         ------------------------';
@@ -249,10 +249,12 @@ abstract class Model
             $req->execute([':commentaire' => $commentaire,
             ':idImg' => $idImg,
             ':idUsr' => $usr]);
-            $userLiked = $this->getUsrPhoto($idImg);
-            //todo verif if notif acitvate
-            $this->sendMailLikeCom($userLiked['email'], $userLiked['login'],
-                                        $_SESSION['user']->getLogin(), "commenté");
+            $userCommented = $this->getUsrPhoto($idImg);
+            if ((bool)$userCommented['notifCom'])
+            {
+                $this->sendMailLikeCom($userCommented['email'], $userCommented['login'],
+                                $_SESSION['user']->getLogin(), "commenté");
+            }
             $req->closeCursor();
         }
     }
@@ -305,9 +307,11 @@ abstract class Model
                                         VALUES ('$idUsr', '$idImg', true)");
                 $req->execute();
                 $userLiked = $this->getUsrPhoto($idImg);
-                //todo verif if notif acitvate
-                $this->sendMailLikeCom($userLiked['email'], $userLiked['login'], $_SESSION['user']->getLogin(), "liké");
-                $req->closeCursor();
+                if ((bool)$userLiked['notifLike'])
+                {
+                    $this->sendMailLikeCom($userLiked['email'], $userLiked['login'], $_SESSION['user']->getLogin(), "liké");
+                    $req->closeCursor();
+                }
             }
             else
                 return ("vous avez déjà aimé cette photo");
@@ -437,6 +441,22 @@ abstract class Model
                                     WHERE idUsr = '$idUsr'");
             $req->execute();
         }
+        $req->closeCursor();
+    }
+
+    public function modifNotif()
+    {
+        session_start(); 
+        $usrNotifCom = (bool)$_SESSION['user']->getNotifCom();
+        $usrNotifLike = (bool)$_SESSION['user']->getNotifLike();
+        (int)$com = (!empty($_POST['com'])) ? (int)$usrNotifCom : (int)!$usrNotifCom;
+        (int)$like = (!empty($_POST['like'])) ? (int)$usrNotifLike : (int)!$usrNotifLike;
+        $idUsr = $_SESSION['user']->getIdUsr();
+        $req = self::$_bdd->prepare("UPDATE user
+                                SET notifCom = '$com',
+                                    notifLike = '$like'
+                                WHERE idUsr = '$idUsr'");
+        $req->execute();
         $req->closeCursor();
     }
 
