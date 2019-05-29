@@ -1,7 +1,6 @@
 
     <section class="container padding-100-top">
 	<form method="post" id="formRegister" action="<?=URL?>?url=takePicture&submit=OK" onSubmit="prepareImg();">
-           
 				<div class="columns is-centered is-vcentered">
 					<div class="column is-6">
 						<video id="video"></video>
@@ -34,35 +33,30 @@
 				<div class="columns is-3 is-mobile is-multiline">
 					<div class="column">
 						<div class="hovereffect padding-20-bottom">
-								<img src="https://bulma.io/images/placeholders/320x480.png">
+								<img onclick="addFilter(event)" id="memes1" src="<?=IMG?>memes1.png">
 							</div>
-						<div>
-							<div class="hovereffect padding-20-bottom">
-							<img src="https://bulma.io/images/placeholders/320x480.png">
+							<div>
+								<div class="hovereffect padding-20-bottom">
+								<img onclick="addFilter(event)" id="memes2" src="<?=IMG?>memes2.png">
 							</div>
 						</div>
 					</div>
 					<div class="column">
 						<div>
 						<div class="hovereffect padding-20-bottom">
-								<img src="https://bulma.io/images/placeholders/320x480.png">
-							</div>
-						</div>
-						<div>
-							<div class="hovereffect padding-20-bottom">
-							<img src="https://bulma.io/images/placeholders/320x480.png">
-							</div>
+							<img onclick="addFilter(event)" id="memes2" src="<?=IMG?>memes4.png">
 						</div>
 					</div>
-					<div class="column">
-						<div>
-							<div class="hovereffect padding-20-bottom">
-							<img src="https://bulma.io/images/placeholders/320x480.png">
-							</div>
+					<div>
+						<div class="hovereffect padding-20-bottom">
+							<img onclick="addFilter(event)" id="memes2" src="<?=IMG?>memes5.png">
 						</div>
-						<div>
-							<div class="hovereffect padding-20-bottom">
-							<img src="https://bulma.io/images/placeholders/320x480.png">
+					</div>
+				</div>
+				<div class="column">
+					<div>
+						<div class="hovereffect padding-20-bottom">
+								<img onclick="addFilter(event)" id="memes2" src="<?=IMG?>memes6.png">
 							</div>
 						</div>
 					</div>

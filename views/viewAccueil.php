@@ -26,16 +26,8 @@
     }
         foreach($images as $img)
         {
-            //  TODO GETUSRPOSTER
             $usr = $img->getUsrPosted($img->getIdUsr());
-        // $usr = $img->getUsrPosted();
-        // TODO GETCOMMENT
-        $comment = $img->getAllComment($img->getIdImg());
-        // // var_dump();
-        // die();
-
-        // var_dump($images->get_);
-        // die();
+            $comment = $img->getAllComment($img->getIdImg());
         ?>
         <section class="columns">
             <div class="column"></div>
