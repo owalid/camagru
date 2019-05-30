@@ -44,7 +44,7 @@ Class ControllerImage
         else
         {
             $this->_image = new ImageManager();
-            $images = $this->_image->getImages();
+            $images = $this->_image->getImages(0, 3);
             $this->_view = new View('Accueil');
             $this->_view->generate(array('images' => $images));
         }
@@ -61,7 +61,7 @@ Class ControllerImage
         else
         {   
             $this->_image = new ImageManager();
-            $images = $this->_image->getImages();
+            $images = $this->_image->getImages(0, 3);;
             $res = $this->_image->saveImg();
             $this->_view = new View('Accueil');
             if ($res == "ERR")
@@ -84,7 +84,7 @@ Class ControllerImage
         else 
         {
             $this->_image = new ImageManager();
-            $images = $this->_image->getImages();
+            $images = $this->_image->getImages(0, 3);;
             $this->_view = new View('Accueil');
             $this->_view->generate(array('images' => $images, 'err' => $err));
         }

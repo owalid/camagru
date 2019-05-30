@@ -19,7 +19,7 @@ Class ControllerRegister
     private function userRegister()
     {
         $this->_userManager = new UserManager();
-        // $images = $this->_user->getImages();
+        // $images = $this->_user->getImages(0, 3);;
         $this->_view = new View('Register');
         $this->_view->generate(array('register' => NULL));
 	}

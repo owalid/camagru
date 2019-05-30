@@ -12,7 +12,6 @@ window.onload = () => {
 
 function handleFiles(e) {
 	file = e.target.files[0];
-	console.log(e.target.files[0]);
 	var canvas = document.getElementById('canvas');
 	var ctx = canvas.getContext('2d');
 	var blank = document.getElementById('blank');
@@ -20,13 +19,12 @@ function handleFiles(e) {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
     var img = new Image;
     img.src = URL.createObjectURL(file);
-	console.log(img.src);
     img.onload = function() {
 		filter.style.display = '';
 		name.innerText = file.name;
 		name2.innerText = file.name;
 		publish.disabled = false;
-		ctx.drawImage(img, 0, 0, img.width, img.height);
+		ctx.drawImage(img, 0, 0, 600, 400);
 	}
 }
 function prepareImg() {
@@ -54,14 +52,12 @@ function delete_files(e)
 
 function addFilter(event)
 {
-	// console.log();
-	// var memesImg = document.getElementById("memes" + memesNumber);
 	var canvas = document.getElementById('canvas');
 	var ctx = canvas.getContext('2d');
 	var img = new Image;
 	img.src = event.target.src;
 	img.onload = function() {
-		ctx.drawImage(img, 0, 0, 1280, 720);
+		ctx.drawImage(img, 0, 0, 600, 400);
 	}
 }
 

@@ -43,7 +43,7 @@ Class ControllerTakePicture
         {
             $this->_imageManager = new ImageManager();
             $this->_imageManager->sendImage();
-            $images = $this->_imageManager->getImages();
+            $images = $this->_imageManager->getImages(0, 3);;
             $this->_view = new View('Accueil');
             $this->_view->generate(array('images' => $images, 'msg' => 'Votre publication à bien été postée'));
         }

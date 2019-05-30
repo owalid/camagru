@@ -49,7 +49,7 @@
                     </div>
                     <div class="field">
                         <p class="control has-icons-left">
-                            <input class="input" type="password" placeholder="Password" name="passwd" required>
+                            <input class="input" type="password" placeholder="Password" name="passwd1" required>
                             <span class="icon is-small is-left">
                                 <i class="fas fa-lock"></i>
                             </span>
@@ -57,7 +57,7 @@
                     </div>
                     <div class="field">
                         <p class="control has-icons-left">
-                            <input class="input" type="password" placeholder="Password" name="passwd" required>
+                            <input class="input" type="password" placeholder="Password" name="passwd2" required>
                             <span class="icon is-small is-left">
                                 <i class="fas fa-lock"></i>
                             </span>

@@ -1,4 +1,4 @@
-	<?php
+<?php
 	if ($user)
 	{
 		session_start();
@@ -8,24 +8,22 @@
 	{
     if ($msg)
     {?>
-    <article class="message is-success text-center">
-    <div class="message-body">
-        <?= $msg ?>
-    </div>
-    </article>
-    <?php
+        <article class="message is-success text-center">
+        <div class="message-body">
+            <?= $msg ?>
+        </div>
+        </article>
+        <?php
     }
     if ($err)
     {?>
-    <article class="message is-danger text-center">
-    <div class="message-body">
-        <?= $err ?>
-    </div>
-    </article>
-    <?php
+        <article class="message is-danger text-center">
+        <div class="message-body">
+            <?= $err ?>
+        </div>
+        </article>
+        <?php
     }
-    ?>
-    <?php
         foreach($images as $img)
         {
             $usr = $img->getUsrPosted($img->getIdUsr());
@@ -147,21 +145,6 @@
     {
         window.location.href = "<?=URL?>?url=image&like=yes&idImg=" + idImg;
     }
-    // window.ready(function ())
-    
-    const getPictures = () => {
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', '<?=URL?>?url=accueil&offset=0&limit=3');
-        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        xhr.addEventListener('readystatechange', () => {
-            if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-              console.log("coucou");
-            }
-        });
-        xhr.send();
-    }
-
-    window.onload = getPictures;
     var flag = 3;
     var finish = 0;
     window.onscroll = function() {

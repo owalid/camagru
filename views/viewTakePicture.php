@@ -13,7 +13,7 @@
 				<button id="take_pic" class="button is-primary">Prendre une photo</button>
 				<div class="file has-name is-primary">
 					<label class="file-label ">
-						<input class="file-input" type="file" id="import_file" name="resume">
+						<input class="file-input" type="file" id="import_file" name="resume" accept="image/png">
 						<span class="file-cta">
 							<span class="file-icon">
 								<i class="fas fa-upload"></i>
