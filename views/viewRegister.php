@@ -10,10 +10,13 @@
 		</article>
 		<?php
 		}
-		?>
+        ?>
+        <div class="container is-vcentered is-centered">
+			<div class="columns is-centered">
 <article class="card is-rounded">
         <div class="card-content">
             <div class="field text-center">
+                    <img src="<?=IMG?>icon.png">
                 <p>Inscrivez-vous pour voir les photos et vidéos de vos amis.</p>
             </div>
             <hr />
@@ -70,20 +73,22 @@
                     </div>
                     <div class="field">
                         <div class="columns is-centered is-vcentered">
-                            <div class="column is-6">
+                            <div class="column is-3">
                                 <video id="video"></video>
                             </div>
-                            <div class="column">
+                            <div class="column is-4">
                                 <canvas id="canvas"></canvas>
                                 <canvas id='blank' style='display:none'></canvas>
                             </div>
                         </div>
                     </div>
 				<div class="columns is-centered is-vcentered">
+                    <div class="column">
+                        <div class="buttons is-centered is-vcentered">
+                            <button id="take_pic" class="button is-primary is-centered is-vcentered">Prendre une photo</button>
+                        </div>
+                    </div>
 					<div class="column">
-						<button id="take_pic" class="button is-primary">Prendre une photo</button>
-					</div>
-					<div class="column is-10">
 						<div class="file has-name is-primary">
 							<label class="file-label ">
 								<input class="file-input" type="file" id="import_file" name="pp">
@@ -102,7 +107,7 @@
 						</div>
 					</div>
 				</div>
-					<div class="columns">
+					<div class="columns is-centered is-vcentered">
 			<div class="column">
 				<p class="has-text-weight-semibold" id="file_name2">Aucune image</p>
 			</div>
@@ -131,7 +136,9 @@
                 </form>
             </div>
         </div>
-	</article>
+    </article>
+    </div>
+    </div>
 	<script>
 
 function prepareImg() {

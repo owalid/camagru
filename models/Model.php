@@ -30,12 +30,18 @@ abstract class Model
         $req->closeCursor();
     }
 
-    protected function getAllPicture()
+    protected function getAllPicture($offset, $limit)
     {
+        $limit = (int)$limit;
+        $offset = (int)$offset;
+        // var_dump($offset);
+        // var_dump($limit);
+        // die();
         $var = [];
-        $req = self::$_bdd->prepare('SELECT * 
+        $req = self::$_bdd->prepare("SELECT * 
                                     FROM Image
-                                    ORDER BY idImg DESC');
+                                    ORDER BY idImg DESC
+                                    LIMIT $limit OFFSET $offset");
         $req->execute();
         while ($data = $req->fetch(PDO::FETCH_ASSOC))
         {

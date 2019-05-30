@@ -25,6 +25,9 @@
 			<article class="card is-rounded">
 				<div class="card-content">
 					<div class="field">
+							<img src="<?=IMG?>icon.png">
+						</div>
+					<div class="field">
 						<form method="post" action="<?=URL?>?url=login&submit=OK">
 							<p class="control has-icons-left has-icons-right">
 								<input class="input" type="text" placeholder="Login" name="login" required>
@@ -49,9 +52,9 @@
 									</button>
 								</p>
 							</div>
-									<a  href="<?=URL?>?url=forgotPasswd" class="is-primary">
-											Mot de passe oublié
-									</a>
+							<a  href="<?=URL?>?url=forgotPasswd" class="is-primary">
+									Mot de passe oublié
+							</a>
 						</form>
 					</div>
 				</div>

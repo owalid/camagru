@@ -72,8 +72,8 @@ function addFilter(event)
 		cover        = document.querySelector('#cover'),
 		canvas       = document.querySelector('#canvas'),
 		startbutton  = document.querySelector('#take_pic'),
-		width = 1280,
-		height = 720;
+		width = 600,
+		height = 400;
 
 	var name = document.getElementById('file_name');
 	var name2 = document.getElementById('file_name2');

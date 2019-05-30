@@ -2,11 +2,11 @@
 
 class ImageManager extends Model
 {
-    public function getImages()
+    public function getImages($offset, $limit)
     {
 
         $this->getBdd();
-        return $this->getAllPicture();
+        return $this->getAllPicture($offset, $limit);
     }
 
     public function sendImage()
