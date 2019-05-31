@@ -22,6 +22,9 @@
 			<div class="columns is-centered">
 			<article class="card is-rounded">
 				<div class="card-content">
+                <div class="field">
+							<img src="<?=IMG?>icon.png">
+						</div>
 					<div class="field">
 						<form method="post" action="<?=URL?>?url=forgotPasswdForm&submit=OK">
                         <div class="field">

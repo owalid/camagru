@@ -19,7 +19,7 @@ class ImageManager extends Model
             $usr = intval($_SESSION['user']->getIdUsr());
             $description = $_POST['description'];
             $req = $this->getBdd()->prepare("INSERT INTO image (img, nbLike, idUsr, description)
-            VALUES (:img, :nbLike, :usr, :description)");
+                                                VALUES (:img, :nbLike, :usr, :description)");
             $req->execute([':img' => $img, ':nbLike' => 0, ':usr' => $usr, ':description' => $description]);
             $req->closeCursor();
         }
@@ -31,8 +31,8 @@ class ImageManager extends Model
         {
             $this->getBdd();
             $req = $this->getBdd()->prepare("SELECT *
-                    FROM user
-                    WHERE idUsr = $idUsr");
+                                                FROM user
+                                                WHERE idUsr = $idUsr");
             $req->execute();
             $res = $req->fetch(PDO::FETCH_ASSOC);
             $user = new User($res);
@@ -48,14 +48,22 @@ class ImageManager extends Model
             $this->getBdd();
             $var = [];
             $req = $this->getBdd()->prepare("SELECT user.pp, user.login, commentaire.commentaire
-            FROM commentaire, user
-            WHERE idImg = $idImg
-            AND user.idUsr = commentaire.idUsr");
+                                                FROM commentaire, user
+                                                WHERE idImg = $idImg
+                                                AND user.idUsr = commentaire.idUsr");
             $req->execute();
             while ($data = $req->fetch(PDO::FETCH_ASSOC))
             {
+                if (empty($data['pp']))
+                {
+                    // var_dump($data['pp']);
+                    // var_dump($data['user.pp']);
+                    $data['pp'] = IMG . "default.png";
+                }
                 $var[] = $data;
             }
+            // var_dump($var);
+            // die();
             return ($var);
             $req->closeCursor();
         }
@@ -71,15 +79,15 @@ class ImageManager extends Model
             $this->getBdd();
             $idUsr = $_SESSION['user']->getIdUsr();
             $verif = $this->getBdd()->prepare("SELECT *
-                                    FROM `like`
-                                    WHERE idUsr = '$idUsr'
-                                    AND idImg = '$idImg'");
+                                                FROM `like`
+                                                WHERE idUsr = '$idUsr'
+                                                AND idImg = '$idImg'");
             $verif->execute();
             $ret = $verif->fetch(PDO::FETCH_ASSOC);
             if ($ret == FALSE)
             {
                 $req = $this->getBdd()->prepare("INSERT INTO `Like` (idUsr, idImg, isLiked)
-                                        VALUES (:idUsr, ;idImg, :isLiked)");
+                                                    VALUES (:idUsr, ;idImg, :isLiked)");
                 $req->execute([':idUsr' => $idUsr, ':iidImg' => $idImg, ':isLiked' => true]);
                 $userLiked = $this->getUsrPhoto($idImg);
                 if ((bool)$userLiked['notifLike'])
@@ -102,15 +110,15 @@ class ImageManager extends Model
             $idUsr = $_SESSION['user']->getIdUsr();
             $idImg = $_GET['idImg'];
             $verif = $this->getBdd()->prepare("SELECT *
-                                        FROM ImgSaver as s
-                                        WHERE s.idUsr = '$idUsr'
-                                        AND s.idImg = '$idImg'");
+                                                FROM ImgSaver as s
+                                                WHERE s.idUsr = '$idUsr'
+                                                AND s.idImg = '$idImg'");
             $verif->execute();
             $ret = $verif->fetch(PDO::FETCH_ASSOC);
             if (empty($ret))
             {
                 $req = $this->getBdd()->prepare("INSERT INTO ImgSaver (idUsr, idImg)
-                                        VALUES (:idUsr, :idImg)");
+                                                    VALUES (:idUsr, :idImg)");
                 $req->execute([':idUsr' => $idUsr, ':idImg' => $idImg]);
                 $req->closeCursor();
             }

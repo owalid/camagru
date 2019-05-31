@@ -6,26 +6,43 @@ class UserManager extends Model
     {
         if (isset($_POST) && !empty($_POST))
         {
+            $err = [];
+            $i = 0;
             $this->getBdd();
+            if (strlen($_POST['bio']) >= 516)
+                return ("Votre bio est trop longue");
+            if (strlen($_POST['passwd1']) <= 8)
+                $err[$i] = "Veuillez rentré un mot de passe de plus de 8 caractere";
+            if (strcmp($_POST['passwd1'], $_POST['passwd2']) != 0)
+                $err[] = "Les mots de passes ne correspondent pas";
             $passwd1 = hash("SHA512", $_POST['passwd1']);
             $passwd2 = hash("SHA512", $_POST['passwd2']);
-            if ($passwd1 != $passwd2)
-            return ("PASS");
-            $login =  htmlentities($_POST['login']);
-            $email = htmlentities($_POST['email']);
+            $login =  $this->filterString($_POST['login']);
+            $email = $this->filterString($_POST['email']);
+            $email = filter_var($email, FILTER_VALIDATE_EMAIL);
+            if  (strlen($login) >= 90)
+                return ("Votre login est trop long");
+            if ($email == FALSE || strlen($email) >= 90)
+                $err[] = "L'adresse mail entré n'est pas au bon format";
             if ($this->loginIsExist($login) != NULL)
-                return ("LOGIN");
+                $err[] = "Ce login existe deja";
             if ($this->emailIsExist($email) != NULL)
-                return ("EMAIL");
-            $hash = md5(rand(0,10000));
-            $pp = $_POST['pp'];
-            $bio = htmlentities($_POST['bio']);
-            $req = $this->getBdd()->prepare("INSERT INTO user (login, passwd, email, pp, bio, hash)
-                                        VALUES (:login, :passwd, :email, :pp, :bio, :hash)");
-            $this->sendMailVerif($email, $login, $hash);
-            $req->execute([':login' => $login, ':passwd' => $passwd1, ':email' => $email,
-            ':pp' => $pp, ':bio' => $bio, ':hash' => $hash]);
-            $req->closeCursor();
+                $err[] = "Cette adresse mail à existe dejà";
+            if (isset($err) && !empty($err))
+                return $err;
+            else
+            {
+                $hash = md5(rand(0,10000));
+                $pp = $_POST['pp'];
+                $bio = htmlentities($_POST['bio']);
+                $req = $this->getBdd()->prepare("INSERT INTO user (login, passwd, email, pp, bio, hash)
+                                                    VALUES (:login, :passwd, :email, :pp, :bio, :hash)");
+                if (!($this->sendMailVerif($email, $login, $hash)))
+                    return ("Une erreur est survenue lors de l'envois du mail");
+                $req->execute([':login' => $login, ':passwd' => $passwd1, ':email' => $email,
+                ':pp' => $pp, ':bio' => $bio, ':hash' => $hash]);
+                $req->closeCursor();
+            }
         }
     }
 
@@ -34,13 +51,13 @@ class UserManager extends Model
         if (isset($_POST) && !empty($_POST))
         {
             $this->getBdd();
-            $login = htmlentities($_POST['login']);
-            $passwd =  htmlentities($_POST['passwd']);
+            $login = $this->filterString($_POST['login']);
+            $passwd =  $this->filterString($_POST['passwd']);
             $passwd = hash("SHA512", $passwd);
             $req = $this->getBdd()->prepare("SELECT *
-                FROM user 
-                WHERE login = '$login'
-                AND passwd = '$passwd'");
+                                                FROM user 
+                                                WHERE login = '$login'
+                                                AND passwd = '$passwd'");
             $req->execute();
             $data = $req->fetch(PDO::FETCH_ASSOC);
             if ($data['isVerif'] == "0" && isset($data['login']))
@@ -70,11 +87,11 @@ class UserManager extends Model
             $this->getBdd();
             $res = [];
             $idUsr = $_SESSION['user']->getIdUsr();
-            $req = $this->getBdd()->prepare("SELECT  image.img, user.login, user.pp
-                                         FROM `like` as l, image, user
-                                         WHERE l.idImg = image.idImg
-                                         AND image.idUsr = '$idUsr'
-                                         AND l.idUsr = User.idUsr");
+            $req = $this->getBdd()->prepare("SELECT image.img, user.login, user.pp
+                                                FROM `like` as l, image, user
+                                                WHERE l.idImg = image.idImg
+                                                AND image.idUsr = '$idUsr'
+                                                AND l.idUsr = User.idUsr");
             $req->execute();
             while ($data = $req->fetch(PDO::FETCH_ASSOC))
             {
@@ -96,11 +113,10 @@ class UserManager extends Model
             {
                 $idUsr = $_SESSION['user']->getIdUsr();
                 $req = $this->getBdd()->prepare("SELECT image.img, user.login, user.pp, commentaire.commentaire
-                                         FROM commentaire, image, user
-                                         WHERE commentaire.idImg = image.idImg
-                                         AND image.idUsr = '$idUsr'
-                                         AND commentaire.idUsr = User.idUsr");
-    
+                                                    FROM commentaire, image, user
+                                                    WHERE commentaire.idImg = image.idImg
+                                                    AND image.idUsr = '$idUsr'
+                                                    AND commentaire.idUsr = User.idUsr");
                 $req->execute();
                 while ($data = $req->fetch(PDO::FETCH_ASSOC))
                 {
@@ -119,8 +135,8 @@ class UserManager extends Model
             $this->getBdd();
             $res = [];
             $req = $this->getBdd()->prepare("SELECT *
-                                        FROM image
-                                        WHERE idUsr = '$idUsr'");
+                                                FROM image
+                                                WHERE idUsr = '$idUsr'");
             $req->execute();
             while ($data = $req->fetch(PDO::FETCH_ASSOC))
             {
@@ -144,9 +160,9 @@ class UserManager extends Model
                 $idUsr = $_SESSION['user']->getIdUsr();
     
                 $req = $this->getBdd()->prepare("SELECT *
-                                            FROM ImgSaver as s, Image
-                                            WHERE s.idUsr = '$idUsr'
-                                            AND s.idImg = Image.idImg");
+                                                    FROM ImgSaver as s, Image
+                                                    WHERE s.idUsr = '$idUsr'
+                                                    AND s.idImg = Image.idImg");
                 $req->execute();
                 while ($data = $req->fetch(PDO::FETCH_ASSOC))
                 {
@@ -164,13 +180,12 @@ class UserManager extends Model
         if (isset($_GET) && !empty($_GET))
         {
             $this->getBdd();
-            $email = htmlentities($_GET['email']);
-            $hash = htmlentities($_GET['hash']);
+            $email = $this->filterString($_GET['email']);
+            $hash = $this->filterString($_GET['hash']);
             $req = $this->getBdd()->prepare("SELECT *
-            FROM user 
-            WHERE email = '$email'
-            AND hash = '$hash'
-            ");
+                                                FROM user 
+                                                WHERE email = '$email'
+                                                AND hash = '$hash'");
             $req->execute();
             $data = $req->fetch(PDO::FETCH_ASSOC);
             if ($data == NULL)
@@ -178,8 +193,8 @@ class UserManager extends Model
             else if ($data['isVerif'] == false)
             {
                 $req = $this->getBdd()->prepare("UPDATE user
-                SET isVerif = true
-                WHERE email = :email");
+                                                    SET isVerif = true
+                                                    WHERE email = :email");
                 $req->execute([':email' => $email]);
                 return "OK";
             }
@@ -195,34 +210,42 @@ class UserManager extends Model
         {
             $this->getBdd();
             $idUsr = $_SESSION['user']->getIdUsr();
-            $login = htmlentities($_POST['login']);
-            $email = htmlentities($_POST['email']);
+            $login = $this->filterString($_POST['login']);
+            $email = $this->filterString($_POST['email']);
+            $email = filter_var($email, FILTER_VALIDATE_EMAIL);
             $bio = htmlentities($_POST['bio']);
+            $bio = mb_convert_encoding($bio, 'HTML-ENTITIES', 'UTF-8');
+            if ($email == FALSE || strlen($email) >= 90)
+                return ("L'adresse mail entré n'est pas au bon format");
+            if (strlen($bio) > 516)
+                return ("Votre bio est trop longue");
             $verifEmail = $this->emailIsExist($email);
             $verifLogin = $this->loginIsExist($login);
             if ($verifLogin['idUsr'] != $idUsr && $verifLogin != NULL)
-                return ("LOGIN");
+                return ( "Ce login existe deja");
             if ($verifEmail['idUsr'] != $idUsr && $verifEmail != NULL)
-                return ("EMAIL");
+                return ("Cette adresse mail existe dejà");
             $newEmail = ($verifEmail['email'] != $_SESSION['user']->getEmail()
-                                    || $verifEmail['isVerif'] == 0) ? 0 : 1;
+                                    || $verifEmail['isVerif'] == 0) ? 0 : 1;       
             $hash = ($verifEmail['email'] != $_SESSION['user']->getEmail()) ? md5(rand(0,10000)) : $verifEmail['hash'];
             $req = $this->getBdd()->prepare("UPDATE user
-                                        SET     login = :login,
+                                            SET login = :login,
                                                 email = :email,
                                                 bio = :bio,
                                                 isVerif = :isVerif,
                                                 hash = :hash
-                                        WHERE   idUsr = :idUsr");
+                                            WHERE idUsr = :idUsr");
+                                            
             $req->execute([':login' => $login, ':email' => $email,
                             ':bio' => $bio, ':idUsr' => $idUsr,
                             ':isVerif' => $newEmail, ':hash' => $hash]);
+                           
             $user = $this->getUsr($idUsr);
             $_SESSION['user'] = $user;
             if ($newEmail == 0 && $hash != $verifEmail['hash'])
             {
                 $this->sendMailVerif($user->getEmail(), $user->getLogin(), $hash);
-                return ("NEW");
+                return ("Vous devez verifier votre nouvelle adresse mail ✅");
             }
             return NULL;
             $req->closeCursor();
@@ -235,22 +258,27 @@ class UserManager extends Model
         if (isset($_POST) && !empty($_POST) && isset($_SESSION['user']) && !empty($_SESSION))
         {
             $this->getBdd();
-            $old = hash("SHA512", htmlentities($_POST['old']));
-            $new = hash("SHA512", htmlentities($_POST['new']));
+            if (strcmp($_POST['new1'], $_POST['new2']) != 0)
+                return ("Les mots de passe ne correspondent pas");
+            if (strlen($_POST['new1']) <= 8)
+                return ("Le nouveau mot de passe est trop court");
+            $old = hash("SHA512", $this->filterString($_POST['old']));
+            $new1 = hash("SHA512", $this->filterString($_POST['new1']));
+            $new2 = hash("SHA512", $this->filterString($_POST['new2']));
             $idUsr = $_SESSION['user']->getIdUsr();
             $req = $this->getBdd()->prepare("SELECT *
-                                        FROM user
-                                        WHERE passwd = '$old'
-                                        AND idUsr = '$idUsr'");
+                                                FROM user
+                                                WHERE passwd = '$old'
+                                                AND idUsr = '$idUsr'");
             $req->execute();
             $data = $req->fetch(PDO::FETCH_ASSOC);
             if (empty($data))
-                return ("ERR");
+                return ("Mot de passe incorrect");
             else
             {
                 $req = $this->getBdd()->prepare("UPDATE user
-                                        SET passwd = :passwd
-                                        WHERE idUsr = :idUsr");
+                                                    SET passwd = :passwd
+                                                    WHERE idUsr = :idUsr");
                 $req->execute([':passwd' => $new, ':idUsr' => $idUsr]);
             }
             $req->closeCursor();
@@ -269,9 +297,9 @@ class UserManager extends Model
             (int)$like = (!empty($_POST['like'])) ? (int)$usrNotifLike : (int)!$usrNotifLike;
             $idUsr = $_SESSION['user']->getIdUsr();
             $req = $this->getBdd()->prepare("UPDATE user
-                                    SET notifCom = :notifCom,
-                                        notifLike = :notifLike
-                                    WHERE idUsr = '$idUsr'");
+                                                SET notifCom = :notifCom,
+                                                    notifLike = :notifLike
+                                                WHERE idUsr = '$idUsr'");
             $req->execute([':notifCom' => $com, ':notifLike' => $like]);
             $req->closeCursor();
         }
@@ -282,24 +310,28 @@ class UserManager extends Model
         if (isset($_POST) && !empty($_POST))
         {
             $this->getBdd();
-            $email = htmlentities($_POST['email']);
+            $email = $this->filterString($_POST['email']);
+            $email = filter_var($email, FILTER_VALIDATE_EMAIL);
+            if ($email == FALSE)
+                return ("L'adresse email n'est pas au bon format");
             $hash = md5(rand(0,10000));
             $req = $this->getBdd()->prepare("SELECT *
-            FROM user 
-            WHERE email = '$email'");
+                                            FROM user 
+                                            WHERE email = '$email'");
             $req->execute();
             $data = $req->fetch(PDO::FETCH_ASSOC);
             if ($data == NULL)
-                return "MAIL";
+                return "Cet email est rataché a aucun utilisateur";
             else if ($data['isVerif'] == '0')
-                return "VERIF";
+                return "Vous devez d'abord verifié votre adresse email";
             else
             {
                 $req = $this->getBdd()->prepare("UPDATE user 
-                                            SET hash = :hash
-                                            WHERE email = :email");
+                                                    SET hash = :hash
+                                                    WHERE email = :email");
                 $req->execute([':hash' => $hash, ':email' => $email]);
-            $this->sendMailReset($email, $hash);
+                if (!($this->sendMailReset($email, $hash)))
+                    return ("Une erreur est survenue lors de l'envois du mail");
             }
         }
     }
@@ -309,16 +341,16 @@ class UserManager extends Model
         if (isset($_POST) && !empty($_POST))
         {
             $this->getBdd();
-            $passwd1 =  hash("SHA512", htmlentities($_POST['passwd1']));
-            $passwd2 =  hash("SHA512", htmlentities($_POST['passwd2']));
-            if ($passwd1 != $passwd2)
+            if (strcmp($_POST['passwd1'], $_POST['passwd2']) != 0)
                 return "Les mots de passes de correspondent pas";
-            $email = htmlentities($_POST['email']);
-            $hash = htmlentities($_POST['hash']);
+            $passwd1 =  hash("SHA512", $this->filterString($_POST['passwd1']));
+            $passwd2 =  hash("SHA512", $this->filterString($_POST['passwd2']));
+            $email = $this->filterString($_POST['email']);
+            $hash = $this->filterString($_POST['hash']);
             $req = $this->getBdd()->prepare("SELECT *
-                                            FROM user 
-                                            WHERE email = '$email'
-                                            AND hash = '$hash'");
+                                                FROM user 
+                                                WHERE email = '$email'
+                                                AND hash = '$hash'");
             $req->execute();
             $data = $req->fetch(PDO::FETCH_ASSOC);
             if ($data == NULL)
@@ -326,9 +358,9 @@ class UserManager extends Model
             else
             {
                 $req = $this->getBdd()->prepare("UPDATE user
-                                                SET passwd = :passwd,
-                                                    hash = ''
-                                                WHERE email = :email");
+                                                    SET passwd = :passwd,
+                                                        hash = ''
+                                                    WHERE email = :email");
                 $req->execute([':passwd' => $passwd1, ':email' => $email]);
                 return "OK";
             }

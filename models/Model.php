@@ -6,6 +6,7 @@ abstract class Model
 
     private static function setBdd()
     {
+        
         self::$_bdd = new PDO('mysql:host=localhost;dbname=camagru;charset:utf8mb4_unicode_ci', 'root', 'root');
         self::$_bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         self::$_bdd->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
@@ -21,9 +22,9 @@ abstract class Model
     protected function getUsrPhoto($idImg)
     {
         $req = self::$_bdd->prepare("SELECT user.email, user.login, user.notifCom, user.notifLike
-                                    FROM user, image
-                                    WHERE user.idUsr = image.idUsr
-                                    AND image.idImg = '$idImg'");
+                                        FROM user, image
+                                        WHERE user.idUsr = image.idUsr
+                                        AND image.idImg = '$idImg'");
         $req->execute();
         $data = $req->fetch(PDO::FETCH_ASSOC);
         return ($data);
@@ -36,9 +37,9 @@ abstract class Model
         $offset = (int)$offset;
         $var = [];
         $req = self::$_bdd->prepare("SELECT * 
-                                    FROM Image
-                                    ORDER BY idImg DESC
-                                    LIMIT $limit OFFSET $offset");
+                                        FROM Image
+                                        ORDER BY idImg DESC
+                                        LIMIT $limit OFFSET $offset");
         $req->execute();
         while ($data = $req->fetch(PDO::FETCH_ASSOC))
         {
@@ -52,7 +53,7 @@ abstract class Model
     protected function sendMailVerif($email, $login, $hash)
     {
         $to      = $email; // Send email to our user
-        $subject = 'Signup | Verification'; // Give the email a subject 
+        $subject = 'Inscription | Verification'; // Give the email a subject 
         $message = '
         
          _____                                              
@@ -67,23 +68,23 @@ abstract class Model
         
         ------------------------
 
-        Thanks you ' . $login . ' for signing up!
+        Merci ' . $login . ' pour votre inscription
         
         ------------------------
         
-        Please click this link to activate your account:
+        Vous devez verifié votre adresse mail pour pouvoir vous connectez:
         '. URL .'?url=verifemail&email='. $email . '&hash=' . $hash . '
         
         '; // Our message above including the link
                             
         $headers = 'From:noreply@camagru.com' . "\r\n"; // Set from headers
-        mail($to, $subject, $message, $headers);
+        return (mail($to, $subject, $message, $headers));
     }
 
     protected function sendMailReset($email, $hash)
     {
         $to      = $email; // Send email to our user
-        $subject = 'Reset | Passwd'; // Give the email a subject 
+        $subject = 'Reenitialisatiion | mot de passe'; // Give the email a subject 
         $message = '
         
          _____                                              
@@ -98,7 +99,7 @@ abstract class Model
         
         ------------------------
 
-        Please click this link to reset your password:
+        Voici le lien pour reenitialisé votre mot de passe:
         '. URL .'?url=forgotPasswdForm&email='. $email . '&hash=' . $hash . '
         
         ------------------------
@@ -107,13 +108,13 @@ abstract class Model
         '; 
                             
         $headers = 'From:noreply@camagru.com' . "\r\n";
-        mail($to, $subject, $message, $headers);
+        return (mail($to, $subject, $message, $headers));
     }
 
     protected function sendMailLikeCom($email, $loginUsrLiked, $loginUsrLike, $likeCom)
     {
         $to      = $email; // Send email to our user
-        $subject = 'Signup | Verification'; // Give the email a subject 
+        $subject =  $likecom . ' | Camagru'; // Give the email a subject 
         $message = '
         
          _____                                              
@@ -134,7 +135,7 @@ abstract class Model
         ------------------------';
                             
         $headers = 'From:noreply@camagru.com' . "\r\n";
-        mail($to, $subject, $message, $headers);
+        return (mail($to, $subject, $message, $headers));
     }
 
     protected function loginIsExist($login)
@@ -171,5 +172,42 @@ abstract class Model
         $var = $req->fetch(PDO::FETCH_ASSOC);
         return $var["nbLike"];
         $req->closeCursor();
+    }
+    public function getUsr($idUsr)
+    {
+        $req = self::$_bdd->prepare("SELECT *
+                    FROM user
+                    WHERE idUsr = $idUsr");
+        $req->execute();
+        $res = $req->fetch(PDO::FETCH_ASSOC);
+        $user = new User($res);
+        return ($user);
+        $req->closeCursor();
+    }
+
+    protected function filterString($string)
+    {
+        // Match Emoticons
+        $regex_emoticons = '/[\x{1F600}-\x{1F64F}]/u';
+        $clear_string = preg_replace($regex_emoticons, '', $string);
+    
+        // Match Miscellaneous Symbols and Pictographs
+        $regex_symbols = '/[\x{1F300}-\x{1F5FF}]/u';
+        $clear_string = preg_replace($regex_symbols, '', $clear_string);
+    
+        // Match Transport And Map Symbols
+        $regex_transport = '/[\x{1F680}-\x{1F6FF}]/u';
+        $clear_string = preg_replace($regex_transport, '', $clear_string);
+    
+        // Match Miscellaneous Symbols
+        $regex_misc = '/[\x{2600}-\x{26FF}]/u';
+        $clear_string = preg_replace($regex_misc, '', $clear_string);
+    
+        // Match Dingbats
+        $regex_dingbats = '/[\x{2700}-\x{27BF}]/u';
+        $clear_string = preg_replace($regex_dingbats, '', $clear_string);
+        
+        $clear_string = htmlentities($clear_string);
+        return $clear_string;
     }
 }

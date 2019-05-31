@@ -80,21 +80,20 @@
                                     </div>
                                     <hr />
                                     <div class="hero-foot">
-                                       
                                         <?php
                                         if ($comment)
                                         {
                                             foreach($comment as $com)
                                             {
                                                 ?>
-                                                <div class="columns is-gapless">
+                                                <div class="columns is-gapless is-vcentered">
                                                 <div class="column is-vcentered">
-                                            <figure class="image is-64x64">
-                                                <img class="is-rounded" src="<?= $com['pp']?>">
-                                            </figure>
-                                        </div>
-                                        <div class="column is-11 is-vcentered">
-                                            <span class="has-text-weight-semibold"><?= $com['user']?></span><?=  $com['commentaire'] ?></p>
+                                                    <figure class="image is-32x32">
+                                                        <img class="is-rounded" src="<?= $com['pp']?>">
+                                                    </figure>
+                                                </div>
+                                        <div class="column is-10 is-vcentered">
+                                            <span class="has-text-weight-semibold"><?= $com['login']?>: </span><?=  $com['commentaire'] ?></p>
                                         </div>
                                         <br />
                                         </div>

@@ -29,20 +29,16 @@ Class ControllerForgotPasswd
       
         $this->_userManager = new UserManager();
         $res = $this->_userManager->forgotReqPasswd();
-        if ($res == "MAIL")
+        if (empty($res) == "MAIL")
         {
             $this->_view = new View('forgotPasswd');
-            $this->_view->generate(array('err' => "Cet email est rataché a aucun utilisateur"));
-        }
-        else if ($res == "VERIF")
-        {
-            $this->_view = new View('forgotPasswd');
-            $this->_view->generate(array('err' => "Vous devez d'abord verifié votre adresse email"));
+            $this->_view->generate(array('msg' => "Un email vous à été envoyez pour réenitialiser votre mot de passe"));
+           
         }
         else
         {
             $this->_view = new View('forgotPasswd');
-            $this->_view->generate(array('msg' => "Un email vous à été envoyez pour réenitialiser votre mot de passe"));
+            $this->_view->generate(array('err' => $res ));
         }
     }
 }

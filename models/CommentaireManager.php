@@ -27,6 +27,9 @@ Class CommentaireManager extends Model
         {
             $this->getBdd();
             $commentaire = htmlentities($_POST['commentaire']);
+            $commentaire = mb_convert_encoding($commentaire, 'HTML-ENTITIES', 'UTF-8');
+            if (strlen($commentaire) >= 16777215)
+                return ("COM");
             session_start();
             if ($_SESSION['user'] == NULL)
                 return ("LOGIN");
@@ -36,8 +39,8 @@ Class CommentaireManager extends Model
                 $req = $this->getBdd()->prepare("INSERT INTO commentaire (commentaire, idImg, idUsr)
                                             VALUES (:commentaire, :idImg, :idUsr)");
                 $req->execute([':commentaire' => $commentaire,
-                ':idImg' => $idImg,
-                ':idUsr' => $usr]);
+                                    ':idImg' => $idImg,
+                                    ':idUsr' => $usr]);
                 $userCommented = $this->getUsrPhoto($idImg);
                 if ((bool)$userCommented['notifCom'])
                 {

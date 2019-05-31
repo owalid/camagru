@@ -2,13 +2,17 @@
 ?>
 	<?php
 		if ($err)
-		{?>
+		{
+            foreach($err as $e)
+           {
+               ?>
 		<article class="message is-danger text-center">
 		<div class="message-body">
-			<?= $err ?>
+			<?= $e ?>
 		</div>
 		</article>
-		<?php
+        <?php 
+        }
 		}
         ?>
         <div class="container is-vcentered is-centered">
@@ -20,15 +24,6 @@
                 <p>Inscrivez-vous pour voir les photos et vidéos de vos amis.</p>
             </div>
             <hr />
-            <div class="field">
-                <div class="buttons is-centered is-vcentered">
-                    <p class="control is-center">
-                        <button class="button is-primary">
-                            Se connecter avec Facebook
-                        </button>
-                    </p>
-                </div>
-            </div>
                 <hr />
                 <form method="post" id="formRegister" action="<?=URL?>?url=register&submit=OK" onSubmit="prepareImg();">
                     <div class="field">
@@ -65,7 +60,7 @@
 					</div>
                     <div class="field">
                         <p class="control has-icons-left">
-                            <input class="input" type="text" placeholder="Bio" name="bio">
+                            <textarea class="textarea" placeholder="Bio" name="bio" maxlength="516"></textarea>
                             <span class="icon is-small is-left">
                                 <i class="fas fa-lock"></i>
                             </span>
@@ -146,8 +141,8 @@ function prepareImg() {
 	var blank = document.getElementById('blank');
 
 	if (canvas.toDataURL() != blank.toDataURL())
-		{
+    {
 		document.getElementById('inp_img').value = canvas.toDataURL();
-		}
-	}
+    }
+}
 </script>

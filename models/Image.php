@@ -51,7 +51,6 @@ class Image
             if (method_exists($this, $method))
                 $this->$method($value);
         }
-        // var_dump($nbLike);
         $this->setNbLike($nbLike);
     }
 

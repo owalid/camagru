@@ -39,8 +39,8 @@ Class ControllerModifUser
     private function modifInfoUser()
     {
         $this->_userManager = new UserManager();
-       
         $res = $this->_userManager->modifUserInfo();
+
         if (empty($res))
         {
             $this->_view = new View('User');
@@ -49,17 +49,7 @@ Class ControllerModifUser
         else if ($res == "LOGIN")
         {
             $this->_view = new View('ModifUser');
-            $this->_view->generate(array('err' => "Ce login existe deja"));
-        }
-        else if ($res == "EMAIL")
-        {
-            $this->_view = new View('ModifUser');
-            $this->_view->generate(array('err' => "Cette adresse mail existe dejà"));
-        }
-        else if ($res == "NEW")
-        {
-            $this->_view = new View('User');
-            $this->_view->generate(array('msg' => "Vous devez verifier votre nouvelle adresse mail ✅"));
+            $this->_view->generate(array('err' => $res));
         }
     }
 
@@ -67,15 +57,15 @@ Class ControllerModifUser
     {
         $this->_userManager = new UserManager();
         $res = $this->_userManager->modifUserPasswd();
-        if ($res == "ERR")
-        {
-            $this->_view = new View('ModifUser');
-            $this->_view->generate(array('err' => "Mot de passe incorrect"));
-        }
-        else
+        if (empty($res))
         {
             $this->_view = new View('User');
             $this->_view->generate(array('User' => NULL));
+        }
+        else
+        {
+            $this->_view = new View('ModifUser');
+            $this->_view->generate(array('err' => $res));
         }
     }
 
