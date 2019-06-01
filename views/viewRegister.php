@@ -1,20 +1,13 @@
 <?php
 ?>
-	<?php
-		if ($err)
-		{
-            foreach($err as $e)
-           {
-               ?>
-		<article class="message is-danger text-center">
-		<div class="message-body">
-			<?= $e ?>
+
+	
+    
+		<article style="display:none;" id="article-err" class="message is-danger text-center">
+		<div class="message-body" id="error">
 		</div>
 		</article>
-        <?php 
-        }
-		}
-        ?>
+
         <div class="container is-vcentered is-centered">
 			<div class="columns is-centered">
 <article class="card is-rounded">
@@ -25,10 +18,10 @@
             </div>
             <hr />
                 <hr />
-                <form method="post" id="formRegister" action="<?=URL?>?url=register&submit=OK" onSubmit="prepareImg();">
+                <form id="formRegister" method="POST" onSubmit="prepareImg();">
                     <div class="field">
                         <p class="control has-icons-left has-icons-right">
-                            <input class="input" type="email" placeholder="Email" name="email" required>
+                            <input id="email" class="input" type="email" placeholder="Email" name="email" required>
                             <span class="icon is-small is-left">
                                 <i class="fas fa-envelope"></i>
                             </span>
@@ -36,7 +29,7 @@
                     </div>
                     <div class="field">
                         <p class="control has-icons-left has-icons-right">
-                            <input class="input" type="login" placeholder="login" name="login" required>
+                            <input id="login" class="input" type="login" placeholder="login" name="login" required>
                             <span class="icon is-small is-left">
                                 <i class="fas fa-envelope"></i>
                             </span>
@@ -44,7 +37,7 @@
                     </div>
                     <div class="field">
                         <p class="control has-icons-left">
-                            <input class="input" type="password" placeholder="Password" name="passwd1" required>
+                            <input id="passwd1" class="input" type="password" placeholder="Password" name="passwd1" required>
                             <span class="icon is-small is-left">
                                 <i class="fas fa-lock"></i>
                             </span>
@@ -52,7 +45,7 @@
                     </div>
                     <div class="field">
                         <p class="control has-icons-left">
-                            <input class="input" type="password" placeholder="Password" name="passwd2" required>
+                            <input id="passwd2" class="input" type="password" placeholder="Password" name="passwd2" required>
                             <span class="icon is-small is-left">
                                 <i class="fas fa-lock"></i>
                             </span>
@@ -60,10 +53,7 @@
 					</div>
                     <div class="field">
                         <p class="control has-icons-left">
-                            <textarea class="textarea" placeholder="Bio" name="bio" maxlength="516"></textarea>
-                            <span class="icon is-small is-left">
-                                <i class="fas fa-lock"></i>
-                            </span>
+                            <textarea id="bio" class="textarea" placeholder="Bio" name="bio" maxlength="516"></textarea>
                         </p>
                     </div>
                     <div class="field">
@@ -138,11 +128,42 @@
 
 function prepareImg() {
 	var canvas = document.getElementById('canvas');
-	var blank = document.getElementById('blank');
+    var blank = document.getElementById('blank');
+    var error = document.getElementById('error');
+    var article_err = document.getElementById('article-err');
+    
+    var email = document.getElementById('email').value;
+    var login = document.getElementById('login').value;
+    var passwd1 = document.getElementById('passwd1').value;
+    var passwd2 = document.getElementById('passwd2').value;
+    var bio = document.getElementById('bio').value;
+    var inp_img = document.getElementById('inp_img').value;
+    var import_file = document.getElementById('import_file').value;
+    var pp = inp_img || import_file || "";
+    
+    
 
+    event.preventDefault();
 	if (canvas.toDataURL() != blank.toDataURL())
     {
 		document.getElementById('inp_img').value = canvas.toDataURL();
     }
+
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = 'json';
+    xhr.overrideMimeType("application/json");
+    xhr.open('POST', '<?=URL?>register');
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.addEventListener('readystatechange', () => {
+        if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+            var res = xhr.response;
+            var output;
+            error.innerHTML = '';
+            for (var r in res)
+                error.innerHTML += res[r] + "</br>";
+            article_err.style.display = '';
+        }
+    });
+    xhr.send(`email=${email}&login=${login}&passwd1=${passwd1}&passwd2=${passwd2}&bio=${bio}&pp=${pp}`);
 }
 </script>

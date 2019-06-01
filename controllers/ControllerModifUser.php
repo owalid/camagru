@@ -38,18 +38,20 @@ Class ControllerModifUser
 
     private function modifInfoUser()
     {
+        // $res = [];
         $this->_userManager = new UserManager();
         $res = $this->_userManager->modifUserInfo();
 
-        if (empty($res))
+        if ($res == "OK" || $res == NULL)
         {
-            $this->_view = new View('User');
-            $this->_view->generate(array('User' => NULL));
+            // $this->_view = new View('User');
+            $out = ($res == "OK") ?  "Vous devez verifier votre nouvelle adresse mail ✅" : NULL;
+            echo json_encode(array('success' => '1', 'res' => $out));
+            // $this->_view->generate(array('User' => $out));
         }
-        else if ($res == "LOGIN")
+        else
         {
-            $this->_view = new View('ModifUser');
-            $this->_view->generate(array('err' => $res));
+            echo json_encode($res);
         }
     }
 

@@ -4,30 +4,35 @@ class UserManager extends Model
 {
     public function register()
     {
-        if (isset($_POST) && !empty($_POST))
+        if (isset($_POST) && !empty($_POST) 
+            && isset($_POST['bio']) && !empty($_POST['bio'])
+            && isset($_POST['passwd1']) && !empty($_POST['passwd1'])
+            && isset($_POST['passwd2']) && !empty($_POST['passwd2'])
+            && isset($_POST['login']) && !empty($_POST['login'])
+            && isset($_POST['email']) && !empty($_POST['email']))
         {
             $err = [];
             $i = 0;
             $this->getBdd();
             if (strlen($_POST['bio']) >= 516)
-                return ("Votre bio est trop longue");
+                $err[$i++] = "Votre bio est trop longue";
             if (strlen($_POST['passwd1']) <= 8)
-                $err[$i] = "Veuillez rentré un mot de passe de plus de 8 caractere";
+                $err[$i++] = "Veuillez rentré un mot de passe de plus de 8 caractere";
             if (strcmp($_POST['passwd1'], $_POST['passwd2']) != 0)
-                $err[] = "Les mots de passes ne correspondent pas";
+                $err[$i++] = "Les mots de passes ne correspondent pas";
             $passwd1 = hash("SHA512", $_POST['passwd1']);
             $passwd2 = hash("SHA512", $_POST['passwd2']);
             $login =  $this->filterString($_POST['login']);
             $email = $this->filterString($_POST['email']);
             $email = filter_var($email, FILTER_VALIDATE_EMAIL);
             if  (strlen($login) >= 90)
-                return ("Votre login est trop long");
+                $err[$i++] = "Votre login est trop long";
             if ($email == FALSE || strlen($email) >= 90)
-                $err[] = "L'adresse mail entré n'est pas au bon format";
+                $err[$i++] = "L'adresse mail entré n'est pas au bon format";
             if ($this->loginIsExist($login) != NULL)
-                $err[] = "Ce login existe deja";
+                $err[$i++] = "Ce login existe deja";
             if ($this->emailIsExist($email) != NULL)
-                $err[] = "Cette adresse mail à existe dejà";
+                $err[$i++] = "Cette adresse mail à existe dejà";
             if (isset($err) && !empty($err))
                 return $err;
             else
@@ -38,17 +43,23 @@ class UserManager extends Model
                 $req = $this->getBdd()->prepare("INSERT INTO user (login, passwd, email, pp, bio, hash)
                                                     VALUES (:login, :passwd, :email, :pp, :bio, :hash)");
                 if (!($this->sendMailVerif($email, $login, $hash)))
-                    return ("Une erreur est survenue lors de l'envois du mail");
+                {
+                    $out = "Une erreur est survenue lors de l'envois du mail";
+                    return $out;
+                }
                 $req->execute([':login' => $login, ':passwd' => $passwd1, ':email' => $email,
                 ':pp' => $pp, ':bio' => $bio, ':hash' => $hash]);
                 $req->closeCursor();
             }
         }
+        return ("ERR");
     }
 
     public function log()
     {
-        if (isset($_POST) && !empty($_POST))
+        if (isset($_POST) && !empty($_POST)
+            && isset($_POST['login']) && !empty($_POST['login'])
+            && isset($_POST['passwd']) && !empty($_POST['passwd']))
         {
             $this->getBdd();
             $login = $this->filterString($_POST['login']);
@@ -177,7 +188,9 @@ class UserManager extends Model
 
     public function verifUsr()
     {
-        if (isset($_GET) && !empty($_GET))
+        if (isset($_GET) && !empty($_GET)
+            && isset($_GET['email']) && !empty($_GET['email'])
+            && isset($_GET['hash']) && !empty($_GET['hash']))
         {
             $this->getBdd();
             $email = $this->filterString($_GET['email']);
@@ -206,8 +219,13 @@ class UserManager extends Model
     public function modifUserInfo()
     {
         session_start();
-        if (isset($_SESSION['user']) && !empty($_SESSION) && isset($_POST) && !empty($_POST))
+        if (isset($_SESSION['user']) && !empty($_SESSION['user'])
+            && isset($_POST) && !empty($_POST)
+            && isset($_POST['login']) && !empty($_POST['login'])
+            && isset($_POST['email']) && !empty($_POST['email']))
         {
+            $err = [];
+            $i = 0;
             $this->getBdd();
             $idUsr = $_SESSION['user']->getIdUsr();
             $login = $this->filterString($_POST['login']);
@@ -216,17 +234,19 @@ class UserManager extends Model
             $bio = htmlentities($_POST['bio']);
             $bio = mb_convert_encoding($bio, 'HTML-ENTITIES', 'UTF-8');
             if ($email == FALSE || strlen($email) >= 90)
-                return ("L'adresse mail entré n'est pas au bon format");
+                $err[$i++] = "L'adresse mail entré n'est pas au bon format";
             if (strlen($bio) > 516)
-                return ("Votre bio est trop longue");
+                $err[$i++] = "Votre bio est trop longue";
             $verifEmail = $this->emailIsExist($email);
             $verifLogin = $this->loginIsExist($login);
             if ($verifLogin['idUsr'] != $idUsr && $verifLogin != NULL)
-                return ( "Ce login existe deja");
+                $err[$i++] =  "Ce login existe deja";
             if ($verifEmail['idUsr'] != $idUsr && $verifEmail != NULL)
-                return ("Cette adresse mail existe dejà");
+                $err[$i++] = "Cette adresse mail existe dejà";
+            if (isset($err) && !empty($err))
+                return $err;
             $newEmail = ($verifEmail['email'] != $_SESSION['user']->getEmail()
-                                    || $verifEmail['isVerif'] == 0) ? 0 : 1;       
+                                    || $verifEmail['isVerif'] == 0) ? 0 : 1;  
             $hash = ($verifEmail['email'] != $_SESSION['user']->getEmail()) ? md5(rand(0,10000)) : $verifEmail['hash'];
             $req = $this->getBdd()->prepare("UPDATE user
                                             SET login = :login,
@@ -235,17 +255,15 @@ class UserManager extends Model
                                                 isVerif = :isVerif,
                                                 hash = :hash
                                             WHERE idUsr = :idUsr");
-                                            
             $req->execute([':login' => $login, ':email' => $email,
                             ':bio' => $bio, ':idUsr' => $idUsr,
-                            ':isVerif' => $newEmail, ':hash' => $hash]);
-                           
+                            ':isVerif' => $newEmail, ':hash' => $hash]);        
             $user = $this->getUsr($idUsr);
             $_SESSION['user'] = $user;
             if ($newEmail == 0 && $hash != $verifEmail['hash'])
             {
                 $this->sendMailVerif($user->getEmail(), $user->getLogin(), $hash);
-                return ("Vous devez verifier votre nouvelle adresse mail ✅");
+                return ("OK");
             }
             return NULL;
             $req->closeCursor();
@@ -255,7 +273,10 @@ class UserManager extends Model
     public function modifUserPasswd()
     {
         session_start();
-        if (isset($_POST) && !empty($_POST) && isset($_SESSION['user']) && !empty($_SESSION))
+        if (isset($_POST) && !empty($_POST)
+            && isset($_SESSION['user']) && !empty($_SESSION)
+            && isset($_POST['passwd1']) && !empty($_POST['passwd1'])
+            && isset($_POST['passwd2']) && !empty($_POST['passwd2']))
         {
             $this->getBdd();
             if (strcmp($_POST['new1'], $_POST['new2']) != 0)
@@ -288,7 +309,10 @@ class UserManager extends Model
     public function modifUserNotif()
     {
         session_start();
-        if (isset($_POST) && !empty($_POST) && isset($_SESSION['user']) && !empty($_SESSION))
+        if (isset($_POST) && !empty($_POST)
+            && isset($_SESSION['user']) && !empty($_SESSION)
+            && isset($_POST['com']) && !empty($_POST['com'])
+            && isset($_POST['like']) && !empty($_POST['like']))
         {
             $this->getBdd();
             $usrNotifCom = (bool)$_SESSION['user']->getNotifCom();
@@ -307,7 +331,8 @@ class UserManager extends Model
 
     public function forgotReqPasswd()
     {
-        if (isset($_POST) && !empty($_POST))
+        if (isset($_POST) && !empty($_POST)
+            && isset($_POST['email']) && !empty($_POST['email']))
         {
             $this->getBdd();
             $email = $this->filterString($_POST['email']);
@@ -338,7 +363,9 @@ class UserManager extends Model
 
     public function resetReqPasswd()
     {
-        if (isset($_POST) && !empty($_POST))
+        if (isset($_POST) && !empty($_POST)
+            && isset($_POST['passwd1']) && !empty($_POST['passwd1'])
+            && isset($_POST['passwd2']) && !empty($_POST['passwd2']))
         {
             $this->getBdd();
             if (strcmp($_POST['passwd1'], $_POST['passwd2']) != 0)

@@ -10,7 +10,7 @@ Class ControllerRegister
     {
         if (isset($url) && count($url) > 1)
             throw new Exception("Page introuvable", 1);
-        else if ($_GET['submit'] === 'OK')
+        else if ($_POST)
             $this->userReqRegister();
         else
             $this->userRegister();
@@ -25,17 +25,15 @@ Class ControllerRegister
 
     public function userReqRegister()
     {
+        $res = [];
         $this->_userManager = new UserManager();
         $res = $this->_userManager->register();
-        if ($res)
-        {
-            $this->_view = new View('Register');
-			$this->_view->generate(array('err' => $res));
-        }
-		else
+        if (isset($res))
+            echo json_encode($res);
+		else if ($res != "ERR")
 		{
 			$this->_view = new View('Login');
 			$this->_view->generate(array('msg' => "Derniere etape avant de vous connecté, veuillez maintenant verifié votre adresse mail"));
-		}
+        }
     }
 }

@@ -1,24 +1,12 @@
-<?php
-		if ($msg)
-		{?>
-		<article class="message is-success text-center">
-		<div class="message-body">
-			<?= $msg ?>
+
+		<article style="display:none;" id="article-succ" class="message is-success text-center">
+		<div class="message-body" id="success">
 		</div>
 		</article>
-		<?php
-		}
-		if ($err)
-		{
-			?>
-			<article class="message is-danger text-center">
-		<div class="message-body">
-			<?= $err ?>
+		<article style="display:none;" id="article-err" class="message is-danger text-center">
+		<div class="message-body" id="error">
 		</div>
 		</article>
-		<?php
-		}
-		?>
 <div class="container">
     <div class="hero is-medium is-bold">
         <div class="hero-body">
@@ -35,17 +23,17 @@
 						session_start();
 						?>
 						<div id="modif">
-							<form action="<?=URL?>?url=modifUser&modif=yes" method="post">
+							<form method="POST" onSubmit="sendModifProfil();">
 									<div class="field">
 										<label class="label">Login</label>
 										<div class="control">
-											<input class="input" type="text" name="login" placeholder="Text input" value=<?= $_SESSION['user']->getLogin()?>>
+											<input id="login" class="input" type="text" name="login" placeholder="Text input" value=<?= $_SESSION['user']->getLogin()?>>
 										</div>
 									</div>
 									<div class="field">
 										<label class="label">Email</label>
 										<div class="control has-icons-left has-icons-right">
-											<input class="input" type="email" name="email" placeholder="Email input" value="<?= $_SESSION['user']->getEmail()?>">
+											<input id="email" class="input" type="email" name="email" placeholder="Email input" value="<?= $_SESSION['user']->getEmail()?>">
 											<span class="icon is-small is-left">
 												<i class="fas fa-envelope"></i>
 											</span>
@@ -54,7 +42,7 @@
 									<div class="field">
 										<label class="label">Bio</label>
 										<div class="control">
-											<textarea class="textarea" name="bio" placeholder="Textarea"><?= $_SESSION['user']->getBio()?></textarea>
+											<textarea id="bio" class="textarea" name="bio" placeholder="Textarea"><?= $_SESSION['user']->getBio()?></textarea>
 										</div>
 									</div>
 									<div class="field is-grouped">
@@ -103,7 +91,7 @@
 									<div class="field">
 										<label class="checkbox">
 											Notification commentaire:
-											<input id="inputCom" class="checkbox" type="checkbox" name="com" value="<?=(bool)$_SESSION['user']->getNotifLike()?>">
+											<input id="inputCom" class="checkbox" type="checkbox" name="com" value="<?=(bool)$_SESSION['user']->getNotifCom()?>">
 										</label>
 									</div>
 									<div class="field">
@@ -173,5 +161,53 @@
 		tab_passwd_content.style.display = 'none';
 	}
 
+	function sendModifProfil()
+	{
+		var email = document.getElementById('email').value;
+		var login = document.getElementById('login').value;
+		var bio = document.getElementById('bio').value;
+		var error = document.getElementById('error');
+		var article_err = document.getElementById('article-err');
+		var success = document.getElementById('success');
+		var article_succ = document.getElementById('article-succ');
+
+		event.preventDefault();
+		var xhr = new XMLHttpRequest();
+		xhr.responseType = 'json';
+		xhr.overrideMimeType("application/json");
+		xhr.open('POST', '<?=URL?>?url=ModifUser&modif=yes');
+		xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+		xhr.addEventListener('readystatechange', () => {
+        if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+			var res = xhr.response;
+			if (res.success == 1)
+			{
+				if (res.res == null)
+				{
+					success.innerHTML = 'Votre compte à bien été modifier';
+					article_err.style.display = 'none';
+					article_succ.style.display = '';
+				}
+				else
+				{
+					success.innerHTML = res.res;
+					article_err.style.display = 'none';
+					article_succ.style.display = '';
+				}
+				
+			}
+			else
+			{
+				var output;
+				error.innerHTML = '';
+				for (var r in res)
+                error.innerHTML += res[r] + "</br>";
+				article_err.style.display = '';
+				article_succ.style.display = 'none';
+			}
+        }
+    });
+    xhr.send(`email=${email}&login=${login}&bio=${bio}`);
+	}
 
 </script>
