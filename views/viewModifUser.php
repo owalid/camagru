@@ -54,10 +54,10 @@
 					</div>
 					<div id="passwd" style="display:none;">
 
-						<form action="<?=URL?>?url=ModifUser&passwd=yes" method="post">
+						<form onSubmit="sendModifPasswd();" method="post">
 								<div class="field">
 									<p class="control has-icons-left">
-										<input class="input" type="password" name="old" placeholder="Old password">
+										<input id="old" class="input" type="password" name="old" placeholder="Old password">
 										<span class="icon is-small is-left">
 											<i class="fas fa-lock"></i>
 										</span>
@@ -65,7 +65,7 @@
 								</div>
 								<div class="field">
 									<p class="control has-icons-left">
-										<input class="input" type="password" name="new1" placeholder="New Password">
+										<input id="new1" class="input" type="password" name="new1" placeholder="New Password">
 										<span class="icon is-small is-left">
 											<i class="fas fa-lock"></i>
 										</span>
@@ -73,7 +73,7 @@
 								</div>
 								<div class="field">
 									<p class="control has-icons-left">
-										<input class="input" type="password" name="new2" placeholder="New Password">
+										<input id="new2" class="input" type="password" name="new2" placeholder="New Password">
 										<span class="icon is-small is-left">
 											<i class="fas fa-lock"></i>
 										</span>
@@ -182,19 +182,10 @@
 			var res = xhr.response;
 			if (res.success == 1)
 			{
-				if (res.res == null)
-				{
-					success.innerHTML = 'Votre compte à bien été modifier';
-					article_err.style.display = 'none';
-					article_succ.style.display = '';
-				}
-				else
-				{
-					success.innerHTML = res.res;
-					article_err.style.display = 'none';
-					article_succ.style.display = '';
-				}
-				
+				success.innerHTML = '';
+				article_err.style.display = 'none';
+				article_succ.style.display = '';
+				success.innerHTML = (res.res == null) ? 'Votre compte à bien été modifier' : res.res;
 			}
 			else
 			{
@@ -208,6 +199,45 @@
         }
     });
     xhr.send(`email=${email}&login=${login}&bio=${bio}`);
+	}
+
+	function sendModifPasswd()
+	{
+		var old = document.getElementById('old').value;
+		var new2 = document.getElementById('new2').value;
+		var new1 = document.getElementById('new1').value;
+		var error = document.getElementById('error');
+		var article_err = document.getElementById('article-err');
+		var success = document.getElementById('success');
+		var article_succ = document.getElementById('article-succ');
+
+		event.preventDefault();
+		var xhr = new XMLHttpRequest();
+		xhr.responseType = 'json';
+		xhr.overrideMimeType("application/json");
+		xhr.open('POST', '<?=URL?>?url=ModifUser&passwd=yes');
+		xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+		xhr.addEventListener('readystatechange', () => {
+        if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+			var res = xhr.response;
+			if (res.success == 1)
+			{
+					success.innerHTML = '';
+					success.innerHTML = res.res;
+					article_err.style.display = 'none';
+					article_succ.style.display = '';
+			}
+			else
+			{
+				var output;
+				error.innerHTML = '';
+                error.innerHTML += res.res;
+				article_err.style.display = '';
+				article_succ.style.display = 'none';
+			}
+        }
+    });
+    xhr.send(`old=${old}&new1=${new1}&new2=${new2}`);
 	}
 
 </script>

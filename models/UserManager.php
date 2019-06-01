@@ -275,8 +275,9 @@ class UserManager extends Model
         session_start();
         if (isset($_POST) && !empty($_POST)
             && isset($_SESSION['user']) && !empty($_SESSION)
-            && isset($_POST['passwd1']) && !empty($_POST['passwd1'])
-            && isset($_POST['passwd2']) && !empty($_POST['passwd2']))
+            && isset($_POST['new1']) && !empty($_POST['new1'])
+            && isset($_POST['new2']) && !empty($_POST['new2'])
+            && isset($_POST['old']) && !empty($_POST['old']))
         {
             $this->getBdd();
             if (strcmp($_POST['new1'], $_POST['new2']) != 0)

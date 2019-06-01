@@ -61,13 +61,11 @@ Class ControllerModifUser
         $res = $this->_userManager->modifUserPasswd();
         if (empty($res))
         {
-            $this->_view = new View('User');
-            $this->_view->generate(array('User' => NULL));
+            echo json_encode(array('success' => '1', 'res' => "Votre mot de passe à été modifié avec succés"));
         }
         else
         {
-            $this->_view = new View('ModifUser');
-            $this->_view->generate(array('err' => $res));
+            echo json_encode(array('success' => '0', 'res' => $res));
         }
     }
 
