@@ -1,12 +1,3 @@
-#------------------------------------------------------------
-#        Script MySQL.
-#------------------------------------------------------------
-
-
-#------------------------------------------------------------
-# Table: User
-#------------------------------------------------------------
-
 CREATE TABLE User(
         idUsr      Int  Auto_increment  NOT NULL ,
         login      Varchar (90) NOT NULL UNIQUE,
@@ -21,11 +12,6 @@ CREATE TABLE User(
 	,CONSTRAINT User_PK PRIMARY KEY (idUsr)
 )ENGINE=InnoDB;
 
-
-#------------------------------------------------------------
-# Table: Image
-#------------------------------------------------------------
-
 CREATE TABLE Image(
         idImg           Int  Auto_increment  NOT NULL ,
         img             MEDIUMTEXT NOT NULL ,
@@ -37,11 +23,6 @@ CREATE TABLE Image(
 	,CONSTRAINT Image_User_FK FOREIGN KEY (idUsr) REFERENCES User(idUsr)
 )ENGINE=InnoDB;
 
-
-#------------------------------------------------------------
-# Table: ImgSaver
-#------------------------------------------------------------
-
 CREATE TABLE ImgSaver(
         idSave Int  Auto_increment  NOT NULL ,
         idUsr  Int NOT NULL ,
@@ -51,11 +32,6 @@ CREATE TABLE ImgSaver(
 	,CONSTRAINT ImgSaver_User_FK FOREIGN KEY (idUsr) REFERENCES User(idUsr)
 	,CONSTRAINT ImgSaver_Image0_FK FOREIGN KEY (idImg) REFERENCES Image(idImg)
 )ENGINE=InnoDB;
-
-
-#------------------------------------------------------------
-# Table: Commentaire
-#------------------------------------------------------------
 
 CREATE TABLE Commentaire(
         idCommentaire Int  Auto_increment  NOT NULL ,
@@ -67,10 +43,6 @@ CREATE TABLE Commentaire(
 	,CONSTRAINT Commentaire_Image_FK FOREIGN KEY (idImg) REFERENCES Image(idImg)
 	,CONSTRAINT Commentaire_User0_FK FOREIGN KEY (idUsr) REFERENCES User(idUsr)
 )ENGINE=InnoDB;
-
-#------------------------------------------------------------
-# Table: `Like`
-#------------------------------------------------------------
 
 CREATE TABLE `Like`(
         idLike  Int  Auto_increment  NOT NULL ,
