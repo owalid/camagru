@@ -153,7 +153,13 @@ class User
         return $this->_pp;
     }
 
-   
+    /**
+     * Set pp
+     *
+     * @param  string  $_pp  pp
+     *
+     * @return  self
+     */ 
     public function setPp(string $_pp)
     {
         if (empty($_pp))
@@ -163,13 +169,11 @@ class User
         return $this;
     }
 
-   
     public function getBio()
     {
         return $this->_bio;
     }
 
-   
     public function setBio(string $_bio)
     {
         $this->_bio = $_bio;

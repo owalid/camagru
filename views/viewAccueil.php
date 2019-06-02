@@ -54,7 +54,7 @@
                                     <div class="columns">
                                         <div class="column">
                                             <figure class="image">
-                                                <img ondblclick="like(<?= $img->getIdImg()?>)" src="<?=$img->getImg()?>">
+                                                <img ondblclick="like(<?=$img->getIdImg()?>)" src="<?=$img->getImg()?>">
                                             </figure>
                                                 <div class="buttons is-centered is-vcentered padding-10-top">
                                                     <a class="button is-rounded" href="<?=URL?>?url=image&like=yes&idImg=<?=$img->getIdimg()?>">
@@ -149,7 +149,6 @@
     window.onscroll = function() {
         if (window.scrollY >= document.body.clientHeight - window.innerHeight && finish == 0)
         {
-            console.log("coucou");
             var xhr = new XMLHttpRequest();
             xhr.open('GET', '<?=URL?>?url=accueil&offset=' + flag + '&limit=3');
             xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');

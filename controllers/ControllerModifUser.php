@@ -44,14 +44,14 @@ Class ControllerModifUser
 
         if ($res == "OK" || $res == NULL)
         {
-            // $this->_view = new View('User');
-            $out = ($res == "OK") ?  "Vous devez verifier votre nouvelle adresse mail ✅" : NULL;
-            echo json_encode(array('success' => '1', 'res' => $out));
-            // $this->_view->generate(array('User' => $out));
+            $this->_view = new View('User');
+            $out = ($res == "OK") ?  "Vous devez verifier votre nouvelle adresse mail ✅" : "Votre compte à bien été modifier";
+            $this->_view->generate(array('msg' => $out));
         }
         else
         {
-            echo json_encode($res);
+            $this->_view = new View('ModifUser');
+            $this->_view->generate(array('err' => $res));
         }
     }
 

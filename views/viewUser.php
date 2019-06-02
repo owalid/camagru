@@ -1,5 +1,14 @@
 <?php
 session_start();
+if ($msg)
+		{?>
+		<article class="message is-success text-center">
+		<div class="message-body">
+			<?= $msg ?>
+		</div>
+		</article>
+		<?php
+		}
 ?>
 
 

@@ -1,3 +1,18 @@
+<?php
+if ($err)
+{
+	foreach($err as $e)
+	{
+		?>
+			<article class="message is-danger text-center">
+				<div class="message-body">
+					<?= $e ?>
+				</div>
+			</article>
+			<?php
+		}
+	}
+?>
 <article style="display:none;" id="article-succ" class="message is-success text-center">
 <div class="message-body" id="success">
 </div>
@@ -22,7 +37,7 @@
 						session_start();
 						?>
 						<div id="modif">
-							<form method="POST" onSubmit="sendModifProfil();">
+							<form method="POST" action="<?=URL?>?url=ModifUser&modif=yes" onSubmit="sendModifProfil();" enctype="multipart/form-data">
 									<div class="field">
 										<label class="label">Login</label>
 										<div class="control">
@@ -241,43 +256,45 @@
     	var blank = document.getElementById('blank');
 		if (canvas.toDataURL() != blank.toDataURL())
 			document.getElementById('inp_img').value = canvas.toDataURL();
-		var email = document.getElementById('email').value;
-		var login = document.getElementById('login').value;
-		var bio = document.getElementById('bio').value;
-		var pp = document.getElementById('inp_img').value || document.getElementById('import_file').value || "";
-		var error = document.getElementById('error');
-		var article_err = document.getElementById('article-err');
-		var success = document.getElementById('success');
-		var article_succ = document.getElementById('article-succ');
-
-		event.preventDefault();
-		var xhr = new XMLHttpRequest();
-		xhr.responseType = 'json';
-		xhr.overrideMimeType("application/json");
-		xhr.open('POST', '<?=URL?>?url=ModifUser&modif=yes');
-		xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-		xhr.addEventListener('readystatechange', () => {
-			if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-				var res = xhr.response;
-				if (res.success == 1)
-				{
-					success.innerHTML = '';
-					article_err.style.display = 'none';
-					article_succ.style.display = '';
-					success.innerHTML = (res.res == null) ? 'Votre compte à bien été modifier' : res.res;
-				}
-				else
-				{
-					var output;
-					error.innerHTML = '';
-					for (var r in res)
-					error.innerHTML += res[r] + "</br>";
-					article_err.style.display = '';
-					article_succ.style.display = 'none';
-				}
-			}
-		});
-		xhr.send(`email=${email}&login=${login}&bio=${bio}&pp=${pp}`);
+		// var email = document.getElementById('email').value;
+		// var login = document.getElementById('login').value;
+		// var bio = document.getElementById('bio').value;
+		// var pp = document.getElementById('inp_img').value || document.getElementById('import_file').value || "";
+		// var error = document.getElementById('error');
+		// var article_err = document.getElementById('article-err');
+		// var success = document.getElementById('success');
+		// var article_succ = document.getElementById('article-succ');
+		// pp1 = pp.substring(0, 7000);
+		// pp2 = pp.substring(7000);
+		// // console.log(pp);
+		// event.preventDefault();
+		// var xhr = new XMLHttpRequest();
+		// xhr.responseType = 'json';
+		// xhr.overrideMimeType("application/json");
+		// xhr.open('POST', '<?phpURL?>?url=ModifUser&modif=yes');
+		// xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+		// xhr.addEventListener('readystatechange', () => {
+		// 	if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+		// 		var res = xhr.response;
+		// 		if (res.success == 1)
+		// 		{
+		// 			success.innerHTML = '';
+		// 			article_err.style.display = 'none';
+		// 			article_succ.style.display = '';
+		// 			success.innerHTML = (res.res == null) ? 'Votre compte à bien été modifier' : res.res;
+		// 		}
+		// 		else
+		// 		{
+		// 			var output;
+		// 			error.innerHTML = '';
+		// 			for (var r in res)
+		// 			error.innerHTML += res[r] + "</br>";
+		// 			article_err.style.display = '';
+		// 			article_succ.style.display = 'none';
+		// 		}
+		// 	}
+		// });
+		// xhr.send(`email=${email}&login=${login}&bio=${bio}&pp=${pp1}${pp2}`);
 	}
 
 	function sendModifPasswd()

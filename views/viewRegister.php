@@ -129,6 +129,8 @@ function prepareImg() {
     var error = document.getElementById('error');
     var article_err = document.getElementById('article-err');
     
+    if (canvas.toDataURL() != blank.toDataURL())
+        document.getElementById('inp_img').value = canvas.toDataURL();
     var email = document.getElementById('email').value;
     var login = document.getElementById('login').value;
     var passwd1 = document.getElementById('passwd1').value;
@@ -138,14 +140,8 @@ function prepareImg() {
     var import_file = document.getElementById('import_file').value;
     var pp = inp_img || import_file || "";
     
-    
-
     event.preventDefault();
-	if (canvas.toDataURL() != blank.toDataURL())
-    {
-		document.getElementById('inp_img').value = canvas.toDataURL();
-    }
-
+	
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.overrideMimeType("application/json");
