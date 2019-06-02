@@ -147,7 +147,7 @@
     var flag = 3;
     var finish = 0;
     window.onscroll = function() {
-        if (window.scrollY >= document.body.clientHeight - window.innerHeight && finish == 0)
+        if (window.scrollY >= document.body.clientHeight - window.innerHeight - 10 && finish == 0)
         {
             var xhr = new XMLHttpRequest();
             xhr.open('GET', '<?=URL?>?url=accueil&offset=' + flag + '&limit=3');

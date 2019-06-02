@@ -266,7 +266,6 @@ if ($err)
 		// var article_succ = document.getElementById('article-succ');
 		// pp1 = pp.substring(0, 7000);
 		// pp2 = pp.substring(7000);
-		// // console.log(pp);
 		// event.preventDefault();
 		// var xhr = new XMLHttpRequest();
 		// xhr.responseType = 'json';
