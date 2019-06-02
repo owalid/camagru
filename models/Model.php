@@ -6,7 +6,7 @@ abstract class Model
 
     private static function setBdd()
     {
-        require_once('database.php');
+        require('config/database.php');
         self::$_bdd = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
         // self::$_bdd = new PDO('mysql:host=localhost;dbname=camagru;charset:utf8mb4_unicode_ci', 'root', 'root');
         self::$_bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
