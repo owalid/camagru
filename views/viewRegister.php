@@ -1,16 +1,13 @@
 <?php
 ?>
-
-	
-    
 		<article style="display:none;" id="article-err" class="message is-danger text-center">
-		<div class="message-body" id="error">
-		</div>
+		    <div class="message-body" id="error">
+		    </div>
 		</article>
 
         <div class="container is-vcentered is-centered">
 			<div class="columns is-centered">
-<article class="card is-rounded">
+        <article class="card is-rounded">
         <div class="card-content">
             <div class="field text-center">
                     <img src="<?=IMG?>icon.png">
@@ -18,7 +15,7 @@
             </div>
             <hr />
                 <hr />
-                <form id="formRegister" method="POST" onSubmit="prepareImg();">
+                <form id="formRegister" method="POST" onSubmit="prepareImg();" enctype="multipart/form-data">
                     <div class="field">
                         <p class="control has-icons-left has-icons-right">
                             <input id="email" class="input" type="email" placeholder="Email" name="email" required>
@@ -76,7 +73,7 @@
 					<div class="column">
 						<div class="file has-name is-primary">
 							<label class="file-label ">
-								<input class="file-input" type="file" id="import_file" name="pp">
+								<input class="file-input" type="file" id="import_file" name="pp" accept="image/png">
 								<span class="file-cta">
 									<span class="file-icon">
 										<i class="fas fa-upload"></i>

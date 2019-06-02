@@ -14,13 +14,13 @@ Class ControllerImage
         if (isset($url) && count($url) > 1)
         throw new Exception("Page introuvable", 1);
         else if ($_GET['like'] == 'yes')
-        {
             $this->sendLike();
-        }
         else if ($_GET['comment'] == 'yes')
             $this->comment();
         else if ($_GET['save'] == 'yes')
             $this->save();
+        else if ($_GET['delete'] == 'yes')
+            $this->delete();
         else
             $this->image();
     }
@@ -30,6 +30,20 @@ Class ControllerImage
         $this->_image =  new ImageManager();
         $this->_view = new View('Image');
         $this->_view->generate(array('image' => NULL));
+    }
+
+    private function delete()
+    {
+        $this->_image = new ImageManager();
+        $res = $this->_image->deleteImg();
+        if ($res != NULL)
+        {
+            echo json_encode(["success" => 0, "res" => $res]);
+        }
+        else
+        {
+            echo json_encode(["success" => 1]);
+        }
     }
 
     private function comment()

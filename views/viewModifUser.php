@@ -1,12 +1,11 @@
-
-		<article style="display:none;" id="article-succ" class="message is-success text-center">
-		<div class="message-body" id="success">
-		</div>
-		</article>
-		<article style="display:none;" id="article-err" class="message is-danger text-center">
-		<div class="message-body" id="error">
-		</div>
-		</article>
+<article style="display:none;" id="article-succ" class="message is-success text-center">
+<div class="message-body" id="success">
+</div>
+</article>
+<article style="display:none;" id="article-err" class="message is-danger text-center">
+<div class="message-body" id="error">
+	</div>
+</article>
 <div class="container">
     <div class="hero is-medium is-bold">
         <div class="hero-body">
@@ -45,12 +44,77 @@
 											<textarea id="bio" class="textarea" name="bio" placeholder="Textarea"><?= $_SESSION['user']->getBio()?></textarea>
 										</div>
 									</div>
-									<div class="field is-grouped">
-										<div class="control">
-											<button class="button is-primary" type="submit">Modif</button>
+									<div class="field">
+									<label class="label">Photo de profil</label>
+										<div class="columns  is-centered is-vcentered">
+											<div class="column is-5">
+											<label class="label">Photo de profil actuelle:</label>
+											</div>
+											<div class="column">
+												<img src="<?= $_SESSION['user']->getPp()?>" id="pp" alt="">
+											</div>
+
 										</div>
 									</div>
-								</form>
+									<div class="field">
+										<div class="columns is-centered is-vcentered">
+											<div class="column is-3">
+												<video id="video"></video>
+											</div>
+											<div class="column is-4">
+											
+												<canvas id="canvas"></canvas>
+												<canvas id='blank' style='display:none'></canvas>
+											</div>
+										</div>
+									</div>
+									<div class="field">
+
+									<div class="columns is-centered is-vcentered">
+										<div class="column">
+											<div class="buttons is-centered is-vcentered">
+												<button id="take_pic" type="button" class="button is-primary is-centered is-vcentered">Prendre une photo</button>
+											</div>
+										</div>
+										<div class="column">
+											<div class="file has-name is-primary">
+												<label class="file-label ">
+													<input class="file-input" type="file" id="import_file" name="pp" accept="image/png">
+													<span class="file-cta">
+														<span class="file-icon">
+															<i class="fas fa-upload"></i>
+														</span>
+														<span class="file-label is-primary">
+															Choisir une image
+														</span>
+													</span>
+													<span class="file-name" id="file_name">
+														Aucune image importée
+													</span>
+												</label>
+											</div>
+										</div>
+									</div>
+									</div>
+									<div class="field">
+
+								<div class="columns is-centered is-vcentered">
+									<div class="column">
+										<p class="has-text-weight-semibold" id="file_name2">Aucune image</p>
+									</div>
+									<div class="column is-10">
+										<i class="fas fa-trash" id="trash"></i>
+									</div>
+								</div>
+								<div class="container" id="filter" style='display:none'></div>
+								<input id="inp_img" name="pp" type="hidden">
+								</div>
+								<div class="field is-grouped">
+									<div class="control">
+										<button class="button is-primary"  id="publi" type="submit">Modif</button>
+									</div>
+								</div>
+						</form>
 					</div>
 					<div id="passwd" style="display:none;">
 
@@ -114,6 +178,16 @@
 			</div>
 		</div>
 <script>
+	// var take_pic = document.getElementById('take_pic');
+	// var trash = document.getElementById('trash');
+	// var pp = document.getElementById('pp');
+
+	// trash.addEventListener('click', () => {
+	// 	pp.style.display = '';
+	// })
+	// take_pic.addEventListener('click', () => {
+	// 	pp.style.display = 'none';
+	// })
 	//							MODIF
 	var tab_modif = document.getElementById('tab_modif');
 	var tab_modif_content = document.getElementById('modif');
@@ -163,9 +237,14 @@
 
 	function sendModifProfil()
 	{
+		var canvas = document.getElementById('canvas');
+    	var blank = document.getElementById('blank');
+		if (canvas.toDataURL() != blank.toDataURL())
+			document.getElementById('inp_img').value = canvas.toDataURL();
 		var email = document.getElementById('email').value;
 		var login = document.getElementById('login').value;
 		var bio = document.getElementById('bio').value;
+		var pp = document.getElementById('inp_img').value || document.getElementById('import_file').value || "";
 		var error = document.getElementById('error');
 		var article_err = document.getElementById('article-err');
 		var success = document.getElementById('success');
@@ -178,31 +257,32 @@
 		xhr.open('POST', '<?=URL?>?url=ModifUser&modif=yes');
 		xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 		xhr.addEventListener('readystatechange', () => {
-        if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-			var res = xhr.response;
-			if (res.success == 1)
-			{
-				success.innerHTML = '';
-				article_err.style.display = 'none';
-				article_succ.style.display = '';
-				success.innerHTML = (res.res == null) ? 'Votre compte à bien été modifier' : res.res;
+			if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+				var res = xhr.response;
+				if (res.success == 1)
+				{
+					success.innerHTML = '';
+					article_err.style.display = 'none';
+					article_succ.style.display = '';
+					success.innerHTML = (res.res == null) ? 'Votre compte à bien été modifier' : res.res;
+				}
+				else
+				{
+					var output;
+					error.innerHTML = '';
+					for (var r in res)
+					error.innerHTML += res[r] + "</br>";
+					article_err.style.display = '';
+					article_succ.style.display = 'none';
+				}
 			}
-			else
-			{
-				var output;
-				error.innerHTML = '';
-				for (var r in res)
-                error.innerHTML += res[r] + "</br>";
-				article_err.style.display = '';
-				article_succ.style.display = 'none';
-			}
-        }
-    });
-    xhr.send(`email=${email}&login=${login}&bio=${bio}`);
+		});
+		xhr.send(`email=${email}&login=${login}&bio=${bio}&pp=${pp}`);
 	}
 
 	function sendModifPasswd()
 	{
+	
 		var old = document.getElementById('old').value;
 		var new2 = document.getElementById('new2').value;
 		var new1 = document.getElementById('new1').value;

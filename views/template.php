@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <title><?= $t ?></title>
+    <link rel="icon" href="<?=IMG?>icon_min.png"/>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -25,10 +26,11 @@
 <script src="./script/burger.js"></script>
 <?php
 $url = end(explode('/', $_SERVER[REQUEST_URI]));
-if ($url == '?url=takePicture' || $url == 'takePicture' || $url == '?url=register' || $url == 'register')
+if ($url == '?url=takePicture' || $url == 'takePicture' || $url == '?url=register'
+        || $url == 'register' || $url == 'modifUser' || $url == '?url=modifUser')
 {
     ?>
-<script src="./script/picture.js"></script>
+    <script src="./script/picture.js"></script>
 <?php
 }
 ?>

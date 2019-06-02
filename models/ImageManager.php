@@ -56,14 +56,10 @@ class ImageManager extends Model
             {
                 if (empty($data['pp']))
                 {
-                    // var_dump($data['pp']);
-                    // var_dump($data['user.pp']);
                     $data['pp'] = IMG . "default.png";
                 }
                 $var[] = $data;
             }
-            // var_dump($var);
-            // die();
             return ($var);
             $req->closeCursor();
         }
@@ -87,8 +83,8 @@ class ImageManager extends Model
             if ($ret == FALSE)
             {
                 $req = $this->getBdd()->prepare("INSERT INTO `Like` (idUsr, idImg, isLiked)
-                                                    VALUES (:idUsr, ;idImg, :isLiked)");
-                $req->execute([':idUsr' => $idUsr, ':iidImg' => $idImg, ':isLiked' => true]);
+                                                    VALUES (:idUsr, :idImg, :isLiked)");
+                $req->execute([':idUsr' => $idUsr, ':idImg' => $idImg, ':isLiked' => true]);
                 $userLiked = $this->getUsrPhoto($idImg);
                 if ((bool)$userLiked['notifLike'])
                 {
@@ -121,6 +117,51 @@ class ImageManager extends Model
                                                     VALUES (:idUsr, :idImg)");
                 $req->execute([':idUsr' => $idUsr, ':idImg' => $idImg]);
                 $req->closeCursor();
+            }
+            else
+                return ("ERR");
+            $verif->closeCursor();
+        }
+    }
+
+    public function deleteImg()
+    {
+        session_start();
+        if (isset($_GET) && !empty($_GET)
+        && isset($_SESSION['user']) && !empty($_SESSION)
+        && isset($_GET['idImg']) && !empty($_GET['idImg']))
+        {
+            $this->getBdd();
+            $idUsr = $_SESSION['user']->getIdUsr();
+            $idImg = $_GET['idImg'];
+            $verif = $this->getBdd()->prepare("SELECT *
+                                                FROM Image as i
+                                                WHERE i.idUsr = '$idUsr'
+                                                AND i.idImg = '$idImg'");
+            $verif->execute();
+            $ret = $verif->fetch(PDO::FETCH_ASSOC);
+            if (isset($ret))
+            {
+                $like = $this->getBdd()->prepare("DELETE
+                                                FROM `Like`
+                                                WHERE idImg = :idImg");
+                $like->execute([':idImg' => $idImg]);
+                $save = $this->getBdd()->prepare("DELETE
+                                                FROM ImgSaver
+                                                WHERE idImg = :idImg");
+                $save->execute([':idImg' => $idImg]);
+                $com = $this->getBdd()->prepare("DELETE
+                                                FROM commentaire
+                                                WHERE idImg = :idImg");
+                $com->execute([':idImg' => $idImg]);
+                $req = $this->getBdd()->prepare("DELETE
+                                                FROM Image
+                                                WHERE idImg = :idImg");
+                $req->execute([':idImg' => $idImg]);
+                $req->closeCursor();
+                $com->closeCursor();
+                return (NULL);
+               
             }
             else
                 return ("ERR");

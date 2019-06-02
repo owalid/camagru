@@ -1,6 +1,6 @@
 
     <section class="container padding-100-top">
-	<form method="post" id="formRegister" action="<?=URL?>?url=takePicture&submit=OK" onSubmit="prepareImg();">
+	<form method="POST" id="formRegister" action="<?=URL?>?url=takePicture&submit=OK" onSubmit="prepareImg();"  enctype="multipart/form-data">
 				<div class="columns is-centered is-vcentered">
 					<div class="column is-6">
 						<video id="video"></video>
@@ -44,19 +44,19 @@
 					<div class="column">
 						<div>
 						<div class="hovereffect padding-20-bottom">
-							<img onclick="addFilter(event)" id="memes2" src="<?=IMG?>memes4.png">
+							<img onclick="addFilter(event)" id="memes4" src="<?=IMG?>memes4.png">
 						</div>
 					</div>
 					<div>
 						<div class="hovereffect padding-20-bottom">
-							<img onclick="addFilter(event)" id="memes2" src="<?=IMG?>memes5.png">
+							<img onclick="addFilter(event)" id="memes5" src="<?=IMG?>memes5.png">
 						</div>
 					</div>
 				</div>
 				<div class="column">
 					<div>
 						<div class="hovereffect padding-20-bottom">
-								<img onclick="addFilter(event)" id="memes2" src="<?=IMG?>memes6.png">
+								<img onclick="addFilter(event)" id="memes6" src="<?=IMG?>memes6.png">
 							</div>
 						</div>
 					</div>
@@ -84,8 +84,6 @@ function prepareImg() {
 	var blank = document.getElementById('blank');
 
 	if (canvas.toDataURL() != blank.toDataURL())
-		{
 		document.getElementById('inp_img').value = canvas.toDataURL();
-		}
 	}
 </script>

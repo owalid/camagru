@@ -173,6 +173,7 @@ abstract class Model
         return $var["nbLike"];
         $req->closeCursor();
     }
+
     public function getUsr($idUsr)
     {
         $req = self::$_bdd->prepare("SELECT *
@@ -180,6 +181,7 @@ abstract class Model
                     WHERE idUsr = $idUsr");
         $req->execute();
         $res = $req->fetch(PDO::FETCH_ASSOC);
+       
         $user = new User($res);
         return ($user);
         $req->closeCursor();

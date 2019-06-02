@@ -111,7 +111,7 @@ function addFilter(event)
 		var currentDate = new Date();
 		canvas.width = width;
 		canvas.height = height;
-		name2.innerText =  currentDate.getTime() + ".jpg";
+		name2.innerText =  currentDate.getTime() + ".png";
 		publish.disabled = false;
 		filter.style.display = '';
 		ctx.drawImage(video, 0, 0, width, height);

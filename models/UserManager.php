@@ -227,6 +227,7 @@ class UserManager extends Model
             $err = [];
             $i = 0;
             $this->getBdd();
+            $pp = htmlentities($_POST['pp']);
             $idUsr = $_SESSION['user']->getIdUsr();
             $login = $this->filterString($_POST['login']);
             $email = $this->filterString($_POST['email']);
@@ -237,8 +238,8 @@ class UserManager extends Model
                 $err[$i++] = "L'adresse mail entré n'est pas au bon format";
             if (strlen($bio) > 516)
                 $err[$i++] = "Votre bio est trop longue";
-            $verifEmail = $this->emailIsExist($email);
-            $verifLogin = $this->loginIsExist($login);
+                $verifEmail = $this->emailIsExist($email);
+                $verifLogin = $this->loginIsExist($login);
             if ($verifLogin['idUsr'] != $idUsr && $verifLogin != NULL)
                 $err[$i++] =  "Ce login existe deja";
             if ($verifEmail['idUsr'] != $idUsr && $verifEmail != NULL)
@@ -248,16 +249,34 @@ class UserManager extends Model
             $newEmail = ($verifEmail['email'] != $_SESSION['user']->getEmail()
                                     || $verifEmail['isVerif'] == 0) ? 0 : 1;  
             $hash = ($verifEmail['email'] != $_SESSION['user']->getEmail()) ? md5(rand(0,10000)) : $verifEmail['hash'];
-            $req = $this->getBdd()->prepare("UPDATE user
+            if (empty($pp))
+            {
+                $req = $this->getBdd()->prepare("UPDATE user
                                             SET login = :login,
                                                 email = :email,
                                                 bio = :bio,
                                                 isVerif = :isVerif,
                                                 hash = :hash
                                             WHERE idUsr = :idUsr");
-            $req->execute([':login' => $login, ':email' => $email,
-                            ':bio' => $bio, ':idUsr' => $idUsr,
-                            ':isVerif' => $newEmail, ':hash' => $hash]);        
+                $req->execute([':login' => $login, ':email' => $email,
+                ':bio' => $bio, ':idUsr' => $idUsr,
+                ':isVerif' => $newEmail, ':hash' => $hash]);        
+            }
+            else
+            {
+                $req = $this->getBdd()->prepare("UPDATE user
+                                        SET login = :login,
+                                            email = :email,
+                                            bio = :bio,
+                                            isVerif = :isVerif,
+                                            pp = :pp,
+                                            hash = :hash
+                                        WHERE idUsr = :idUsr");
+                                     
+                $req->execute([':login' => $login, ':email' => $email,
+                                ':bio' => $bio, ':idUsr' => $idUsr,
+                                ':isVerif' => $newEmail, ':pp' => $pp, ':hash' => $hash]);
+            }
             $user = $this->getUsr($idUsr);
             $_SESSION['user'] = $user;
             if ($newEmail == 0 && $hash != $verifEmail['hash'])

@@ -156,7 +156,7 @@ class User
    
     public function setPp(string $_pp)
     {
-        if (empty($this->_pp))
+        if (empty($_pp))
             $this->_pp = IMG . "default.png";
         else
             $this->_pp = $_pp;

@@ -149,6 +149,7 @@
     window.onscroll = function() {
         if (window.scrollY >= document.body.clientHeight - window.innerHeight && finish == 0)
         {
+            console.log("coucou");
             var xhr = new XMLHttpRequest();
             xhr.open('GET', '<?=URL?>?url=accueil&offset=' + flag + '&limit=3');
             xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
