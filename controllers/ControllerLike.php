@@ -3,7 +3,6 @@ require('views/View.php');
 
 Class ControllerLike
 {
-    private $_likeManager;
     private $_userManager;
     private $_view;
 

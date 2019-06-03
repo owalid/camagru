@@ -37,7 +37,6 @@ Class ControllerLogin
 
     public function userReqLogin()
     {
-      
 		$this->_userManager = new UserManager();
         $user = $this->_userManager->log();
         

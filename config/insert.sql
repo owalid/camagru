@@ -1,4 +1,4 @@
-CREATE TABLE User(
+CREATE TABLE camagru.User(
         idUsr      Int  Auto_increment  NOT NULL ,
         login      Varchar (90) NOT NULL UNIQUE,
         email      Varchar (90) NOT NULL UNIQUE,
@@ -12,7 +12,7 @@ CREATE TABLE User(
 	,CONSTRAINT User_PK PRIMARY KEY (idUsr)
 )ENGINE=InnoDB;
 
-CREATE TABLE Image(
+CREATE TABLE camagru.Image(
         idImg           Int  Auto_increment  NOT NULL ,
         img             MEDIUMTEXT NOT NULL ,
         nbLike          Int NOT NULL  ,
@@ -23,7 +23,7 @@ CREATE TABLE Image(
 	,CONSTRAINT Image_User_FK FOREIGN KEY (idUsr) REFERENCES User(idUsr)
 )ENGINE=InnoDB;
 
-CREATE TABLE ImgSaver(
+CREATE TABLE camagru.ImgSaver(
         idSave Int  Auto_increment  NOT NULL ,
         idUsr  Int NOT NULL ,
         idImg  Int NOT NULL
@@ -33,7 +33,7 @@ CREATE TABLE ImgSaver(
 	,CONSTRAINT ImgSaver_Image0_FK FOREIGN KEY (idImg) REFERENCES Image(idImg)
 )ENGINE=InnoDB;
 
-CREATE TABLE Commentaire(
+CREATE TABLE camagru.Commentaire(
         idCommentaire Int  Auto_increment  NOT NULL ,
         commentaire   MEDIUMTEXT NOT NULL ,
         idImg         Int NOT NULL ,
@@ -44,7 +44,7 @@ CREATE TABLE Commentaire(
 	,CONSTRAINT Commentaire_User0_FK FOREIGN KEY (idUsr) REFERENCES User(idUsr)
 )ENGINE=InnoDB;
 
-CREATE TABLE `Like`(
+CREATE TABLE camagru.`Like`(
         idLike  Int  Auto_increment  NOT NULL ,
         isLiked Bool NOT NULL ,
         idUsr  Int ,

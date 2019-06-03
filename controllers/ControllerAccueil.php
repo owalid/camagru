@@ -40,6 +40,5 @@ Class ControllerAccueil
                 echo json_encode(array('finish' => 1));
             }
         }
-      
     }
 }

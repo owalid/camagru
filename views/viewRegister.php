@@ -145,18 +145,26 @@ function prepareImg() {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.overrideMimeType("application/json");
-    xhr.open('POST', '<?=URL?>register');
+    xhr.open('POST', '<?=URL?>?url=register');
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.addEventListener('readystatechange', () => {
         if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-            var res = xhr.response;
-            var output;
-            error.innerHTML = '';
-            for (var r in res)
-                error.innerHTML += res[r] + "</br>";
-            article_err.style.display = '';
+			var res = xhr.response;
+			if (res)
+			{
+				var output;
+				error.innerHTML = '';
+				for (var r in res)
+					error.innerHTML += res[r] + "</br>";
+				article_err.style.display = '';
+			}
+			else
+			{
+				alert("Votre compte à été crée avec succées, veuillez confirmé votre adresse mail avant de vous connectez");
+				window.location.href = "<?=URL?>?url=login"; 
+			}
         }
     });
-    xhr.send(`email=${email}&login=${login}&passwd1=${passwd1}&passwd2=${passwd2}&bio=${bio}&pp=${pp}`);
+    xhr.send(`email=${email}&login=${login}&passwd1=${passwd1}&passwd2=${passwd2}&bio=${bio}&pp=${encodeURIComponent(pp)}`);
 }
 </script>

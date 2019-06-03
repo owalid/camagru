@@ -2,25 +2,6 @@
 
 Class CommentaireManager extends Model
 {
-    public function getCommentaire($id_img)
-    {
-        if (isset($id_img) && !empty($id_img))
-        {
-            $this->getBdd();
-            $var = [];
-            $req = $this->getBdd()->prepare("SELECT *
-                    FROM commentaire
-                    WHERE id_img = $id_img");
-                    $req->execute();
-            while ($data = $req->fetch(PDO::FETCH_ASSOC))
-            {
-                $var[] = new $obj($data);
-            }
-            return $var;
-            $req->closeCursor();
-        }
-    }
-
     public function sendCommentaire($idImg)
     {
         if (isset($_POST) && !empty($_POST) && isset($idImg) && !empty($idImg))

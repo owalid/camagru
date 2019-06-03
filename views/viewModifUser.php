@@ -166,7 +166,7 @@ if ($err)
 							</form>
 							</div>
 						<div id="notif" style="display:none">
-							<form action="<?=URL?>?url=ModifUser&notif=yes" method="post">
+							<form action="<?=URL?>?url=ModifUser&notif=yes" method="POST">
 									<div class="field">
 										<label class="checkbox">
 											Notification commentaire:

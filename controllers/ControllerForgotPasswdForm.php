@@ -26,7 +26,6 @@ Class ControllerForgotPasswdForm
 
     private function userReqReset()
     {
-      
         $this->_userManager = new UserManager();
         $res = $this->_userManager->resetReqPasswd();
         if ($res == "OK")

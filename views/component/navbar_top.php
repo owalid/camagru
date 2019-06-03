@@ -1,6 +1,6 @@
     <nav class="navbar is-fixed-top " role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-            <a class="navbar-item" href="https://bulma.io">
+            <a class="navbar-item" href="<?=URL?>">
                 <img src="<?=IMG?>icon.png" width="112" height="28">
             </a>
             
@@ -21,7 +21,7 @@
 			if ($_SESSION['user'])
 			{?>
 
-            <a class="navbar-item">
+            <a class="navbar-item" href="<?=URL?>?url=user">
 
                 <?=$_SESSION['user']->getLogin()?>
             </a>
@@ -40,17 +40,17 @@
                     <a class="button is-primary" href="<?=URL?>?url=logout">
                         <strong>Log out</strong>
                     </a>
-                   <?php
+	<?php
     }
     else
     {
 ?>
-                   <a class="button is-primary" href="<?=URL?>?url=login">
-                        <strong>Log in</strong>
-                    </a>
-                   <a class="button is-primary" href="<?=URL?>?url=register">
-                        <strong>Register</strong>
-                    </a>
+			<a class="button is-primary" href="<?=URL?>?url=login">
+				<strong>Log in</strong>
+			</a>
+			<a class="button is-primary" href="<?=URL?>?url=register">
+				<strong>Register</strong>
+			</a>
 <?php
                 }
                 ?>

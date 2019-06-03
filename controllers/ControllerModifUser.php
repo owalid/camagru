@@ -30,7 +30,6 @@ Class ControllerModifUser
         }
         else
         {
-
             $this->_view = new View('ModifUser');
             $this->_view->generate(array('ModifUser' => NULL));
         }
@@ -38,7 +37,6 @@ Class ControllerModifUser
 
     private function modifInfoUser()
     {
-        // $res = [];
         $this->_userManager = new UserManager();
         $res = $this->_userManager->modifUserInfo();
 
@@ -60,19 +58,15 @@ Class ControllerModifUser
         $this->_userManager = new UserManager();
         $res = $this->_userManager->modifUserPasswd();
         if (empty($res))
-        {
             echo json_encode(array('success' => '1', 'res' => "Votre mot de passe à été modifié avec succés"));
-        }
         else
-        {
             echo json_encode(array('success' => '0', 'res' => $res));
-        }
     }
 
     private function modifNotif()
     {
         $this->_userManager = new UserManager();
-        $res = $this->_userManager->modifUserNotif();
+        $this->_userManager->modifUserNotif();
         $this->_view = new View('User');
         $this->_view->generate(array('User' => NULL));
     }

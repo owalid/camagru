@@ -6,9 +6,8 @@ abstract class Model
 
     private static function setBdd()
     {
-        require('config/database.php');
+		require('config/database.php');
         self::$_bdd = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
-        // self::$_bdd = new PDO('mysql:host=localhost;dbname=camagru;charset:utf8mb4_unicode_ci', 'root', 'root');
         self::$_bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         self::$_bdd->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
     }
@@ -115,7 +114,7 @@ abstract class Model
     protected function sendMailLikeCom($email, $loginUsrLiked, $loginUsrLike, $likeCom)
     {
         $to      = $email; // Send email to our user
-        $subject =  $likecom . ' | Camagru'; // Give the email a subject 
+        $subject =  $likeCom . ' | Camagru'; // Give the email a subject 
         $message = '
         
          _____                                              
@@ -182,7 +181,6 @@ abstract class Model
                     WHERE idUsr = $idUsr");
         $req->execute();
         $res = $req->fetch(PDO::FETCH_ASSOC);
-       
         $user = new User($res);
         return ($user);
         $req->closeCursor();

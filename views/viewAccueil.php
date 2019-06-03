@@ -98,7 +98,20 @@
                                 <p>
                                 <br>
                                 <?=  $com['commentaire'] ?>
-                                </p>
+								</p>
+								<?php
+								session_start();
+								if ($_SESSION['user'] && $com['idUsr'] == $_SESSION['user']->getIdUsr())
+								{
+									?>
+									<a class="button is-rounded" href="<?=URL?>?url=Image&delete_com=yes&id_com=<?=$com['idCommentaire']?>">
+										<span class="icon is-xsmall">
+											<i class="fas fa-trash"></i>
+										</span>
+                                    </a>
+								<?php
+								}
+								?>
                         </div>
                         <?php 
                          }

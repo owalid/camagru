@@ -4,6 +4,7 @@
 				<div class="columns is-centered is-vcentered">
 					<div class="column is-6">
 						<video id="video"></video>
+						<canvas id="video_canvas"></canvas>
 					</div>
 					<div class="column">
 						<canvas id="canvas"></canvas>
@@ -46,10 +47,19 @@
 						<div class="hovereffect padding-20-bottom">
 							<img onclick="addFilter(event)" id="memes4" src="<?=IMG?>memes4.png">
 						</div>
+						<div class="hovereffect padding-20-bottom">
+							<img onclick="addFilter(event)" id="memes3" src="<?=IMG?>memes3.png">
+						</div>
 					</div>
+				</div>
+				<div class="column">
+
 					<div>
 						<div class="hovereffect padding-20-bottom">
 							<img onclick="addFilter(event)" id="memes5" src="<?=IMG?>memes5.png">
+						</div>
+						<div class="hovereffect padding-20-bottom">
+							<img onclick="addFilter(event)" id="memes5" src="<?=IMG?>memes7.png">
 						</div>
 					</div>
 				</div>

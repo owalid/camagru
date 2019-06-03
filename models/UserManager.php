@@ -16,15 +16,14 @@ class UserManager extends Model
             $this->getBdd();
             if (strlen($_POST['bio']) >= 516)
                 $err[$i++] = "Votre bio est trop longue";
-            if (strlen($_POST['passwd1']) <= 8)
+            if (strlen($_POST['passwd1']) < 8)
                 $err[$i++] = "Veuillez rentré un mot de passe de plus de 8 caractere";
             if (strcmp($_POST['passwd1'], $_POST['passwd2']) != 0)
                 $err[$i++] = "Les mots de passes ne correspondent pas";
             $passwd1 = hash("SHA512", $_POST['passwd1']);
-            $passwd2 = hash("SHA512", $_POST['passwd2']);
             $login =  $this->filterString($_POST['login']);
             $email = $this->filterString($_POST['email']);
-            $email = filter_var($email, FILTER_VALIDATE_EMAIL);
+			$email = filter_var($email, FILTER_VALIDATE_EMAIL);
             if  (strlen($login) >= 90)
                 $err[$i++] = "Votre login est trop long";
             if ($email == FALSE || strlen($email) >= 90)
@@ -52,7 +51,6 @@ class UserManager extends Model
                 $req->closeCursor();
             }
         }
-        return ("ERR");
     }
 
     public function log()
@@ -123,7 +121,7 @@ class UserManager extends Model
             if ($_SESSION['user'])
             {
                 $idUsr = $_SESSION['user']->getIdUsr();
-                $req = $this->getBdd()->prepare("SELECT image.img, user.login, user.pp, commentaire.commentaire
+                $req = $this->getBdd()->prepare("SELECT image.img, user.login, user.pp, commentaire.commentaire, commentaire.idCommentaire
                                                     FROM commentaire, image, user
                                                     WHERE commentaire.idImg = image.idImg
                                                     AND image.idUsr = '$idUsr'
@@ -137,7 +135,9 @@ class UserManager extends Model
                 $req->closeCursor();
             }
         }
-    }
+	}
+	
+
 
     public function getPicUsr($idUsr)
     {
@@ -272,7 +272,6 @@ class UserManager extends Model
                                             pp = :pp,
                                             hash = :hash
                                         WHERE idUsr = :idUsr");
-                                     
                 $req->execute([':login' => $login, ':email' => $email,
                                 ':bio' => $bio, ':idUsr' => $idUsr,
                                 ':isVerif' => $newEmail, ':pp' => $pp, ':hash' => $hash]);
@@ -305,7 +304,6 @@ class UserManager extends Model
                 return ("Le nouveau mot de passe est trop court");
             $old = hash("SHA512", $this->filterString($_POST['old']));
             $new1 = hash("SHA512", $this->filterString($_POST['new1']));
-            $new2 = hash("SHA512", $this->filterString($_POST['new2']));
             $idUsr = $_SESSION['user']->getIdUsr();
             $req = $this->getBdd()->prepare("SELECT *
                                                 FROM user
@@ -320,7 +318,7 @@ class UserManager extends Model
                 $req = $this->getBdd()->prepare("UPDATE user
                                                     SET passwd = :passwd
                                                     WHERE idUsr = :idUsr");
-                $req->execute([':passwd' => $new, ':idUsr' => $idUsr]);
+                $req->execute([':passwd' => $new1, ':idUsr' => $idUsr]);
             }
             $req->closeCursor();
         }
@@ -328,24 +326,21 @@ class UserManager extends Model
 
     public function modifUserNotif()
     {
-        session_start();
-        if (isset($_POST) && !empty($_POST)
-            && isset($_SESSION['user']) && !empty($_SESSION)
-            && isset($_POST['com']) && !empty($_POST['com'])
-            && isset($_POST['like']) && !empty($_POST['like']))
+		session_start();
+        if (isset($_SESSION['user']) && !empty($_SESSION['user']))
         {
             $this->getBdd();
-            $usrNotifCom = (bool)$_SESSION['user']->getNotifCom();
-            $usrNotifLike = (bool)$_SESSION['user']->getNotifLike();
-            (int)$com = (!empty($_POST['com'])) ? (int)$usrNotifCom : (int)!$usrNotifCom;
-            (int)$like = (!empty($_POST['like'])) ? (int)$usrNotifLike : (int)!$usrNotifLike;
+            (int)$com = (isset($_POST['com'])) ? 1 : 0;
+            (int)$like = (isset($_POST['like'])) ? 1 : 0;
             $idUsr = $_SESSION['user']->getIdUsr();
             $req = $this->getBdd()->prepare("UPDATE user
                                                 SET notifCom = :notifCom,
                                                     notifLike = :notifLike
                                                 WHERE idUsr = '$idUsr'");
             $req->execute([':notifCom' => $com, ':notifLike' => $like]);
-            $req->closeCursor();
+			$req->closeCursor();
+			$user = $this->getUsr($idUsr);
+            $_SESSION['user'] = $user;
         }
     }
 
@@ -389,9 +384,10 @@ class UserManager extends Model
         {
             $this->getBdd();
             if (strcmp($_POST['passwd1'], $_POST['passwd2']) != 0)
-                return "Les mots de passes de correspondent pas";
+				return "Les mots de passes de correspondent pas";
+			if (strlen($_POST['passwd1']) < 8)
+				return "Veuillez rentré un mot de passe de plus de 8 caractere";
             $passwd1 =  hash("SHA512", $this->filterString($_POST['passwd1']));
-            $passwd2 =  hash("SHA512", $this->filterString($_POST['passwd2']));
             $email = $this->filterString($_POST['email']);
             $hash = $this->filterString($_POST['hash']);
             $req = $this->getBdd()->prepare("SELECT *

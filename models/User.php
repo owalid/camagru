@@ -1,60 +1,21 @@
 <?php
 class User
 {
-    /**
-     * idUsr
-     *
-     * @var string
-     */
+ 
 	private $_idUsr;
-	
-    /**
-     * login
-     *
-     * @var string
-     */
+
 	private $_login;
 	
-    /**
-     * email
-     *
-     * @var string
-     */
 	private $_email;
-	
-    /**
-     * passwd
-     *
-     * @var string
-     */
+
 	private $_passwd;
 	
-    /**
-     * pp
-     *
-     * @var string
-     */
     private $_pp;
 
-    /**
-     * notifCom
-     *
-     * @var string
-     */
     private $_notifCom;
 
-    /**
-     * notifLike
-     *
-     * @var string
-     */
     private $_notifLike;
 
-    /**
-     * bio
-     *
-     * @var string
-     */
     private $_bio;
 
 	public function __construct(array $data)
@@ -92,7 +53,7 @@ class User
 	}
 
 
-	public function setIdUsr(string $_idUsr)
+	public function setIdUsr($_idUsr)
 	{
 		$this->_idUsr = $_idUsr;
 
@@ -106,7 +67,7 @@ class User
 	}
 
 
-	public function setLogin(string $_login)
+	public function setLogin($_login)
 	{
 		$this->_login = $_login;
 
@@ -120,7 +81,7 @@ class User
 	}
 
 	
-	public function setEmail(string $_email)
+	public function setEmail($_email)
 	{
 		$this->_email = $_email;
 
@@ -134,18 +95,13 @@ class User
 	}
 
 
-	public function setPasswd(string $_passwd)
+	public function setPasswd($_passwd)
 	{
 		$this->_passwd = $_passwd;
 
 		return $this;
 	}
 
-    /**
-     * Get pp
-     *
-     * @return  string
-     */ 
     public function getPp()
     {
         if (empty($this->_pp))
@@ -153,14 +109,7 @@ class User
         return $this->_pp;
     }
 
-    /**
-     * Set pp
-     *
-     * @param  string  $_pp  pp
-     *
-     * @return  self
-     */ 
-    public function setPp(string $_pp)
+    public function setPp($_pp)
     {
         if (empty($_pp))
             $this->_pp = IMG . "default.png";
@@ -174,55 +123,35 @@ class User
         return $this->_bio;
     }
 
-    public function setBio(string $_bio)
+    public function setBio($_bio)
     {
         $this->_bio = $_bio;
 
         return $this;
     }
 
-    /**
-     * Get notifCom
-     *
-     * @return  string
-     */ 
+
     public function getNotifCom()
     {
         return $this->_notifCom;
     }
 
-    /**
-     * Set notifCom
-     *
-     * @param  string  $_notifCom  notifCom
-     *
-     * @return  self
-     */ 
-    public function setNotifCom(string $_notifCom)
+
+    public function setNotifCom($_notifCom)
     {
         $this->_notifCom = $_notifCom;
 
         return $this;
     }
 
-    /**
-     * Get notifLike
-     *
-     * @return  string
-     */ 
+
     public function getNotifLike()
     {
         return $this->_notifLike;
     }
 
-    /**
-     * Set notifLike
-     *
-     * @param  string  $_notifLike  notifLike
-     *
-     * @return  self
-     */ 
-    public function setNotifLike(string $_notifLike)
+
+    public function setNotifLike($_notifLike)
     {
         $this->_notifLike = $_notifLike;
 

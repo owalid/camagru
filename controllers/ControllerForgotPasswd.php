@@ -26,14 +26,12 @@ Class ControllerForgotPasswd
 
     private function userReqForg()
     {
-      
         $this->_userManager = new UserManager();
         $res = $this->_userManager->forgotReqPasswd();
         if (empty($res) == "MAIL")
         {
             $this->_view = new View('forgotPasswd');
             $this->_view->generate(array('msg' => "Un email vous à été envoyez pour réenitialiser votre mot de passe"));
-           
         }
         else
         {

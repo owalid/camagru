@@ -25,15 +25,16 @@ Class ControllerRegister
 
     public function userReqRegister()
     {
-        $res = [];
-        $this->_userManager = new UserManager();
+		$res = [];
+		$this->_userManager = new UserManager();
         $res = $this->_userManager->register();
         if (isset($res))
             echo json_encode($res);
-		else if ($res != "ERR")
+		else
 		{
-			$this->_view = new View('Login');
-			$this->_view->generate(array('msg' => "Derniere etape avant de vous connecté, veuillez maintenant verifié votre adresse mail"));
+			echo json_encode($res);
+			// $this->_view = new View('Login');
+			// $this->_view->generate(array('msg' => "Derniere etape avant de vous connecté, veuillez maintenant verifié votre adresse mail"));
         }
     }
 }

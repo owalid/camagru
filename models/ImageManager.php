@@ -47,7 +47,7 @@ class ImageManager extends Model
         {
             $this->getBdd();
             $var = [];
-            $req = $this->getBdd()->prepare("SELECT user.pp, user.login, commentaire.commentaire
+            $req = $this->getBdd()->prepare("SELECT user.pp, user.login, commentaire.commentaire, commentaire.idCommentaire, commentaire.idUsr
                                                 FROM commentaire, user
                                                 WHERE idImg = $idImg
                                                 AND user.idUsr = commentaire.idUsr");
@@ -161,11 +161,25 @@ class ImageManager extends Model
                 $req->closeCursor();
                 $com->closeCursor();
                 return (NULL);
-               
             }
             else
                 return ("ERR");
             $verif->closeCursor();
         }
-    }
+	}
+	
+	public function deleteCom()
+	{
+		session_start();
+		if (isset($_SESSION['user']) && !empty($_SESSION['user'])
+		&& isset($_GET['id_com']) && !empty($_GET['id_com']))
+		{
+			$idCom = $_GET['id_com'];
+			$req = $this->getBdd()->prepare("DELETE 
+												FROM commentaire
+												WHERE idCommentaire = :idCommentaire");
+			$req->execute([':idCommentaire' => $idCom]);
+			return ($req->rowCount());
+		}
+	}
 }

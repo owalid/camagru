@@ -20,11 +20,22 @@ Class ControllerImage
         else if ($_GET['save'] == 'yes')
             $this->save();
         else if ($_GET['delete'] == 'yes')
-            $this->delete();
-        else
+			$this->delete();
+		else if ($_GET['delete_com'] == 'yes')
+			$this->delete_com();
+		else
             $this->image();
     }
-    
+	
+	private function delete_com()
+	{
+
+		$this->_image = new ImageManager();
+		$res = $this->_image->deleteCom();
+		$images = $this->_image->getImages(0, 3);
+		$this->_view = new View('Accueil');
+		$this->_view->generate(array('images' => $images));
+	}
     private function image()
     {
         $this->_image =  new ImageManager();

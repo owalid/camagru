@@ -2,7 +2,6 @@
 class Router 
 {
     private $_controller;
-    private $_view;
 
     public function routeReq()
     {
